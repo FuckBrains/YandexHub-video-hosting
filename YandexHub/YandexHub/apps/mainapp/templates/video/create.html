@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block content %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <h1 style="text-align: center;">Upload video 📲</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="margin-top: 15px;" class="custom-file">
+                <label class="custom-file-label" for="id_video">Upload video</label>
+                <input class="form-control" name="video" id="id_video" type="file">
+            </div>
+            <div style="margin-top: 15px;" class="custom-file">
+                <label class="custom-file-label" for="id_video_banner">Upload banner</label>
+                <input class="form-control" name="video_banner" id="id_video_banner" type="file">
+            </div>
+            <div style="margin-top: 15px;" class="form-floating mb-3">
+                <input name="title" id="id_title" type="text" class="form-control">
+                <label for="id_title">Title</label>
+            </div>
+            {{VideoTextArea}}
+            <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Upload">
+        </form>
+        {% else %}
+        <div class="card shadow-sm"
+            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'sign__in__page' %}`)">Sign in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

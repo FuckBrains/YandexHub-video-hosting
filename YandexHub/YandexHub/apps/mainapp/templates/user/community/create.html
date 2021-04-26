@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% block content %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <h1 style="text-align: center;">Create article 📄</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ArticleTextArea}}
+            <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Create">
+        </form>
+        {% else %}
+        <div class="card shadow-sm"
+            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'sign__in__page' %}`)">Sign in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}
