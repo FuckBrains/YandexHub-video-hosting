@@ -27,7 +27,7 @@ SECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '53b3f070be6f.ngrok.io']
+ALLOWED_HOSTS = ['*', 'ee7e32954187.ngrok.io']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', # DRF
+    'channels', # channels
     'django_summernote', # custom input
     'mainapp', # site app
 ]
@@ -82,8 +83,8 @@ TEMPLATES = [
 ]
 
 
-
 WSGI_APPLICATION = 'YandexHub.wsgi.application'
+ASGI_APPLICATION = 'YandexHub.routing.application'
 
 
 # Database
@@ -185,5 +186,14 @@ SUMMERNOTE_CONFIG = {
             ['view', ['help']],
             #['view', ['fullscreen', 'codeview', 'help']],
         ],
+    },
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }

@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
     username = models.CharField(blank=True, null=True, max_length=25)
 
     # user media
-    avatar = models.ImageField(blank=True, null=True, upload_to = 'Users avatars/default/', default='default_avatar.png')
+    avatar = models.ImageField(blank=True, null=True, upload_to = 'Users avatar/', default='Users avatars/default/default_avatar.png')
     banner = models.ImageField(blank=True, null=True, upload_to='Users banners/')
     
     # user stats

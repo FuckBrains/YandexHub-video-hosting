@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 {% load poll_extras %}
+{% load static %}
 <main role="main" style="margin-top: 0px !important;">
     {% include "components/channel/header.html" %}
     <div style="position: relative; height: 140px; width: 100%;">
@@ -23,49 +24,67 @@
                             </div>
                         </div>
                         {% endif %}
+                        <div class="infinite-container">
+                            {% for article in articles %}
+                            <div class="infinite-item">
+                                <div class="card shadow-sm"
+                                    style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+                                    <div>
+                                        <div class="img"
+                                            style="width: 42px; display: inline-block; height: 42px; border-radius: 50%; background-image: url({{ article.creator.avatar.url }});">
+                                        </div>
+                                        <div
+                                            style="margin-left: 10px; display: inline-block; position: absolute; margin-top: 11px;">
+                                            <b style="font-weight: 600 !important;">{{ article.creator.username }}</b> · {{ article.date_created|date_func }}</div>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        {{ article.text|safe }}
+                                    </div>
+                                    <div style="margin-top: 15px;">
+                                        <!-- Likes -->
+                                        {% if article.article_id|check_article_like:request.user.user_id %}
+                                        <button class="btn btn-reaction-active" id="like_article_{{article.article_id}}"
+                                            onclick="like_article('{{article.article_id}}');">{{ article.likes|brief_likes_format }} 👍</button>
+                                        {% else %}
+                                        <button class="btn btn-reaction" id="like_article_{{article.article_id}}"
+                                            onclick="like_article('{{article.article_id}}');">{{ article.likes|brief_likes_format }} 👍</button>
+                                        {% endif %}
 
-                        {% for article in articles %}
-                        <div class="card shadow-sm"
-                            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
-                            <div>
-                                <div class="img"
-                                    style="width: 42px; display: inline-block; height: 42px; border-radius: 50%; background-image: url({{ article.creator.avatar.url }});">
+                                        <!-- Dislikes -->
+                                        {% if article.article_id|check_article_dislike:request.user.user_id %}
+                                        <button class="btn btn-reaction-active" id="dislike_article_{{article.article_id}}" onclick="dislike_article('{{article.article_id}}');">{{ article.dislikes|brief_likes_format }} 👎</button>      
+                                        {% else %}
+                                        <button class="btn btn-reaction" id="dislike_article_{{article.article_id}}" onclick="dislike_article('{{article.article_id}}');">{{ article.dislikes|brief_likes_format }} 👎</button>
+                                        {% endif %}
+
+                                        {% if request.user == article.creator %}
+                                        <a class="btn btn-reaction-active" style="cursor: pointer;"
+                                            onclick="transition_link(`{% url 'edit__article__page' article.article_id %}`)">Change</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div
-                                    style="margin-left: 10px; display: inline-block; position: absolute; margin-top: 11px;">
-                                    <b style="font-weight: 600 !important;">{{ article.creator.username }}</b> · {{ article.date_created|date_func }}</div>
                             </div>
-                            <div style="margin-top: 10px;">
-                                {{ article.text|safe }}
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <!-- Likes -->
-                                {% if article.article_id|check_article_like:request.user.user_id %}
-                                <button class="btn btn-reaction-active" id="like_article_{{article.article_id}}"
-                                    onclick="like_article('{{article.article_id}}');">{{ article.likes|brief_likes_format }} 👍</button>
-                                {% else %}
-                                <button class="btn btn-reaction" id="like_article_{{article.article_id}}"
-                                    onclick="like_article('{{article.article_id}}');">{{ article.likes|brief_likes_format }} 👍</button>
-                                {% endif %}
-
-                                <!-- Dislikes -->
-                                {% if article.article_id|check_article_dislike:request.user.user_id %}
-                                <button class="btn btn-reaction-active" id="dislike_article_{{article.article_id}}" onclick="dislike_article('{{article.article_id}}');">{{ article.dislikes|brief_likes_format }} 👎</button>      
-                                {% else %}
-                                <button class="btn btn-reaction" id="dislike_article_{{article.article_id}}" onclick="dislike_article('{{article.article_id}}');">{{ article.dislikes|brief_likes_format }} 👎</button>
-                                {% endif %}
-
-                                {% if request.user == article.creator %}
-                                <a class="btn btn-reaction-active" style="cursor: pointer;"
-                                    onclick="transition_link(`{% url 'edit__article__page' article.article_id %}`)">Change</a>
-                                {% endif %}
-                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+            handler: function(direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
 {% endblock %}

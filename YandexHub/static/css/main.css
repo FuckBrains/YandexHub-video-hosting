@@ -221,12 +221,15 @@ a {
   }
 }
 @media (max-width: 3840px) {
+  .message-input {
+    width: 380px !important;
+  }
   .block-content {
     margin-left: 20%;
     margin-right: 20%;
   }
   .chat-block {
-    width: 130%;
+    width: 130%;                                                                              
     height: 900px;
   }
 }
@@ -256,7 +259,7 @@ a {
   }
   .chat-block {
     width: 480px !important;
-    height: 650px;
+    height: 660px;
   }
 
   .block-content {
@@ -275,7 +278,7 @@ a {
     font-size: 0.8em !important;
   }
   .card-video-text-block {
-    width: 145px !important;
+    width: 250px !important;
   }
   .card-video {
     width: 165px !important;
@@ -337,6 +340,43 @@ a {
   .block-content {
     margin-left: 2%;
     margin-right: 2%;
+  }
+}
+
+.message-username-text2 {
+  margin-left: 5px;
+}
+
+@media (max-width: 1024px) {
+  .video-title {
+    margin-bottom: 20px !important;
+  }
+  .message-text {
+    width: 190px !important;
+    font-size: 14px !important;
+  }
+  .message-username {
+    top: -13px !important;
+  }
+  .message-username-text {
+    font-size: 14px !important
+  }
+  .message-username-text2 {
+    margin-left: 5px;
+  }
+  .message-avatar {
+    height: 30px;
+    width: 30px;
+  }
+  .chat-block {
+    width: 278px !important;
+    padding: 15px 15px 0px 10px !important;
+  }
+  .message-input {
+    width: 173px !important;
+  }
+  .chat-block {
+    height: 385px !important;
   }
 }
 
