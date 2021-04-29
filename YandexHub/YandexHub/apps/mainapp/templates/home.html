@@ -10,7 +10,7 @@
             <div class="infinite-item col" style="cursor: pointer;">
                 <div class="card mb-2">
                     <a onclick="transition_link(`{% url 'video__page' video.video_id %}`)">
-                        <img class="bd-placeholder-img card-img-top video-img" width="360" height="225"
+                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top video-img" width="360" height="225"
                             src="{{ video.video_banner.url }}">
                     </a>
                     <div class="card-body">

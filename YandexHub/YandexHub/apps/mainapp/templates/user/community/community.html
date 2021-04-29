@@ -59,7 +59,7 @@
 
                                         {% if request.user == article.creator %}
                                         <a class="btn btn-reaction-active" style="cursor: pointer;"
-                                            onclick="transition_link(`{% url 'edit__article__page' article.article_id %}`)">Change</a>
+                                            onclick="transition_link(`{% url 'edit__article__page' article.article_id %}`)">Edit</a>
                                         {% endif %}
                                     </div>
                                 </div>

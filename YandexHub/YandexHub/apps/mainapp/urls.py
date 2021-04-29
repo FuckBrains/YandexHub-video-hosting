@@ -13,11 +13,17 @@ urlpatterns = [
     path('sign/out/', SignOutView.as_view(), name="sign__out__page"),
 
     # channel & user
-    path('settings/', SettingsView.as_view(), name="settings__page"),
     path('channel/<str:pk>/', ChannelView.as_view(), name="channel__page"),
     path('channel/<str:pk>/about/', AboutView.as_view(), name="about__channel"),
     path('channel/<str:pk>/community/', CommunityView.as_view(), name="community__page"),
     path('subscriptions/', SubscriptionsView.as_view(), name="subscriptions__page"),
+
+    # user settings
+    path('settings/', SettingsView.as_view(), name="settings__page"),
+    path('settings/channel/', ChannelSettingsView.as_view(), name="channel__settings__page"),
+    path('settings/account/', AccountSettingsView.as_view(), name="account__settings__page"),
+    path('settings/password/change/', ChangePasswordView.as_view(), name="change__password__page"),
+    path('settings/email/change/', ChangeEmailView.as_view(), name="change__email__page"),
 
     # bot
     path('bot/', AlertBotView.as_view(), name="bot__page"),

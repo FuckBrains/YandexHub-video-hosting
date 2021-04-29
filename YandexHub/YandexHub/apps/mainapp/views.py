@@ -127,7 +127,7 @@ def get_ip_info(ip):
 # bot send message
 def YandexHubAlert(text, telegram_id):
     try:
-        bot = telebot.TeleBot('1785721677:AAFv98r1Z15ZV1w1kMYi3xW8INZiU2S38D0')
+        bot = telebot.TeleBot('1785721677:AAHe9dTJ4LQEUkpjr-6k6Or5Rn8QLdcEKR8')
         bot.send_message(telegram_id, text)
         return 'ok'
     except:
@@ -225,14 +225,25 @@ class AboutView(TemplateView):
         context['channel'] = self.channel
         return context
 
-# user settings page
+
+# settings page
 class SettingsView(TemplateView):
-    template_name = 'user/settings.html'
+    template_name = 'user/settings/main.html'
 
     def get_context_data(self, **kwargs):
         if self.request.user.is_authenticated:
             context = super(SettingsView,self).get_context_data(**kwargs)
-            context['title'] = 'Settings'
+            context['title'] = 'Settings ⚙️'
+            return context
+
+# channel settings page
+class ChannelSettingsView(TemplateView):
+    template_name = 'user/settings/channel.html'
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            context = super(ChannelSettingsView,self).get_context_data(**kwargs)
+            context['title'] = 'Channel settings 👻'
             context['CustomUserTextArea'] = CustomUserTextArea(instance=self.request.user)
             return context
 
@@ -263,7 +274,182 @@ class SettingsView(TemplateView):
         user.save()
 
         messages.success(request, "Settings have been saved 👽")
-        return redirect('settings__page')
+        return redirect('channel__settings__page')
+        
+# account settings page
+class AccountSettingsView(TemplateView):
+    template_name = 'user/settings/account.html'
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            context = super(AccountSettingsView,self).get_context_data(**kwargs)
+            context['title'] = 'Account settings 🤡'
+            return context
+
+    def post(self, request):   
+        password = request.POST['password']
+        email = request.user.email
+        user_id = request.user.user_id
+        telegram = request.user.telegram
+        user = authenticate(email=email, password=password)
+
+        if user is not None:
+            logout(request)
+            CustomUser.objects.get(email=email, user_id=user_id).delete()
+
+            # YandexHub Alert
+            if telegram:
+                # send alert
+                ip = get_client_ip(request)
+                now = datetime.now() 
+                date = now.strftime("%d-%m-%Y %H:%M:%S")
+                ip_info = get_ip_info(ip)
+                if 'country' in ip_info:
+                    country = ip_info['country']
+                else:
+                    country = '???'
+
+                if 'city' in ip_info:
+                    city = ip_info['city']
+                else:
+                    city = '???'
+
+                message = YandexHubAlert(f"Your YandexHub account has been successfully deleted 💀\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", telegram)
+                if message == 'ok':
+                    pass 
+                else:
+                    pass            
+            else:
+                pass
+
+            messages.success(request, "Account successfully deleted 😭")
+            return redirect('main__page')
+        else:
+            messages.success(request, "Wrong password entered 😖")
+            return redirect('account__settings__page')
+
+# change password page
+class ChangePasswordView(TemplateView):
+    template_name = 'user/settings/password.html'
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            context = super(ChangePasswordView,self).get_context_data(**kwargs)
+            context['title'] = 'Change password 🔒'
+            return context
+
+    def post(self, request):   
+        password = request.POST['password']
+        new_password = request.POST['new_password']
+        confirm_new_password = request.POST['confirm_new_password']
+
+        if new_password == confirm_new_password:
+            if len(new_password) < 8 or len(str(new_password).replace(' ', '')) < 8:
+                messages.success(request, "Password cannot contain only spaces or be less than 8 characters 🧸")
+                return redirect('change__password__page')
+            else:
+                email = request.user.email
+                user_id = request.user.user_id
+                telegram = request.user.telegram
+                user = authenticate(email=email, password=password)
+
+                if user is not None:
+                    user.set_password(new_password)
+                    user.save()
+                    
+                    logout(request)
+
+                    # YandexHub Alert
+                    if telegram:
+                        # send alert
+                        ip = get_client_ip(request)
+                        now = datetime.now() 
+                        date = now.strftime("%d-%m-%Y %H:%M:%S")
+                        ip_info = get_ip_info(ip)
+                        if 'country' in ip_info:
+                            country = ip_info['country']
+                        else:
+                            country = '???'
+
+                        if 'city' in ip_info:
+                            city = ip_info['city']
+                        else:
+                            city = '???'
+                        
+                        message = YandexHubAlert(f"Your password has been successfully changed 👻\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", telegram)
+                        if message == 'ok':
+                            pass 
+                        else:
+                            pass            
+                    else:
+                        pass
+
+                    messages.success(request, "Your password has been successfully changed 👻")
+                    messages.success(request, """After changing your password, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱""")
+                    return redirect('main__page')
+                else:
+                    messages.success(request, "Wrong password entered 😖")
+                    return redirect('change__password__page')
+        else:
+            messages.success(request, "Password mismatch 😿")
+            return redirect('change__password__page')
+
+# change email page
+class ChangeEmailView(TemplateView):
+    template_name = 'user/settings/email.html'
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_authenticated:
+            context = super(ChangeEmailView,self).get_context_data(**kwargs)
+            context['title'] = 'Change email ✉️'
+            return context
+
+    def post(self, request):   
+        password = request.POST['password']
+        new_email = request.POST['new_email']
+
+        email = request.user.email
+        telegram = request.user.telegram
+        user = authenticate(email=email, password=password)
+
+        if user is not None:
+            user.email = new_email
+            user.save()
+            
+            logout(request)
+
+            # YandexHub Alert
+            if telegram:
+                # send alert
+                ip = get_client_ip(request)
+                now = datetime.now() 
+                date = now.strftime("%d-%m-%Y %H:%M:%S")
+                ip_info = get_ip_info(ip)
+                if 'country' in ip_info:
+                    country = ip_info['country']
+                else:
+                    country = '???'
+
+                if 'city' in ip_info:
+                    city = ip_info['city']
+                else:
+                    city = '???'
+                
+                message = YandexHubAlert(f"Your email has been successfully changed 🙃\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", telegram)
+                if message == 'ok':
+                    pass 
+                else:
+                    pass            
+            else:
+                pass
+
+            messages.success(request, "Your email has been successfully changed 🙃")
+            messages.success(request, """After changing your email, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱""")
+            return redirect('main__page')
+  
+        else:
+            messages.success(request, "Wrong password entered 😖")
+            return redirect('change__email__page')
 
 
 # delete video
@@ -1104,7 +1290,7 @@ class SignInView(TemplateView):
                     else:
                         messages.success(self.request, """An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖""")
                 else:
-                    messages.success(self.request, """In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😑""")
+                    messages.success(self.request, """In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😃""")
 
                 messages.success(self.request, f"You are logged in as: <b>{user.username}</b> 🥳")
                 return redirect('main__page')
