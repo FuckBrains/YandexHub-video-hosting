@@ -16,7 +16,7 @@
                     <div class="card-body">
                    
                         <div class="avatar-video-block" onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)">
-                            <img class="avatar-video-img" src="{{ video.creator.avatar.url }}">
+                            <div class="avatar-video-img img" style="background-image: url({{ video.creator.avatar.url }});"></div>
                         </div>
                         
                         <div style="display: inline-block;"

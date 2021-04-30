@@ -1,5 +1,6 @@
 function view_alert(text) {
     document.querySelectorAll('.toast').forEach((elem) => {
+        elem.style.display = 'none';
         elem.style.display = 'block';
         elem.className = "toast show";
     });

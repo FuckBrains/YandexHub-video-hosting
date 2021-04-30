@@ -221,16 +221,9 @@ a {
   }
 }
 @media (max-width: 3840px) {
-  .message-input {
-    width: 380px !important;
-  }
   .block-content {
     margin-left: 20%;
     margin-right: 20%;
-  }
-  .chat-block {
-    width: 130%;                                                                              
-    height: 900px;
   }
 }
 @media (max-width: 3440px) {
@@ -244,24 +237,9 @@ a {
     margin-left: 15%;
     margin-right: 15%;
   }
-  .message-input {
-    width: 380px;
-  }
-  .chat-block {
-    width: 125%;
-    height: 700px;
-  }
 }
 
 @media (max-width: 1920px) {
-  .message-input {
-    width: 375px ​!important;
-  }
-  .chat-block {
-    width: 480px !important;
-    height: 660px;
-  }
-
   .block-content {
     margin-left: 6%;
     margin-right: 6%;
@@ -293,13 +271,6 @@ a {
   .message-text {
     width: 285px !important;
   }
-  .message-input {
-    width: 270px !important;
-  }
-  .chat-block {
-    width: 375px !important;
-    height: 520px;
-  }
 
   .user-video-block {
     width: 80% !important;
@@ -330,13 +301,6 @@ a {
   .message-text {
     width: 285px !important;
   }
-  .message-input {
-    width: 270px !important;
-  }
-  .chat-block {
-    width: 375px !important;
-    height: 525px;
-  }
   .block-content {
     margin-left: 2%;
     margin-right: 2%;
@@ -344,10 +308,6 @@ a {
 }
 
 @media (max-width: 1366px) {
-  .chat-block {
-    width: 120%;
-    height: 510px;
-  }
   .block-content {
     margin-left: 2%;
     margin-right: 2%;
@@ -358,19 +318,34 @@ a {
   margin-left: 5px;
 }
 
+@media (max-width: 1200px) {
+  .chat-block {
+    width: 100% !important;
+  }
+  .video-block {
+    width: 100% !important;
+  }
+}
+
 @media (max-width: 1024px) {
+  .description {
+    margin-left: 0px !important;
+  }
+  .comments-main-block {
+    display: none;
+  }
   .video-title {
     margin-bottom: 20px !important;
   }
   .message-text {
-    width: 190px !important;
+    width: 95% !important;
     font-size: 14px !important;
   }
   .message-username {
     top: -13px !important;
   }
   .message-username-text {
-    font-size: 14px !important
+    font-size: 14px !important;
   }
   .message-username-text2 {
     margin-left: 5px;
@@ -378,16 +353,6 @@ a {
   .message-avatar {
     height: 30px;
     width: 30px;
-  }
-  .chat-block {
-    width: 278px !important;
-    padding: 15px 15px 0px 10px !important;
-  }
-  .message-input {
-    width: 173px !important;
-  }
-  .chat-block {
-    height: 385px !important;
   }
 }
 
@@ -402,6 +367,45 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media (max-width: 550px) {
+  .toast {
+    display: none !important;
+  }
+  .settings-page-btn {
+    right: -30px !important;
+  }
+  .user-data-user-page {
+    left: 80px !important;
+    top: 20px !important;
+  }
+  .username-user-page {
+    font-size: 18px !important;
+  }
+  .search-block {
+    display: none;
+  }
+  .logo-block {
+    display: none;
+  }
+  .user-data-video {
+    display: none;
+  }
+  .views-video {
+    color: #fff;
+  }
+  .avatar-user-page {
+    width: 60px !important;
+    height: 60px !important;
+    top: 10px !important;
+  }
+  .banner {
+    height: 200px !important;
+  }
+  .user-menu {
+    left: 10px !important;
   }
 }
 
@@ -728,23 +732,37 @@ main {
   width: 0;
 }
 
-
-
 .logo {
-  font-size: 23px; font-weight: 700; color: #2F3133; position:relative; bottom: -2px;
+  font-size: 23px;
+  font-weight: 700;
+  color: #2f3133;
+  position: relative;
+  bottom: -2px;
 }
 
-
 .logo2 {
-  font-size: 23px; font-weight: 700; color: #2F3133; position:relative; bottom: -3px;
+  font-size: 23px;
+  font-weight: 700;
+  color: #2f3133;
+  position: relative;
+  bottom: -3px;
 }
 
 @supports (-webkit-overflow-scrolling: touch) {
-  .logo, .logo2 { 
-    font-size: 23px; font-weight: 700; color: #2F3133; position:relative; bottom: -5px;
+  .logo,
+  .logo2 {
+    font-size: 23px;
+    font-weight: 700;
+    color: #2f3133;
+    position: relative;
+    bottom: -5px;
   }
-  .sidebar-logo { 
-    font-size: 23px; font-weight: 700; color: #2F3133; position:relative; bottom: -3px;
+  .sidebar-logo {
+    font-size: 23px;
+    font-weight: 700;
+    color: #2f3133;
+    position: relative;
+    bottom: -3px;
   }
 }
 
@@ -757,5 +775,5 @@ main {
   margin-bottom: 1rem;
   font-size: 2rem;
   color: #fff;
-  border-radius: .75rem;
+  border-radius: 0.75rem;
 }

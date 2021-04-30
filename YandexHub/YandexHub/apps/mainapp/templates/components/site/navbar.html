@@ -7,20 +7,20 @@
     </label>
 
     {% if request.user.is_authenticated %}
-    <a class="navbar-brand" rel="home" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
+    <a class="navbar-brand logo-block" rel="home" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
         <div style="max-width:40px; margin-top: -6px; margin-left: 55px;">
              <b class="logo">YandexHub 👾</b>
         </div>
     </a>
     {% else %}
-    <a class="navbar-brand" rel="home" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
+    <a class="navbar-brand logo-block" rel="home" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
         <div style="max-width:40px; margin-top: -6px; margin-left: 55px;">
              <b class="logo2">YandexHub 👾</b>
         </div>
     </a>
     {% endif %}
     <form class="d-flex container" style="width: 25%;">
-        <div class="input-group">
+        <div class="input-group search-block">
             <input id="search-input" type="text" class="form-control" style="border-radius: 5px 0 0 5px;"
                 placeholder="Search" aria-label="Search" aria-describedby="input-group-1" autocomplete="off">
             <div class="input-group-append">

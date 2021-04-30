@@ -1,12 +1,12 @@
 {% load poll_extras %}
 {% if channel.banner %}
-    <section class="py-5 text-center" style="background: url('{{ channel.banner.url }}'); background-position: center; height: 400px; background-size: cover;"></section>
+    <section class="py-5 text-center banner" style="background: url('{{ channel.banner.url }}'); background-position: center; height: 400px; background-size: cover;"></section>
 {% endif %}
 <div style="position: relative; height: 140px; width: 100%; background: #fff; margin-bottom: 25px;">
     <div class="user-video-avatar" style="width: 45%; position: relative; margin-left: auto; margin-right: auto; top: 15px;">
-        <div class="img" style="width: 75px; height: 75px; border-radius: 50%; position: absolute; background-image: url({{ channel.avatar.url }});"></div>
-        <div style="position: absolute; left: 100px; top: 15px;">
-            <p style="font-size: 22px; font-weight: 500; margin-bottom: -5px; color:#030303;">{{channel.username}}</p>
+        <div class="img avatar-user-page" style="width: 75px; height: 75px; border-radius: 50%; position: absolute; background-image: url({{ channel.avatar.url }});"></div>
+        <div style="position: absolute; left: 100px; top: 15px;" class="user-data-user-page">
+            <p class="username-user-page" style="font-size: 22px; font-weight: 500; margin-bottom: -5px; color:#030303;">{{channel.username}}</p>
             <small style="color:#606060;">{{channel.all_subscribers|subscribers_format}}</small>
         </div>
         {% if request.user.is_authenticated %}
@@ -19,12 +19,12 @@
             onclick="subscribe('{{channel.user_id}}');" style="margin-top: 10px;">Unsubscribed</button>
         {% endif %}
         {% else %}
-            <a onclick="transition_link(`{% url 'settings__page' %}`)" class="btn btn-primary" style="cursor: pointer; display: margin-top: 10px; inline-block; position: absolute; right: 0; top: 15px; padding: .4rem .80rem; font-weight: 500;">Settings</a>
+            <a onclick="transition_link(`{% url 'settings__page' %}`)" class="btn btn-primary settings-page-btn" style="cursor: pointer; position: absolute; right: 0; top: 15px; padding: .4rem .80rem; font-weight: 500;">Settings</a>
         {% endif %}
         {% else %}
             <a onclick="transition_link(`{% url 'main__page' %}`)" class="btn btn-primary" style="cursor: pointer; display: margin-top: 10px; inline-block; position: absolute; right: 0; top: 15px; padding: .4rem .80rem; font-weight: 500;">Sign in</a>
         {% endif %}
-        <div style="position: relative; left: 100px; bottom: -86px;">
+        <div style="position: relative; left: 100px; bottom: -86px;" class="user-menu">
             <a onclick="transition_link(`{% url 'channel__page' channel.user_id %}`)" style="cursor: pointer; font-size: 16px; bottom: -27px; color:#000000; position: absolute;">Home</a>
             <div style="height: 3px; width: 95px; left: -25px; position: absolute; background-color: #606060; bottom: -39px;"></div>
 

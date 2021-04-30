@@ -21,7 +21,7 @@
             </div>
         
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="username" id="id_username" value="{{request.user.username}}" type="text" class="form-control">
+                <input name="username" id="id_username" value="{{request.user.username}}" type="text" class="form-control" autocomplete="off">
                 <label for="id_username">Channel name</label>
             </div>
 
@@ -31,49 +31,49 @@
 
             <p style="margin-top: 55px; font-size: 22px;">Other</p>
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="location" id="id_location" value="{% if not request.user.location is None %}{{request.user.location}}{% endif %}" type="text" class="form-control">
+                <input name="location" id="id_location" value="{% if not request.user.location is None %}{{request.user.location}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_location">Location</label>
             </div>
 
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="contact_email" id="id_contact_email" value="{% if not request.user.contact_email is None %}{{request.user.contact_email}}{% endif %}" type="email" class="form-control">
+                <input name="contact_email" id="id_contact_email" value="{% if not request.user.contact_email is None %}{{request.user.contact_email}}{% endif %}" type="email" class="form-control" autocomplete="off">
                 <label for="id_contact_email">Email for business inquiries</label>
             </div>
 
         
             <p style="margin-top: 55px; font-size: 22px;">Links</p>
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="vk_link" id="id_vk_link" value="{% if not request.user.vk_link is None %}{{request.user.vk_link}}{% endif %}" type="text" class="form-control">
+                <input name="vk_link" id="id_vk_link" value="{% if not request.user.vk_link is None %}{{request.user.vk_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_vk_link">VK link</label>
             </div>
 
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="instagram_link" id="id_instagram_link" value="{% if not request.user.instagram_link is None %}{{request.user.instagram_link}}{% endif %}" type="text" class="form-control">
+                <input name="instagram_link" id="id_instagram_link" value="{% if not request.user.instagram_link is None %}{{request.user.instagram_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_instagram_link">Instagram link</label>
             </div>
 
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="facebook_link" id="id_facebook_link" value="{% if not request.user.facebook_link is None %}{{request.user.facebook_link}}{% endif %}" type="text" class="form-control">
+                <input name="facebook_link" id="id_facebook_link" value="{% if not request.user.facebook_link is None %}{{request.user.facebook_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_facebook_link">Facebook link</label>
             </div>
             
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="telegram_link" id="id_telegram_link" value="{% if not request.user.telegram_link is None %}{{request.user.telegram_link}}{% endif %}" type="text" class="form-control">
+                <input name="telegram_link" id="id_telegram_link" value="{% if not request.user.telegram_link is None %}{{request.user.telegram_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_telegram_link">Telegram link</label>
             </div>
 
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="twitter_link" id="id_twitter_link" value="{% if not request.user.twitter_link is None %}{{request.user.twitter_link}}{% endif %}" type="text" class="form-control">
+                <input name="twitter_link" id="id_twitter_link" value="{% if not request.user.twitter_link is None %}{{request.user.twitter_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_twitter_link">Twitter link</label>
             </div>
 
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="reddit_link" id="id_reddit_link" value="{% if not request.user.reddit_link is None %}{{request.user.reddit_link}}{% endif %}" type="text" class="form-control">
+                <input name="reddit_link" id="id_reddit_link" value="{% if not request.user.reddit_link is None %}{{request.user.reddit_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_reddit_link">Reddit link</label>
             </div>
 
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="website_link" id="id_website_link" value="{% if not request.user.website_link is None %}{{request.user.website_link}}{% endif %}" type="text" class="form-control">
+                <input name="website_link" id="id_website_link" value="{% if not request.user.website_link is None %}{{request.user.website_link}}{% endif %}" type="text" class="form-control" autocomplete="off">
                 <label for="id_website_link">Your website link</label>
             </div>
 

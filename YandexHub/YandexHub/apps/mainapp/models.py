@@ -12,8 +12,8 @@ class CustomUser(AbstractUser):
     username = models.CharField(blank=True, null=True, max_length=25)
 
     # user media
-    avatar = models.ImageField(blank=True, null=True, upload_to = 'Users avatar/', default='Users avatars/default/default_avatar.png')
-    banner = models.ImageField(blank=True, null=True, upload_to='Users banners/')
+    avatar = models.ImageField(blank=True, null=True, upload_to = 'avatars/', default='avatars/default/default_avatar.png')
+    banner = models.ImageField(blank=True, null=True, upload_to='users_banners/')
     
     # user stats
     all_views = models.BigIntegerField(default=0)
@@ -57,8 +57,8 @@ class Video(models.Model):
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='video_creator')
 
     # files
-    video = models.FileField(upload_to='Videos/')
-    video_banner = models.ImageField(upload_to='Videos banners/')
+    video = models.FileField(upload_to='videos/')
+    video_banner = models.ImageField(upload_to='video_banners/')
 
     # video stats
     views = models.BigIntegerField(default=0)
