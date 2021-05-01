@@ -55,6 +55,9 @@ urlpatterns = [
     # subscribe
     path('api/channel/subscribe/', SubscribeApi.as_view()),
     
+    # notifications
+    path('api/channel/notifications/', NotificationsApi.as_view()),
+
     # comments
     path('api/comment/add/', AddCommentApi.as_view()),
     path('api/comment/like/', LikeCommentApi.as_view()),
@@ -82,4 +85,4 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name="password__reset__confirm"),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password__reset__complete")
 
-] 
+]

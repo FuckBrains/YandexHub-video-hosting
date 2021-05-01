@@ -18,6 +18,8 @@ admin.site.register(CustomUser, CustomUserAdmin)
 
 admin.site.register(Subscribe)
 
+admin.site.register(Notification)
+
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(ArticleLike)
 admin.site.register(ArticleDislike)

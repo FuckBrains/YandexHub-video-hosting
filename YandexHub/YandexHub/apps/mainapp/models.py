@@ -48,6 +48,10 @@ class Subscribe(models.Model):
     channel = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='subscribers')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
+class Notification(models.Model):
+    notification_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_user')
+    notification_channel = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_channel')
+    date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
 class Video(models.Model):
     # video id

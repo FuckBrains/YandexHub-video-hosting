@@ -102,6 +102,30 @@ async function dislike_article(article_id) {
     };
 };
 
+// notifications
+async function notifications(user_id) {
+    let response = await fetch('/api/channel/notifications/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            user_id: user_id
+        })
+    });
+    let result = await response.json();
+    if (result.status == "ok") {
+        if (result.data.notification == 1) {
+            let notifications = document.getElementById('notifications')
+            notifications.className = "btn btn-notifications-active"
+        } else {
+            let notifications = document.getElementById('notifications')
+            notifications.className = "btn btn-notifications"
+        };
+
+        // alert
+        await view_alert(result.message);
+    };
+};
+
 // save video
 async function save_video(video_id) {
     let response = await fetch('/api/video/save/', {

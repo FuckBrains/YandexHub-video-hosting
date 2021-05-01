@@ -8,12 +8,15 @@
       <div class="video-block col-md-10" style="width: 70%">
 
         <!-- Video -->
-        <video style="width: 100%; height: auto;" controls="controls" poster="{{video.video_banner.url}}" preload="auto"  id="video"
-          autoplay="true" muted="muted">
+        <video style="width: 100%; height: auto;" controls="controls" poster="{{video.video_banner.url}}" preload="auto"
+          id="video" autoplay="true" muted="muted">
           <source src="{{video.video.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
           The video tag is not supported by your browser.
         </video>
-
+        <script>
+          document.getElementById("video").muted = false;
+        </script>
+        
         <div style="position: relative;">
 
           <!-- Stats -->
@@ -104,11 +107,14 @@
 
         <div class="row g-0" style="align-items: end; width: auto; justify-content: end; position:relative;">
           <div class="col-md-4" style="width: auto;">
-            <div class="avatar-video-img img" style="background-image: url({{video.creator.avatar.url}}); cursor: pointer;" onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)"></div>
+            <div class="avatar-video-img img"
+              style="background-image: url({{video.creator.avatar.url}}); cursor: pointer;"
+              onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)"></div>
           </div>
           <div class="col-md-6 card-video-text-block">
             <div style="padding-top: 4px; margin-left: 3px; display: inline-block;">
-              <a class="user-data-video" style="cursor: pointer;" onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)">
+              <a class="user-data-video" style="cursor: pointer;"
+                onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)">
                 <p style="margin-bottom: -4px; color: #000;">{{video.creator.username}}</p>
                 <small
                   style="font-size: .8em; color: #656e75;">{{video.creator.all_subscribers|subscribers_format}}</small>
@@ -342,12 +348,16 @@
             <div class="message">
               <div class="img message-avatar" style="background-image: url('/media/avatars/tenor_4.gif');"></div>
               <div class="message-username">
-                <a class="message-username-text" style="color: #0D6EFD; cursor: pointer;" onclick="transition_link('/channel/admin/')">YandexHub administration 🤖</a>
+                <a class="message-username-text" style="color: #0D6EFD; cursor: pointer;"
+                  onclick="transition_link('/channel/admin/')">YandexHub administration 🤖</a>
               </div>
               {% if request.user.is_authenticated %}
-              <div class="message-text" style="margin-right: -80px; margin-left: 50px; margin-top: -7px;">Welcome to the chat, {{ request.user.username }}</div>
+              <div class="message-text" style="margin-right: -80px; margin-left: 50px; margin-top: -7px;">Welcome to the
+                chat, {{ request.user.username }}</div>
               {% else %}
-              <div class="message-text">Hi friend 👋<br/>To log in or create an account follow the <a style="color: #0D6EFD; cursor: pointer;" onclick="transition_link(`{% url 'sign__in__page' %}`)">link</a> 👾</div>
+              <div class="message-text">Hi friend 👋<br />To log in or create an account follow the <a
+                  style="color: #0D6EFD; cursor: pointer;"
+                  onclick="transition_link(`{% url 'sign__in__page' %}`)">link</a> 👾</div>
               {% endif %}
             </div>
           </div>
@@ -362,8 +372,8 @@
             let video = document.getElementById("video")
             video_height = video.offsetHeight
             video_width = video.offsetWidth
-            let block_width =  document.getElementById("row").offsetWidth
-            let body_width =  document.getElementById("body").offsetWidth
+            let block_width = document.getElementById("row").offsetWidth
+            let body_width = document.getElementById("body").offsetWidth
 
             let chat = document.getElementById("chat-block");
             let message = document.getElementById("message");
@@ -407,7 +417,7 @@
           // get message
           socket.onmessage = async function (event) {
             let response = JSON.parse(event.data);
-            
+
             // create message block
             let chat_block = document.getElementById("chat-block");
             let message = document.createElement('div');
@@ -430,9 +440,9 @@
             let message = document.getElementById('message').value;
             if (message != "" && message.length < 501) {
               if ("{{ request.user.username }}" == "") {
-                Send(JSON.stringify({"username": "Ananimus", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "{{ request.user.user_id }}", "message": message}));
+                Send(JSON.stringify({ "username": "Ananimus", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "{{ request.user.user_id }}", "message": message }));
               } else {
-                Send(JSON.stringify({"username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message}));
+                Send(JSON.stringify({ "username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message }));
               };
             } else {
               //view_alert('The max message length is 500 characters 👅');

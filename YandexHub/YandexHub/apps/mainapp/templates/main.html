@@ -31,7 +31,12 @@
     <script src="{% static 'js/cookie/cookie.js' %}"></script>
 </head>
 
-<body translate="no" class="wrapper animated-show animated-show-active" style="background: #F9F9F9; margin-bottom: 25px;" id="body">
+<body translate="no" class="wrapper animated-show animated-show-active"
+    style="background: #F9F9F9; margin-bottom: 25px;" id="body">
+
+    <div class="screen_resolution">
+        <h1 class="screen_resolution_text">This screen resolution is not supported 🥺</h1>
+    </div>
 
     {% include "components/site/sidebar.html" %}
     {% include "components/site/navbar.html" %}
@@ -40,6 +45,8 @@
     <!-- main block -->
     {% block content %}{% endblock %}
 
+    <!-- VK link -->
+    <a class="link-vk" href="https://vk.com/v.chap" target="_blank">👾</a>
 </body>
 
 </html>

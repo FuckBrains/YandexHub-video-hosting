@@ -48,6 +48,8 @@ from itertools import groupby
 # TELEGRAM
 import telebot
 
+DOMEN = "http://127.0.0.1:8000/"
+
 # Generate random string
 def generate_id(num):
     symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'
@@ -178,9 +180,12 @@ class ChannelView(ListView):
         self.videos = Video.objects.filter(creator=self.channel).order_by('-date_created')
 
         # find subscribe model
-        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=CustomUser.objects.get(user_id=self.kwargs['pk']).id)
-        #if not self.subscribe:
-            #self.subscribe = 0
+        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=self.channel)
+
+        # find notification model 
+        self.notifications = Notification.objects.filter(notification_channel=self.channel, notification_user=self.request.user)
+
+        context['notifications'] = self.notifications
         context['subscribe'] = self.subscribe
         context['title'] = self.channel.username
         context['videos'] = self.videos
@@ -209,18 +214,40 @@ class SubscribeApi(APIView):
         else:
             return Response({"data": {}, "status": "err"})
 
+# notifications
+class NotificationsApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        channel = CustomUser.objects.get(user_id=request.data.get("user_id"))
+        notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)
+
+        if notification.count() > 0:
+            notification.delete()
+            return Response({"data": {"notification": 0}, "message": "Notifications turned off for this channel 😬", "status": "ok"})
+
+        elif notification.count() == 0:
+            Notification.objects.create(notification_channel=channel, notification_user=request.user)
+            return Response({"data": {"notification": 1}, "message": "You’ll get all notifications 😃", "status": "ok"})
+
+        else:
+            return Response({"data": {}, "status": "err"})
+
 # about channel page
 class AboutView(TemplateView):
     template_name = "user/about.html"
 
     def get_context_data(self, **kwargs):
-        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
-        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=CustomUser.objects.get(user_id=self.kwargs['pk']).id)
-        if not self.subscribe:
-            self.subscribe = 0
-
         context = super(AboutView, self).get_context_data(**kwargs)
+        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
+
+        # find subscribe model 
+        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=self.channel)
+
+        # find notification model 
+        self.notifications = Notification.objects.filter(notification_channel=self.channel, notification_user=self.request.user)
+
         context['title'] = f'About - {self.channel.username}'
+        context['notifications'] = self.notifications
         context['subscribe'] = self.subscribe
         context['channel'] = self.channel
         return context
@@ -600,6 +627,12 @@ class CreateVideoView(TemplateView):
                 video = Video.objects.create(creator=request.user, video_id=generate_id(32), video=request.FILES['video'], video_banner=request.FILES['video_banner'], title=request.POST['title'], description=request.POST['description'])
                 video.save()
                 
+                # send notification
+                subscribers = Subscribe.objects.filter(channel=video.creator)
+                for i in subscribers:
+                    if i.subscriber.telegram:
+                        YandexHubAlert(f'A new video has been released on the {video.creator.username} channel 🥳\n{DOMEN}video/{video.video_id}/', i.subscriber.telegram)
+
                 messages.success(request, f"You have successfully posted a video: <b>{video.title}</b> 🤩")
                 return redirect('video__page', video.video_id)
 
@@ -957,6 +990,7 @@ class DislikeArticleApi(APIView):
         else:
             return Response({"data": {}, "status": "err"})
 
+
 # community page
 class CommunityView(ListView):
     template_name = "user/community/community.html"
@@ -969,13 +1003,17 @@ class CommunityView(ListView):
         return Article.objects.filter(creator=channel).order_by('-date_created')
 
     def get_context_data(self, **kwargs):
-        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
-        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=CustomUser.objects.get(user_id=self.kwargs['pk']).id)
-        if not self.subscribe:
-            self.subscribe = 0
-
         context = super(CommunityView, self).get_context_data(**kwargs)
+        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
+
+        # find subscribe model 
+        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=self.channel)
+
+        # find notification model 
+        self.notifications = Notification.objects.filter(notification_channel=self.channel, notification_user=self.request.user)
+
         context['title'] = f'Community - {self.channel.username}'
+        context['notifications'] = self.notifications
         context['subscribe'] = self.subscribe
         context['channel'] = self.channel
         return context
@@ -1307,3 +1345,13 @@ class SignOutView(View):
         # send alert
         messages.success(request, "You have successfully logged out of your account 💀")
         return redirect('main__page')
+
+
+
+# 404 error
+def error_404_view(request, exception):
+    return render(request, '404.html')
+
+# 500 error
+def error_500_view(request):
+    return render(request, '404.html')
