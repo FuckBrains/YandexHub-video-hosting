@@ -8,12 +8,13 @@
         {% if video.creator == request.user %}
         <div class="row" style="justify-content: end; align-items: end;">
             <section class="py-3 text-center container-fluid">
-                <div class="row py-lg-5">
+                <div class="row" style="padding-bottom: 3rem!important;">
                     <div class="col-lg-12 col-md-8 mx-auto">
-                        <h1 style="margin-bottom: 25px;">Video statistics 📊</h1>
+                        <img class="banner-icon" src="{% static 'media/site/icons/chart.png' %}">
+                        <h1 style="margin-bottom: 25px;">Films & Shows</h1>
                         <h2 style="margin-bottom: 15px;">Video: <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' video.video_id %}`)">{{ video.title }}</a></h2>
-                        <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__comments__page' video.video_id %}`)" class="btn btn-primary my-2">Comments</a>
-                        <a style="cursor: pointer;" onclick="transition_link(`{% url 'edit__video__page' video.video_id %}`)" class="btn btn-secondary my-2">Edit video</a>
+                        <a style="cursor: pointer; padding: .5rem 1rem;" onclick="transition_link(`{% url 'video__comments__page' video.video_id %}`)" class="btn btn-primary my-2">Comments</a>
+                        <a style="cursor: pointer; padding: .5rem 1rem;" onclick="transition_link(`{% url 'edit__video__page' video.video_id %}`)" class="btn btn-secondary my-2">Edit video</a>
                     </div>
                 </div>
             </section>

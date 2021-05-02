@@ -671,12 +671,22 @@ hr {
   border-radius: 15px;
 }
 
+.banner-icon {
+  width: 110px;
+  margin-bottom: 25px;
+  height: auto;
+}
+
 .card-video-text-block {
   width: 205px;
 }
 
 main {
   margin-top: 35px;
+}
+
+.film-img {
+  border-radius: 20px;
 }
 
 .comment-date-created {

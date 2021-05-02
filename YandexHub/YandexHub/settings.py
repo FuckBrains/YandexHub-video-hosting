@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework', # DRF
     'django_summernote', # custom input
     'mainapp', # site app
+    
 ]
 
 AUTH_USER_MODEL = 'mainapp.CustomUser'

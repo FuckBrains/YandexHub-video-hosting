@@ -1,0 +1,334 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main">
+    <div class="block-content">
+        <div class="row" id="row" style="justify-content: end; align-items: end;">
+            <div class="video-block col-md-10" style="width: 70%">
+
+                <!-- Video -->
+                {% if buy|length == 0 %}
+                <video style="width: 100%; height: auto;" controls="controls" poster="{{film.film_banner.url}}"
+                    preload="auto" id="video" autoplay="true" muted="muted">
+                    <source src="{{film.trailer.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                    The video tag is not supported by your browser.
+                </video>
+                {% else %}
+                <video style="width: 100%; height: auto;" controls="controls" poster="{{film.film_banner.url}}"
+                    preload="auto" id="video" autoplay="true" muted="muted">
+                    <source src="{{film.film.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                    The video tag is not supported by your browser.
+                </video>
+                {% endif %}
+                <script>
+                    video = document.getElementById("video");
+                    video.muted = false;
+                </script>
+
+                <div style="position: relative;">
+
+                    <!-- Stats -->
+                    <div style="display: inline-block;">
+                        <p class="card-text video-title" style="margin-top: 12px; margin-bottom: 10px; font-size: 22px; font-weight: 500;">{{film.title}}
+                        </p>
+                    </div>
+
+
+                    <div style="display: inline-block;">
+                        <div>
+
+                            <!-- Likes -->
+                            {% if liked|length == 0 %}
+                            <button class="btn btn-reaction btn-like" id="like" style="right: 178px !important;"
+                                onclick="like_film('{{film.film_id}}');">{{film.likes|brief_likes_format}}
+                                👍</button>
+                            {% else %}
+                            <button class="btn btn-reaction-active btn-like" id="like" style="right: 178px !important;"
+                                onclick="like_film('{{film.film_id}}');">{{film.likes|brief_likes_format}}
+                                👍</button>
+                            {% endif %}
+
+                            <!-- Dislikes -->
+                            {% if disliked|length == 0 %}
+                            <button class="btn btn-reaction btn-dislike" id="dislike" style="right: 105px !important;"
+                                onclick="dislike_film('{{film.film_id}}');">{{film.dislikes|brief_likes_format}}
+                                👎</button>
+                            {% else %}
+                            <button class="btn btn-reaction-active btn-dislike" id="dislike"
+                                style="right: 105px !important;"
+                                onclick="dislike_film('{{film.film_id}}');">{{film.dislikes|brief_likes_format}}
+                                👎</button>
+                            {% endif %}
+
+                            <!-- Ratio -->
+                            {% if film.likes != 0 or film.dislikes != 0 %}
+                            <div
+                                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
+                            </div>
+                            <div id="ratio-dislikes"
+                                style="height: 2px; width: {{film.likes|ratio:film.dislikes}}px; position: absolute; background: #DC3545; right: 105px; bottom: -11px; z-index: 100;">
+                            </div>
+                            {% else %}
+                            <div
+                                style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 105px; bottom: -11px; z-index: 100;">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Share -->
+                        <button class="btn btn-share" data-bs-toggle="modal" data-bs-target="#saveModal">Share
+                            ❤️</button>
+                        <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="saveModalLabel">Share</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="padding-top: 2rem;">
+                                        <div class="input-group mb-3">
+                                            <input class="form-control" id="share-input">
+                                            <button class="btn btn-outline-primary" id="share-button"
+                                                data-clipboard-target="#share-input"
+                                                onclick="copy_text('#share-button')">Copy</button>
+                                        </div>
+                                        <script>
+                                            let share = document.getElementById('share-input')
+                                            share.value = `${location.protocol}//${location.hostname + (location.port ? ':' + location.port : '')}/film/${"{{film.film_id}}"}/`
+
+                                            // copy text
+                                            function copy_text(button) {
+                                                new Clipboard(button);
+                                                view_alert('Link copied 😋');
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top: 10px; margin-bottom: 20px;">
+                
+                <div class="row g-0" style="align-items: end; width: auto; justify-content: end; position:relative;">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Description</div>
+                                <div class="col-md-10">{{film.description|safe}}</div>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75;">Rating</div>
+                                <div class="col-md-10">{{ film.rating }}</div>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75;">Release date</div>
+                                <div class="col-md-10">{{ film.release_date }}</div>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75;">Running time</div>
+                                <div class="col-md-10" id="running_time">{{ film.rating }}</div>
+                                <script>
+                                    let running_time = document.getElementById("running_time");
+                                    video.addEventListener('loadedmetadata', function (e) {
+                                        let duration = video.duration.toFixed(1);
+                                        let seconds = Math.floor(duration % 60);
+                                        running_time.innerHTML = Math.floor(duration / 60) + ':' + (seconds < 10 ? '0' : '') + seconds
+                                    });
+                                </script>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Actors</div>
+                                <div class="col-md-10">{% for actor in film.actor_film.all %} <a
+                                        href="#">{{actor.actor}}</a><br /> {% endfor %}</div>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Producers</div>
+                                <div class="col-md-10">{% for producer in film.producer_film.all %} <a
+                                        href="#">{{producer.producer}}</a><br /> {% endfor %}</div>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Writers</div>
+                                <div class="col-md-10">{% for writer in film.writer_film.all %} <a
+                                        href="#">{{writer.writer}}</a><br /> {% endfor %}</div>
+                            </div>
+
+                            <div style="display: flex !important; margin-bottom: 10px;">
+                                <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Genres</div>
+                                <div class="col-md-10">{% for genre in film.genre_film.all %} <a
+                                        href="#">{{genre.genre}}</a><br /> {% endfor %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 card-video-text-block">
+                        {% if request.user.is_authenticated %}
+                        {% if buy|length == 0 %}
+                        <button class="btn btn-primary btn-subscribe" data-bs-toggle="modal"
+                            data-bs-target="#BuyModal">Buy a film</button>
+
+                        <div class="modal fade" id="BuyModal" tabindex="-1" aria-labelledby="BuyModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="BuyModalLabel">Are you absolutely sure?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to buy the film: <b>{{film.title}}</b>?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="buy_film('{{film.film_id}}');">USD {{film.price}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <a class="btn btn-outline-primary change-btn" style="cursor: painter;"
+                            onclick="transition_link(`{% url 'sign__in__page' %}`)">Sign in</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+         
+
+            <div class="col-md">
+
+                <!-- chat -->
+                <div>
+                    <div class="chat-block" id="chat-block">
+                        <div class="message">
+                            <div class="img message-avatar"
+                                style="background-image: url('/media/avatars/tenor_4.gif');"></div>
+                            <div class="message-username">
+                                <a class="message-username-text" style="color: #0D6EFD; cursor: pointer;"
+                                    onclick="transition_link('/channel/admin/')">YandexHub administration 🤖</a>
+                            </div>
+                            {% if request.user.is_authenticated %}
+                            <div class="message-text" style="margin-right: -80px; margin-left: 50px; margin-top: -7px;">
+                                Welcome to the
+                                chat, {{ request.user.username }}</div>
+                            {% else %}
+                            <div class="message-text">Hi friend 👋<br />To log in or create an account follow the <a
+                                    style="color: #0D6EFD; cursor: pointer;"
+                                    onclick="transition_link(`{% url 'sign__in__page' %}`)">link</a> 👾</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="margin-top: -100px; position: absolute; margin-left: 20px;">
+                        <input type="text" id="message" class="form-control message-input"
+                            placeholder="Write something..." autocomplete="off" style="display: inline-block;"
+                            maxlength="500">
+                        <button style="display: inline-block; margin-top: -5px; padding: .35rem .75rem;"
+                            class="btn btn-primary" id="send">Send</button>
+                    </div>
+
+                    <script>
+                        let video = document.getElementById("video")
+                        video_height = video.offsetHeight
+                        video_width = video.offsetWidth
+                        let block_width = document.getElementById("row").offsetWidth
+                        let body_width = document.getElementById("body").offsetWidth
+
+                        let chat = document.getElementById("chat-block");
+                        let message = document.getElementById("message");
+                        if (body_width > 1024) {
+                            chat.style.height = video_height + "px";
+                            chat.style.width = block_width - video_width - 50 + "px";
+                            message.style.width = chat.offsetWidth - 105 + "px";
+
+                        } else if (body_width > 550 && body_width <= 1024) {
+                            chat.style.height = video_height + "px";
+                            chat.style.width = "100%";
+                            message.style.width = chat.offsetWidth - 100 + "px";
+                        } else {
+                            chat.style.height = "450px";
+                            chat.style.width = "100%";
+                            message.style.width = chat.offsetWidth - 100 + "px";
+                        }
+                    </script>
+
+                </div>
+                <script>
+                    // scroll messages block to bottom
+                    function ScrollBottom() {
+                        var chat_block = document.getElementById("chat-block");
+                        chat_block.scrollTop = chat_block.scrollHeight;
+                    }
+
+                    // connect to server
+                    let socket = new WebSocket(`wss://socketserver92875.herokuapp.com/ws/chat/{{ film.film_id }}/`);
+
+                    // Send message func
+                    let Send = function (data) {
+                        if (!socket.readyState) {
+                            setTimeout(function () { Send(data); }, 100);
+                        } else {
+                            socket.send(data);
+                        }
+                    };
+
+                    // get message
+                    socket.onmessage = async function (event) {
+                        let response = JSON.parse(event.data);
+
+                        // create message block
+                        let chat_block = document.getElementById("chat-block");
+                        let message = document.createElement('div');
+                        message.className = "message";
+                        if (response.data.user_id == "{{ video.creator.user_id }}") {
+                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #0D6EFD; cursor: pointer; font-wight: 700;" href="/channel/${response.data.user_id}/">${response.data.username} ✔️</a></div><div class="message-text">${response.data.message}</div>`;
+                        } else if (response.data.user_id == "{{ request.user.user_id}}") {
+                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #828282; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+                        } else {
+                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+                        };
+
+                        chat_block.append(message)
+                        ScrollBottom()
+
+                    };
+
+                    // send message
+                    send.onclick = function () {
+                        let message = document.getElementById('message').value;
+                        if (message != "" && message.length < 501) {
+                            if ("{{ request.user.username }}" == "") {
+                                Send(JSON.stringify({ "username": "Ananimus", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "{{ request.user.user_id }}", "message": message }));
+                            } else {
+                                Send(JSON.stringify({ "username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message }));
+                            };
+                        } else {
+                            //view_alert('The max message length is 500 characters 👅');
+                        };
+                        document.getElementById('message').value = "";
+                    };
+
+                    // ENTER button click
+                    $(document).keypress(function (e) {
+                        if (e.which == 13) {
+                            document.getElementById("send").click();
+                        }
+                    });
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+{% endblock %}

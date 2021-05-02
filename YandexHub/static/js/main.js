@@ -485,3 +485,19 @@ async function delete_reply_comment(reply_comment_id) {
     // alert
     await view_alert(result.message);
 };
+
+
+// buy a film
+async function buy_film(film_id) {
+    let response = await fetch('/api/buy/film/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            film_id: film_id
+        })
+    });
+    let result = await response.json();
+    if (result.status == "ok") {
+        await location.replace(`/film/${film_id}/`);
+    };
+};

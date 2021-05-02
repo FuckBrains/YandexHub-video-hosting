@@ -1,9 +1,18 @@
 {% extends "main.html" %}
 {% block content %}
+{% load static %}
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         {% if request.user.is_authenticated %}
-        <h1 style="text-align: center;">Upload video 📲</h1>
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 1rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/camera2.png' %}">
+                    <h1 style="margin-bottom: 25px;">Upload video</h1>
+                </div>
+            </div>
+        </section>
+
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div style="margin-top: 15px;" class="custom-file">

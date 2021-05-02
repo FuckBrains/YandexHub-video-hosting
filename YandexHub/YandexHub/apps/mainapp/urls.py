@@ -52,6 +52,12 @@ urlpatterns = [
     path('api/video/save/', SaveVideoApi.as_view()),
     path('api/video/delete/', DeleteVideoApi.as_view()),
 
+    # films
+    path('films/', FilmsView.as_view(), name="films__page"),
+    path('film/<str:pk>/', FilmView.as_view(), name="film__page"),
+    path('my/films/', UserFilmsView.as_view(), name="user__films__page"),
+    path('api/buy/film/', BuyFilmApi.as_view()),
+
     # subscribe
     path('api/channel/subscribe/', SubscribeApi.as_view()),
     

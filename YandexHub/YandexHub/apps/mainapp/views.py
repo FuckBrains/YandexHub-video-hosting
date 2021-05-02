@@ -129,7 +129,7 @@ def get_ip_info(ip):
 # bot send message
 def YandexHubAlert(text, telegram_id):
     try:
-        bot = telebot.TeleBot('1785721677:AAHe9dTJ4LQEUkpjr-6k6Or5Rn8QLdcEKR8')
+        bot = telebot.TeleBot('1785721677:AAF0OeaZ-ZC_Zf5IF0BMaDqacKE3y7OB290')
         bot.send_message(telegram_id, text)
         return 'ok'
     except:
@@ -147,7 +147,7 @@ class HomeView(ListView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['title'] = 'YandexHub'
         return context
-    
+
 # search video system
 class SearchView(ListView):
     template_name = "video/search/search.html"
@@ -1272,6 +1272,72 @@ class VideoStatsView(TemplateView):
         context['title'] = f'{video.title}'
         context['video'] = video
         return context
+
+
+# films page
+class FilmsView(ListView):
+    template_name = 'film/films.html'
+    paginate_by = 20
+    model = Film
+    context_object_name = "films"
+    
+    def get_context_data(self, **kwargs):
+        context = super(FilmsView, self).get_context_data(**kwargs)
+        context['title'] = 'Films 🎥'
+        return context
+
+# user films page
+class UserFilmsView(TemplateView):
+    template_name = 'film/user/films.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserFilmsView, self).get_context_data(**kwargs)
+        context['title'] = 'Your films 🎥'
+        return context
+
+# film page
+class FilmView(TemplateView):
+    template_name = "film/film.html"
+    #paginate_by = 10
+    #queryset = Comment
+    #context_object_name = "comments"
+
+    #def get_queryset(self, **kwargs):
+    #    return Comment.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(FilmView, self).get_context_data(**kwargs)
+        film = Film.objects.get(film_id=self.kwargs['pk'])
+        buy = BuyFilm.objects.filter(buy_film=film, buy_user=self.request.user)
+
+        context['title'] = f'{film.title}'
+        context['buy'] = buy
+        context['film'] = film
+
+        if self.request.user.is_authenticated:
+            #context['liked'] = Like.objects.filter(liked_user=self.request.user, liked_video=video)
+            #context['disliked'] = Dislike.objects.filter(disliked_user=self.request.user, disliked_video=video)
+            pass
+
+        return context
+
+# buy film
+class BuyFilmApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        film = Film.objects.get(film_id=request.data.get("film_id"))
+        BuyFilm.objects.create(buy_user=request.user, buy_film=film)
+
+        if request.user.telegram:
+            now = datetime.now() 
+            date = now.strftime("%d-%m-%Y %H:%M:%S")
+            YandexHubAlert(f"You purchased the movie: {film.title} 🥳\nDate: {date}\nPrice: USD {film.price}\n\n{DOMEN}film/{film.film_id}/", request.user.telegram)
+
+
+        messages.success(self.request, f"You purchased the movie: <b>{film.title}</b> 🥳")
+        return Response({"data": {}, "status": "ok"})
+
+   
 
 
 # sign up page

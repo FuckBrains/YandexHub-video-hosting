@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+
+<main role="main">
+    <div class="block-content">
+
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 3rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/camera.png' %}">
+                    <h1 style="margin-bottom: 25px;">Films & Shows</h1>
+                    <a style="cursor: pointer; padding: .5rem 1rem;" onclick="transition_link(`{% url 'user__films__page' %}`)" class="btn btn-primary">My films</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
+            {% for film in films %}
+            <div class="infinite-item col" style="cursor: pointer;">
+                <div class="card" style="margin-bottom: 95px;">
+                    <a onclick="transition_link(`{% url 'film__page' film.film_id %}`)">
+                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top film-img" width="285" height="385" src="{{ film.film_poster.url }}">
+                    </a>
+                    <div class="card-body" style="padding: 0.5rem 0.5rem;">
+                        <div style="display: inline-block;"
+                            onclick="transition_link(`{% url 'film__page' film.film_id %}`)">
+                            <p class="card-text" style="color: #000; font-weight: 500; font-size: 20px;">{{ film.title|truncatechars:70 }}</p>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+    </div>       
+</main>
+
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.row')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

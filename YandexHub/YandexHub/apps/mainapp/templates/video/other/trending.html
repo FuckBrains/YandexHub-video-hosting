@@ -4,7 +4,14 @@
 {% load static %}
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">    
-        <h1 style="text-align: center; margin-bottom: 40px;">Trending videos 📈</h1>
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 1rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/fire.png' %}">
+                    <h1 style="margin-bottom: 25px;">Trending videos</h1>
+                </div>
+            </div>
+        </section>
         <div class="infinite-container">
             {% for i in videos %}
             <div class="infinite-item">

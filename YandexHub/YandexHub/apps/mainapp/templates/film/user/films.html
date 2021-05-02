@@ -1,0 +1,50 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+
+<main role="main">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 3rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/camera.png' %}">
+                    <h1 style="margin-bottom: 25px;">Your films</h1>
+                </div>
+            </div>
+        </section>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
+            {% for film in request.user.buy_user.all %}
+            <div class="col" style="cursor: pointer;">
+                <div class="card" style="margin-bottom: 95px;">
+                    <a onclick="transition_link(`{% url 'film__page' film.buy_film.film_id %}`)">
+                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top film-img" width="285" height="385" src="{{ film.buy_film.film_poster.url }}">
+                    </a>
+                    <div class="card-body" style="padding: 0.5rem 0.5rem;">
+                        <div style="display: inline-block;"
+                            onclick="transition_link(`{% url 'film__page' film.buy_film.film_id %}`)">
+                            <p class="card-text" style="color: #000; font-weight: 500; font-size: 20px;">{{ film.buy_film.title|truncatechars:70 }}</p>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card shadow-sm"
+            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'sign__in__page' %}`)">Sign in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>       
+</main>
+{% endblock %}

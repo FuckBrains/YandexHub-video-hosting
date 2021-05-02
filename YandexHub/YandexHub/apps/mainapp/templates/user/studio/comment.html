@@ -7,13 +7,15 @@
         {% if request.user.is_authenticated %}
         {% if comment.creator == request.user or comment.commented_video.creator == request.user %}
         <section class="py-3 text-center container-fluid">
-            <div class="row py-lg-5">
+            <div class="row" style="padding-bottom: 3rem!important;">
                 <div class="col-lg-12 col-md-8 mx-auto">
-                    <h1 style="margin-bottom: 25px;">Comment info 📊</h1>
+                    <img class="banner-icon" src="{% static 'media/site/icons/chart.png' %}">
+                    <h1 style="margin-bottom: 25px;">Comment info</h1>
                     <h2 style="margin-bottom: 15px;">Comment: {{ comment.comment_text }}</h2>
                 </div>
             </div>
         </section>
+
         <div class="infinite-container">
             <table class="table">
                 <thead>

@@ -187,3 +187,87 @@ class ArticleDislike(models.Model):
     disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_article_user')
     disliked_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False, related_name='disliked_article')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+
+class Film(models.Model):
+    RATING = (
+        ('0+', '0+'),
+        ('6+', '6+'),
+        ('12+', '12+'),
+        ('16+', '16+'),
+        ('18+', '18+')
+    )
+
+    # film id
+    film_id = models.CharField(blank=True, null=True, max_length=32)
+
+    # files
+    film = models.FileField(upload_to='films/')
+    trailer = models.FileField(upload_to='trailers/')
+    film_poster = models.ImageField(upload_to='film_posters/')
+    film_banner = models.ImageField(upload_to='film_banners/')
+
+    # video stats
+    likes = models.BigIntegerField(default=0)
+    dislikes = models.BigIntegerField(default=0)
+    #comments = models.BigIntegerField(default=0)
+
+    # video info
+    title = models.CharField(max_length=150)
+    price = models.FloatField(default=0)
+    rating = models.CharField(max_length=50, null=True, choices=RATING)
+    release_date = models.DateField()
+    description = models.TextField(blank=True, null=True, max_length=1000000)
+
+    # date created
+    date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+    def __str__(self):
+        return self.title
+
+class Actor(models.Model):
+    # actor name
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Producer(models.Model):
+    # producer name
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Writer(models.Model):
+    # writer name
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Genre(models.Model):
+    # genre name
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+class FilmProducer(models.Model):
+    producer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='producer_film')
+    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, null=False, related_name='producer')
+
+class FilmActor(models.Model):
+    actor_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='actor_film')
+    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, null=False, related_name='actor')
+
+class FilmWriter(models.Model):
+    writer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='writer_film')
+    writer = models.ForeignKey(Writer, on_delete=models.CASCADE, null=False, related_name='writer')
+
+class FilmGenre(models.Model):
+    genre_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='genre_film')
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=False, related_name='genre')
+
+class BuyFilm(models.Model):
+    buy_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='buy_user')
+    buy_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='buy_film')

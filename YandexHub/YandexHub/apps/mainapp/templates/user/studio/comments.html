@@ -7,13 +7,15 @@
         {% if request.user.is_authenticated %}
         {% if video.creator == request.user %}
         <section class="py-3 text-center container-fluid">
-            <div class="row py-lg-5">
+            <div class="row" style="padding-bottom: 3rem!important;">
                 <div class="col-lg-12 col-md-8 mx-auto">
-                    <h1 style="margin-bottom: 25px;">Video comments 📝</h1>
+                    <img class="banner-icon" src="{% static 'media/site/icons/paper.png' %}">
+                    <h1 style="margin-bottom: 25px;">Video comments</h1>
                     <h2 style="margin-bottom: 15px;">Video: <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' video.video_id %}`)">{{ video.title }}</a></h2>
                 </div>
             </div>
         </section>
+
         <div class="infinite-container">
             <table class="table">
                 <thead>

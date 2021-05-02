@@ -1,3 +1,4 @@
+{% load static %}
 <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
 <label for="openSidebarMenu" class="sidebarIconToggle">
     <div class="spinner diagonal part-1"></div>
@@ -24,20 +25,20 @@
         <hr style="margin-top: 0px;">
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 5px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/home_house_icon_183822.png">
+                src="{% static 'media/site/icons/home_icon.png' %}">
             <a class="menu__item menu5" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
                 Home</a>
         </li>
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 5px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/activity_icon_183756.png">
+                src="{% static 'media/site/icons/trending_icon.png' %}">
             <a class="menu__item menu2" style="cursor: pointer;"
                 onclick="transition_link(`{% url 'trending__page' %}`)"> Trending</a>
         </li>
         {% if request.user.is_authenticated %}
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 5px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/user_icon_183752.png">
+                src="{% static 'media/site/icons/subscriptions_icon.png' %}">
             <a class="menu__item menu3" style="cursor: pointer;"
                 onclick="transition_link(`{% url 'subscriptions__page' %}`)"> Subscriptions</a>
         </li>
@@ -45,29 +46,36 @@
 
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 5px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/time_circle_icon_183788.png">
+                src="{% static 'media/site/icons/history_icon.png' %}">
             <a class="menu__item menu3" style="cursor: pointer;" onclick="transition_link(`{% url 'history__page' %}`)">
                 History</a>
         </li>
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 4px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/paper_download_icon_183774.png">
+                src="{% static 'media/site/icons/saved_video_icon.png' %}">
             <a class="menu__item menu3" style="cursor: pointer;"
                 onclick="transition_link(`{% url 'saved__videos__page' %}`)"> Saved videos</a>
         </li>
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 2px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/chart_icon_183828.png">
+                src="{% static 'media/site/icons/your_videos_icon.png' %}">
             <a class="menu__item menu3" style="cursor: pointer;"
                 onclick="transition_link(`{% url 'my__videos__page' %}`)"> Your videos</a>
         </li>
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 2px;"
-                src="https://cdn.icon-icons.com/icons2/2941/PNG/512/heart_icon_183734.png">
+                src="{% static 'media/site/icons/liked_videos_icon.png' %}">
             <a class="menu__item menu3" style="cursor: pointer;"
                 onclick="transition_link(`{% url 'liked__videos__page' %}`)"> Liked videos</a>
         </li>
         {% endif %}
+        <hr>
+        <li>
+            <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 2px;"
+                src="{% static 'media/site/icons/film_icon.png' %}">
+            <a class="menu__item menu3" style="cursor: pointer;"
+                onclick="transition_link(`{% url 'films__page' %}`)"> Films</a>
+        </li>
         <hr>
         {% if request.user.subscriber.all %}
         <li><a class="menu__item menu5" onclick="transition_link(`#`)"
