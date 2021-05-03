@@ -87,6 +87,21 @@ def get_video_recommendations(channel, video):
     
     return list(set(video_channel_recommendations + random_list(video_recommendations)))
 
+# Get recommendations on film page
+def get_film_recommendations(film):
+    film_recommendations = []
+    for i in range(30):
+        try:
+            other_film = Film.objects.order_by('-date_created')[i]
+            if other_film == film:
+                pass
+            else:
+                film_recommendations.append(other_film)
+        except:
+            pass
+    
+    return film_recommendations
+
 # Add coefficient for video
 def coefficient_func(video):
     video.coefficient = video.views / (video.dislikes + video.comments - video.likes + 10)
@@ -1274,6 +1289,57 @@ class VideoStatsView(TemplateView):
         return context
 
 
+# actor page
+class ActorView(TemplateView):
+    template_name = "film/actor.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ActorView, self).get_context_data(**kwargs)
+        actor = Actor.objects.get(actor_id=self.kwargs['pk'])
+        context['title'] = actor.name
+        context['actor'] = actor
+        return context
+
+# producer page
+class ProducerView(TemplateView):
+    template_name = "film/producer.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProducerView, self).get_context_data(**kwargs)
+        producer = Producer.objects.get(producer_id=self.kwargs['pk'])
+        context['title'] = producer.name
+        context['producer'] = producer
+        return context
+
+# writer page
+class WriterView(TemplateView):
+    template_name = "film/writer.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(WriterView, self).get_context_data(**kwargs)
+        writer = Writer.objects.get(writer_id=self.kwargs['pk'])
+        context['title'] = writer.name
+        context['writer'] = writer
+        return context
+
+# genre page
+class GenreView(ListView):
+    template_name = "film/genre.html"
+    paginate_by = 20
+    model = Film
+    context_object_name = "films"
+
+    def get_queryset(self):
+        genre = Genre.objects.get(name=self.kwargs['pk'])
+        return Film.objects.filter(main_genre=genre)
+
+    def get_context_data(self, **kwargs):
+        context = super(GenreView, self).get_context_data(**kwargs)
+        genre = Genre.objects.get(name=self.kwargs['pk'])
+        context['title'] = genre.name
+        context['genre'] = genre
+        return context
+
 # films page
 class FilmsView(ListView):
     template_name = 'film/films.html'
@@ -1285,6 +1351,70 @@ class FilmsView(ListView):
         context = super(FilmsView, self).get_context_data(**kwargs)
         context['title'] = 'Films 🎥'
         return context
+
+# like film
+class LikeFilmApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        film = Film.objects.get(film_id=request.data.get("film_id"))
+        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)
+        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)
+
+        if like.count() == 0 and dislike.count() == 0:
+            like = FilmLike.objects.create(liked_film=film, liked_user=request.user)
+            if like:
+                film.likes += 1
+                film.save()
+            return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": film.likes, "dislikes": film.dislikes}}, "message": "...", "status": "ok"})
+
+        elif like.count() == 1 and dislike.count() == 0:
+            like[0].delete()
+            film.likes -= 1
+            film.save()
+            return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": film.likes, "dislikes": film.dislikes}}, "message": "...", "status": "ok"})
+
+        elif like.count() == 0 and dislike.count() == 1:
+            film.dislikes -= 1
+            film.likes += 1
+            film.save()
+            dislike[0].delete()
+            like = FilmLike.objects.create(liked_film=film, liked_user=request.user)
+            return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": film.likes, "dislikes": film.dislikes}}, "message": "...", "status": "ok"})
+
+        else:
+            return Response({"data": {}, "status": "err"})
+
+# dislike film
+class DislikeFilmApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        film = Film.objects.get(film_id=request.data.get("film_id"))
+        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)
+        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)
+
+        if like.count() == 0 and dislike.count() == 0:
+            dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)
+            if dislike:
+                film.dislikes += 1
+                film.save()
+            return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": film.likes, "dislikes": film.dislikes}}, "message": "...", "status": "ok"})
+
+        elif dislike.count() == 1 and like.count() == 0:
+            dislike[0].delete()
+            film.dislikes -= 1
+            film.save()
+            return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": film.likes, "dislikes": film.dislikes}}, "message": "...", "status": "ok"})
+
+        elif dislike.count() == 0 and like.count() == 1:
+            film.likes -= 1
+            film.dislikes += 1
+            film.save()
+            like[0].delete()
+            dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)
+            return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": film.likes, "dislikes": film.dislikes}}, "message": "...", "status": "ok"})
+
+        else:
+            return Response({"data": {}, "status": "err"})
 
 # user films page
 class UserFilmsView(TemplateView):
@@ -1313,10 +1443,11 @@ class FilmView(TemplateView):
         context['title'] = f'{film.title}'
         context['buy'] = buy
         context['film'] = film
+        context['film_recommendations'] = get_film_recommendations(film)
 
         if self.request.user.is_authenticated:
-            #context['liked'] = Like.objects.filter(liked_user=self.request.user, liked_video=video)
-            #context['disliked'] = Dislike.objects.filter(disliked_user=self.request.user, disliked_video=video)
+            context['liked'] = FilmLike.objects.filter(liked_user=self.request.user, liked_film=film)
+            context['disliked'] = FilmDislike.objects.filter(disliked_user=self.request.user, disliked_film=film)
             pass
 
         return context
@@ -1337,7 +1468,7 @@ class BuyFilmApi(APIView):
         messages.success(self.request, f"You purchased the movie: <b>{film.title}</b> 🥳")
         return Response({"data": {}, "status": "ok"})
 
-   
+
 
 
 # sign up page

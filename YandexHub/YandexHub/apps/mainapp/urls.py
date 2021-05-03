@@ -55,8 +55,14 @@ urlpatterns = [
     # films
     path('films/', FilmsView.as_view(), name="films__page"),
     path('film/<str:pk>/', FilmView.as_view(), name="film__page"),
+    path('api/film/like/', LikeFilmApi.as_view()),
+    path('api/film/dislike/',DislikeFilmApi.as_view()),
     path('my/films/', UserFilmsView.as_view(), name="user__films__page"),
     path('api/buy/film/', BuyFilmApi.as_view()),
+    path('actor/<str:pk>/', ActorView.as_view(), name="actor__page"),
+    path('producer/<str:pk>/', ProducerView.as_view(), name="producer__page"),
+    path('writer/<str:pk>/', WriterView.as_view(), name="writer__page"),
+    path('genre/<str:pk>/', GenreView.as_view(), name="genre__page"),
 
     # subscribe
     path('api/channel/subscribe/', SubscribeApi.as_view()),

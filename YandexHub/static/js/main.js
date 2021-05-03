@@ -501,3 +501,83 @@ async function buy_film(film_id) {
         await location.replace(`/film/${film_id}/`);
     };
 };
+
+// like film
+async function like_film(film_id) {
+    let response = await fetch('/api/film/like/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            film_id: film_id
+        })
+    });
+    let result = await response.json();
+    if (result.status == "ok") {
+        if (result.data.like == 1 && result.data.dislike == 0) {
+            let like = document.getElementById('like_film')
+            like.className = "btn btn-reaction-active btn-like"
+            like.innerHTML = `${result.data.stats.likes} 👍`
+
+            let dislike = document.getElementById('dislike_film')
+            dislike.className = "btn btn-reaction btn-dislike"
+            dislike.innerHTML = `${result.data.stats.dislikes} 👎`
+        } else if (result.data.like == 0 && result.data.dislike == 0) {
+            let like = document.getElementById('like_film')
+            like.className = "btn btn-reaction btn-like"
+            like.innerHTML = `${result.data.stats.likes} 👍`
+
+            let dislike = document.getElementById('dislike_film')
+            dislike.className = "btn btn-reaction btn-dislike"
+            dislike.innerHTML = `${result.data.stats.dislikes} 👎`
+        } else {
+            console.log('👻');
+        };
+
+        // alert
+        await view_alert(result.message);
+
+        // ratio
+        let ratio = document.getElementById('ratio-dislikes-film');
+        ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+    };
+};
+
+// dislike film 
+async function dislike_film(film_id) {
+    let response = await fetch('/api/film/dislike/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            film_id: film_id
+        })
+    });
+    let result = await response.json();
+    if (result.status == "ok") {
+        if (result.data.like == 0 && result.data.dislike == 1) {
+            let dislike = document.getElementById('dislike_film')
+            dislike.className = "btn btn-reaction-active btn-dislike"
+            dislike.innerHTML = `${result.data.stats.dislikes} 👎`
+
+            let like = document.getElementById('like_film')
+            like.className = "btn btn-reaction btn-like"
+            like.innerHTML = `${result.data.stats.likes} 👍`
+        } else if (result.data.like == 0 && result.data.dislike == 0) {
+            let like = document.getElementById('like_film')
+            like.className = "btn btn-reaction btn-like"
+            like.innerHTML = `${result.data.stats.likes} 👍`
+
+            let dislike = document.getElementById('dislike_film')
+            dislike.className = "btn btn-reaction btn-dislike"
+            dislike.innerHTML = `${result.data.stats.dislikes} 👎`
+        } else {
+            console.log('👻');
+        };
+
+        // alert
+        await view_alert(result.message);
+
+        // ratio
+        let ratio = document.getElementById('ratio-dislikes-film');
+        ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+    };
+};

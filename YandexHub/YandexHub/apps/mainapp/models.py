@@ -1,6 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# RANDOM
+import random
+from random import choice
+def generate_id(num):
+    symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'
+    key = ''.join(choice(symbols) for i in range(num))
+    return key
+
+
+# User
 class CustomUser(AbstractUser):
     # user id
     user_id = models.CharField(blank=True, null=True, max_length=24)
@@ -53,6 +63,7 @@ class Notification(models.Model):
     notification_channel = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_channel')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
+# Video
 class Video(models.Model):
     # video id
     video_id = models.CharField(blank=True, null=True, max_length=32)
@@ -102,7 +113,7 @@ class Dislike(models.Model):
     disliked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='disliked_video')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
-
+# Comments for videos
 class Comment(models.Model):
     comment_id = models.CharField(blank=True, null=True, max_length=32)
 
@@ -129,7 +140,7 @@ class CommentDislike(models.Model):
     disliked_comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=False, related_name='disliked_comment')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
-
+# Reply comments for videos
 class ReplyComment(models.Model):
     reply_comment_id = models.CharField(blank=True, null=True, max_length=32)
 
@@ -157,7 +168,7 @@ class ReplyCommentDislike(models.Model):
     disliked_reply_comment = models.ForeignKey(ReplyComment, on_delete=models.CASCADE, null=False, related_name='disliked_reply_comment')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
-
+# Articles
 class Article(models.Model):
     # article id
     article_id = models.CharField(blank=True, null=True, max_length=32)
@@ -189,6 +200,66 @@ class ArticleDislike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
 
+# Actor & Producer & Writer & Genre
+class Actor(models.Model):
+    GENDER = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
+
+    # actor id
+    actor_id = models.CharField(blank=True, null=True, max_length=32, default=f'{generate_id(32)}')
+
+    # actor info
+    name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=50, null=True, choices=GENDER)
+    photo = models.ImageField(upload_to='avatars/', default="avatars/default/man.png")
+
+    def __str__(self):
+        return self.name
+
+class Producer(models.Model):
+    GENDER = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
+
+    # producer id
+    producer_id = models.CharField(blank=True, null=True, max_length=32, default=f'{generate_id(32)}')
+
+    # producer info
+    name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=50, null=True, choices=GENDER)
+    photo = models.ImageField(upload_to='avatars/', default="avatars/default/man.png")
+
+    def __str__(self):
+        return self.name
+
+class Writer(models.Model):
+    GENDER = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
+
+    # writer id
+    writer_id = models.CharField(blank=True, null=True, max_length=32, default=f'{generate_id(32)}')
+
+    # writer info
+    name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=50, null=True, choices=GENDER)
+    photo = models.ImageField(upload_to='avatars/', default="avatars/default/man.png")
+
+    def __str__(self):
+        return self.name
+
+class Genre(models.Model):
+    # genre name
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+# Film
 class Film(models.Model):
     RATING = (
         ('0+', '0+'),
@@ -215,8 +286,11 @@ class Film(models.Model):
     # video info
     title = models.CharField(max_length=150)
     price = models.FloatField(default=0)
+    running_time = models.CharField(max_length=150, default="0:00")
     rating = models.CharField(max_length=50, null=True, choices=RATING)
     release_date = models.DateField()
+    release_year = models.CharField(max_length=4, default="2021")
+    main_genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=False)
     description = models.TextField(blank=True, null=True, max_length=1000000)
 
     # date created
@@ -224,33 +298,15 @@ class Film(models.Model):
     def __str__(self):
         return self.title
 
-class Actor(models.Model):
-    # actor name
-    name = models.CharField(max_length=100)
+class FilmLike(models.Model):
+    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_film_user')
+    liked_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='liked_film')
+    date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
-    def __str__(self):
-        return self.name
-
-class Producer(models.Model):
-    # producer name
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-class Writer(models.Model):
-    # writer name
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-class Genre(models.Model):
-    # genre name
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.name
+class FilmDislike(models.Model):
+    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_film_user')
+    disliked_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='disliked_film')
+    date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
 class FilmProducer(models.Model):
     producer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='producer_film')

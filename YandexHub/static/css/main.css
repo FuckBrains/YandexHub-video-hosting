@@ -681,6 +681,10 @@ hr {
   width: 205px;
 }
 
+.voice-trigger-active {
+  color: #0d6efd !important;
+}
+
 main {
   margin-top: 35px;
 }

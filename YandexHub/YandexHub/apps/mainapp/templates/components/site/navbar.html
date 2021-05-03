@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="navbar sticky-top navbar-light" style="padding: 10px 0 10px 0; background-color: #fff;">
     <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
     <label for="openSidebarMenu" class="sidebarIconToggle">
@@ -7,53 +8,65 @@
     </label>
 
     {% if request.user.is_authenticated %}
-    <a class="navbar-brand logo-block" rel="home" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
+    <a class="navbar-brand logo-block" rel="home" style="cursor: pointer;"
+        onclick="transition_link(`{% url 'main__page' %}`)">
         <div style="max-width:40px; margin-top: -6px; margin-left: 55px;">
-             <b class="logo">YandexHub 👾</b>
+            <b class="logo">YandexHub 👾</b>
         </div>
     </a>
     {% else %}
-    <a class="navbar-brand logo-block" rel="home" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">
+    <a class="navbar-brand logo-block" rel="home" style="cursor: pointer;"
+        onclick="transition_link(`{% url 'main__page' %}`)">
         <div style="max-width:40px; margin-top: -6px; margin-left: 55px;">
-             <b class="logo2">YandexHub 👾</b>
+            <b class="logo2">YandexHub 👾</b>
         </div>
     </a>
     {% endif %}
-    <form class="d-flex container" style="width: 25%;">
+    <div class="d-flex container" style="width: 25%;">
         <div class="input-group search-block">
             <input id="search-input" type="text" class="form-control" style="border-radius: 5px 0 0 5px;"
                 placeholder="Search" aria-label="Search" aria-describedby="input-group-1" autocomplete="off">
+            <div style="position: absolute; right: 85px; color: #828282; top: 6px; font-size: 18px;" id="voice-trigger">
+                <i class="fas fa-microphone"></i>
+            </div>
             <div class="input-group-append">
-
-                <a class="btn btn-secondary" class="input-group-text" id="search-button"
+                <button class="btn btn-secondary" class="input-group-text" id="search-button" onclick="search()"
                     style="padding-top: 8px; padding-bottom: 8px; padding-left: 25px; padding-right: 25px; border-radius: 0 5px 5px 0; background-color:#F8F8F8; border-color: #CED4DA; color: #828282;">
                     <i class="fa fa-search"></i>
-                </a>
-
+                </button>
             </div>
         </div>
-    </form>
+    </div>
+    <script src="{% static 'js/search/voice.js' %}"></script>
+
     <div id="div"></div>
 
     {% if request.user.is_authenticated %}
     <div class="dropdown wrapper-dropdown-3">
         <a role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="avatar-video-img img" style="width: 40px; height: 40px; margin-right: 15px; background-image: url({{ request.user.avatar.url }});"></div>
+            <div class="avatar-video-img img"
+                style="width: 40px; height: 40px; margin-right: 15px; background-image: url({{request.user.avatar.url}});">
+            </div>
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
             style="left: -35px; width: 200px !important; border-radius: 15px; padding: 10px 0 10px 0; border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 0 5px rgb(0 0 0 / 5%);">
             <li style="padding-left: 15px;">
                 <div class="img"
-                    style="width: 40px; height: 40px; border-radius: 50%; background-image: url({{ request.user.avatar.url }}); display: inline-block;">
+                    style="width: 40px; height: 40px; border-radius: 50%; background-image: url({{request.user.avatar.url}}); display: inline-block;">
                 </div>
-                <div style="display: inline-block; position: absolute; top: 18px; left: 65px;">{{ request.user.username|truncatechars:14 }}</div>
+                <div style="display: inline-block; position: absolute; top: 18px; left: 65px;">
+                    {{request.user.username|truncatechars:14}}</div>
             </li>
             <hr>
-            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;" onclick="transition_link(`{% url 'channel__page' request.user.user_id %}`)">Your channel</a></li>
-            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;" onclick="transition_link(`{% url 'create__video__page' %}`)">Create</a></li>
-            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;" onclick="transition_link(`{% url 'settings__page' %}`)">Settings</a></li>
+            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'channel__page' request.user.user_id %}`)">Your channel</a></li>
+            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'create__video__page' %}`)">Create</a></li>
+            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'settings__page' %}`)">Settings</a></li>
             <hr>
-            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;" onclick="transition_link(`{% url 'sign__out__page' %}`)">Sign out</a></li>
+            <li style="padding: 5px;"><a class="dropdown-item" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'sign__out__page' %}`)">Sign out</a></li>
         </ul>
     </div>
     {% else %}
@@ -64,9 +77,10 @@
 
 
 <script>
-    var input = document.getElementById("search-input");
-    var a = document.getElementById("search-button");
-    input.addEventListener("keyup", function () {
-        a.href = `${location.protocol}//${location.hostname+(location.port ? ':'+location.port: '')}/results/search_query=${input.value}`;
-    })
+    function search() {
+        var input = document.getElementById("search-input");
+        var button = document.getElementById("search-button");
+        console.log(input.value);
+        window.location = `${location.protocol}//${location.hostname + (location.port ? ':' + location.port : '')}/results/search_query=${input.value}`;
+    }
 </script>
