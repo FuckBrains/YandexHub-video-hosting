@@ -12,6 +12,7 @@
                 </div>
             </div>
         </section>
+        {% if videos %}
         <div class="infinite-container">
             {% for i in videos %}
             <div class="infinite-item">
@@ -48,6 +49,9 @@
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <h2 style="text-align: center; margin-bottom: 40px;">The "Trending" tab includes only videos that were released at least 2 days ago.</h2>
+        {% endif %}
         {% if page_obj.has_next %}
             <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}

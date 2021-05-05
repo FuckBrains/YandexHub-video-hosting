@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="{% static 'media/site/site_icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+    <link href="{% static 'css/about.css' %}" rel="stylesheet">
+    <script src="{% static 'js/transition.js' %}"></script>
+</head>
+
+<body>
+    <section class="showcase">
+        <div class="video-container">
+            <video src="{% static 'media/site/about.mp4' %}" autoplay muted loop></video>
+        </div>
+        <div class="content">
+            <h1>About the project</h1>
+            <h3>There is no idea as such, but you read</h3>
+            <a onclick="transition_link(`{% url 'main__page' %}`)" class="btn">Home page</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <h1 style="margin-top: 25px;">About</h1>
+        <p>
+            Initially, the video hosting project was planned as a project for my portfolio, but was soon abandoned due
+            to the fact that the <a href="https://vk.com/a.kondik" target="_blank">front-end developer</a> began to take
+            part in exams, but after a while I learned about the
+            competition the project in Yandex Lyceum and decided to participate in it, so I decided to write the
+            front-end myself (The site is very poorly optimized for mobile devices, so I had to leave only the desktop
+            version of the site)
+        </p>
+        <h2>Follow Me On Social Media</h2>
+        <div class="social">
+            <a href="https://github.com/ValeryChapman" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://t.me/ValeryParkhomenko" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://vk.com/v.chap" target="_blank"><i class="fab fa-vk"></i></a>
+        </div>
+    </section>
+</body>
+
+</html>

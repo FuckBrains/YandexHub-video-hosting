@@ -581,3 +581,4 @@ async function dislike_film(film_id) {
         ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
     };
 };
+

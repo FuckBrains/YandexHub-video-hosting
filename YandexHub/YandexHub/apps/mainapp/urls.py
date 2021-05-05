@@ -1,12 +1,18 @@
+# DJANGO URLS
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from . import views
-from mainapp.views import *
+
+# VIEWS
+from .views import *
+
+# API -> DRF
+from .api import *
 
 urlpatterns = [
     # home
     path('', HomeView.as_view(), name='main__page'),
-
+    path('about/', AboutProjectView.as_view(), name="about__page"),
+    
     # auth
     path('sign/up/', SignUpView.as_view(), name='sign__up__page'),
     path('sign/in/', SignInView.as_view(), name="sign__in__page"),
@@ -54,6 +60,7 @@ urlpatterns = [
 
     # films
     path('films/', FilmsView.as_view(), name="films__page"),
+    path('liked/films/', LikedFilmsView.as_view(), name="liked__films__page"),
     path('film/<str:pk>/', FilmView.as_view(), name="film__page"),
     path('api/film/like/', LikeFilmApi.as_view()),
     path('api/film/dislike/',DislikeFilmApi.as_view()),

@@ -162,7 +162,7 @@ SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     # Using SummernoteWidget - iframe mode, default
     'iframe': True,
-    
+    'attachment_filesize_limit': 5000 * 5000,
     'summernote': {
         # As an example, using Summernote Air-mode
         'airMode': False,
@@ -181,10 +181,8 @@ SUMMERNOTE_CONFIG = {
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['table', ['table']],
-            ['insert', ['link']],
-            #['insert', ['link', 'picture', 'video']],
-            ['view', ['help']],
-            #['view', ['fullscreen', 'codeview', 'help']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen']], #codeview, help
         ],
     },
 }

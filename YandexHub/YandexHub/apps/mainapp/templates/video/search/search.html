@@ -4,7 +4,7 @@
 {% load poll_extras %}
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">    
-        {{filter.form}}
+        {% if videos %}
         <div class="infinite-container">
             {% for i in videos %}
             <div class="infinite-item">
@@ -43,6 +43,9 @@
         </div>
         {% if page_obj.has_next %}
             <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+        {% else %}
+        <h2 style="text-align: center; margin-bottom: 40px;">No results were found for <b style="color: #0d6efd;">{{title}}</b></h2>
         {% endif %}
     </div>
 </main>      

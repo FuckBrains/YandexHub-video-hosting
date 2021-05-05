@@ -11,33 +11,41 @@
                 <div class="col-lg-12 col-md-8 mx-auto">
                     <img class="banner-icon" src="{% static 'media/site/icons/camera.png' %}">
                     <h1 style="margin-bottom: 25px;">Films & Shows</h1>
-                    <a style="cursor: pointer; padding: .5rem 1rem;" onclick="transition_link(`{% url 'user__films__page' %}`)" class="btn btn-primary">My films</a>
+                    {% if request.user.is_authenticated %}
+                    <a style="cursor: pointer; padding: .5rem 1rem;"
+                        onclick="transition_link(`{% url 'user__films__page' %}`)" class="btn btn-primary">My films</a>
+                    <a
+                        onclick="transition_link(`{% url 'liked__films__page' %}`)" class="btn btn-reaction"
+                        style="cursor: pointer; padding: .5rem 1rem !important; max-width: 109px !important;">Liked films</a>
+                    {% endif %}
                 </div>
             </div>
         </section>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
+        <div
+            class="row infinite-container row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
             {% for film in films %}
             <div class="infinite-item col" style="cursor: pointer;">
                 <div class="card" style="margin-bottom: 95px;">
                     <a onclick="transition_link(`{% url 'film__page' film.film_id %}`)">
-                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top film-img" width="285" height="385" src="{{ film.film_poster.url }}">
+                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top film-img" width="285"
+                            height="385" src="{{film.film_poster.url}}">
                     </a>
                     <div class="card-body" style="padding: 0.5rem 0.5rem;">
                         <div style="display: inline-block;"
                             onclick="transition_link(`{% url 'film__page' film.film_id %}`)">
-                            <p class="card-text" style="color: #000; font-weight: 500; font-size: 20px;">{{ film.title|truncatechars:70 }}</p>
+                            <p class="card-text" style="color: #000; font-weight: 500; font-size: 20px;">
+                                {{film.title|truncatechars:70}}</p>
                         </div>
                     </div>
                 </div>
-                </a>
             </div>
             {% endfor %}
         </div>
         {% if page_obj.has_next %}
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}
-    </div>       
+    </div>
 </main>
 
 <!-- lazyload -->
@@ -45,7 +53,7 @@
 <script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
 <script>
     var infinite = new Waypoint.Infinite({
-        element: $('.row')[0],
+        element: $('.infinite-container')[0],
         handler: function (direction) {
         },
         offset: 'bottom-in-view',

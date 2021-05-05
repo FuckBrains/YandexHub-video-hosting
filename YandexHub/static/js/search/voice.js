@@ -14,7 +14,7 @@ if (window.SpeechRecognition) {
     /* setup Speech Recognition */
     var recognition = new SpeechRecognition();
     recognition.interimResults = true;
-    recognition.lang = 'ru-RU';
+    //recognition.lang = 'ru-RU';
     recognition.lang = 'en-EN';
     recognition.addEventListener('result', _transcriptHandler);
 
@@ -35,8 +35,8 @@ jQuery(document).ready(function () {
 function listenStart(e) {
     e.preventDefault();
     /* Update input and icon CSS to show that the browser is listening */
-    $searchInput.attr("placeholder", "Speak...");
-    $voiceTrigger.addClass('voice-trigger-active');
+    $searchInput.attr("placeholder", "Speak");
+    document.getElementById("voice-trigger").className = "voice-trigger-active";
     /* Start voice recognition */
     recognition.start();
 }
@@ -50,6 +50,8 @@ function _parseTranscript(e) {
 function _transcriptHandler(e) {
     var speechOutput = _parseTranscript(e)
     document.getElementById("search-input").value = speechOutput;
+    document.getElementById("voice-trigger").className = "voice-trigger";
+    $searchInput.attr("placeholder", "Search");
     if (e.results[0].isFinal) {
         return
     }
