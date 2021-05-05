@@ -9,6 +9,10 @@
     <title>Sign in 👋🏻</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
     <link href="{% static 'css/sign.css' %}" rel="stylesheet">
 </head>
 
@@ -29,10 +33,14 @@
                     Don't have an <a href="{% url 'sign__up__page' %}">account</a>?
                 </label>
             </div>
-            <button class="w-100 btn btn-md btn-primary" type="submit" style="width: 80%!important;">Sign in</button>
+            <button class="w-75 btn btn-md btn-primary" type="submit" >Sign in</button>
+            <a href="{% url 'reset_password' %}" class="w-24 btn btn-md btn-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Forgot your password?">🔒</a>
             <p class="mt-3 mb-3 text-muted">© 2020–2021</p>
         </form>
     </main>
+
+    <!-- JS -->
+    <script src="{% static 'js/tooltip.js' %}"></script>
 </body>
 
 </html>

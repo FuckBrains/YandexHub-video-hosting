@@ -132,12 +132,12 @@ USE_L10N = True
 USE_TZ = True
 
 # add email settings
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-#EMAIL_HOST_USER = 'user'
-#EMAIL_HOST_PASSWORD = 'password'
-#DEFAULT_FROM_EMAIL = 'your email'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yandexhubgo@gmail.com'
+EMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'
+DEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

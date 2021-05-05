@@ -1109,9 +1109,9 @@ class SignInView(TemplateView):
                 messages.success(self.request, f"You are logged in as: <b>{user.username}</b> 🥳")
                 return redirect('main__page')
             else:
-                return redirect('sign__in__page')
+                return redirect('signin')
         else:
-            return redirect('sign__in__page')
+            return redirect('signin')
 
 # sign out
 class SignOutView(View):
