@@ -42,12 +42,14 @@ urlpatterns = [
     path('api/article/like/', LikeArticleApi.as_view()),
     path('api/article/dislike/', DislikeArticleApi.as_view()),
 
-    # studio
+    # analytics
+    path('analytics/', AnalyticsView.as_view(), name="analytics__page"),
+    path('analytics/dashboard/', DashboardView.as_view(), name="dashboard__page"),
     path('api/video/stats/', VideoStatsApi.as_view()),
-    path('studio/videos/', UserVideosView.as_view(), name='my__videos__page'),
-    path('studio/video/<str:pk>/info/', VideoStatsView.as_view(), name='video__stats__page'),
-    path('studio/video/<str:pk>/comments/', VideoCommentsView.as_view(), name='video__comments__page'),
-    path('studio/comment/<str:pk>/info/', CommentView.as_view(), name='comment__page'),
+    path('analytics/videos/', UserVideosView.as_view(), name='my__videos__page'),
+    path('analytics/video/<str:pk>/info/', VideoStatsView.as_view(), name='video__stats__page'),
+    path('analytics/video/<str:pk>/comments/', VideoCommentsView.as_view(), name='video__comments__page'),
+    path('analytics/comment/<str:pk>/info/', CommentView.as_view(), name='comment__page'),
 
     # video
     path('create/video/', CreateVideoView.as_view(), name='create__video__page'),
@@ -99,9 +101,9 @@ urlpatterns = [
     path('results/search_query=<str:pk>/', SearchView.as_view(), name='search_page'),
 
     # reset password
-    path('reset_password/', auth_views.PasswordResetView.as_view(), name='reset_password'),
-    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete')
+    path('reset/password/', auth_views.PasswordResetView.as_view(template_name='password/reset_password.html'), name='reset_password'),
+    path('reset/password/sent/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reset/password/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete')
 
 ]

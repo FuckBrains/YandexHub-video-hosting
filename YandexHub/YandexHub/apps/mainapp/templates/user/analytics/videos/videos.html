@@ -1,0 +1,77 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">    
+        {% if request.user.is_authenticated %}
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 1rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/camera.png' %}">
+                    <h1 style="margin-bottom: 25px;">Your videos</h1>
+                </div>
+            </div>
+        </section>
+        <div class="infinite-container">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Video</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Date created</th>
+                    <th scope="col">Views</th>
+                    <th scope="col">Likes</th>
+                    <th scope="col">Dislikes</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">View stats</th>
+                    <th scope="col">Edit video</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in videos %}   
+                        <tr class="infinite-item">
+                            <td><img width="140" height="80" src="{{i.video_banner.url}}"></td>
+                            <td><a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' i.video_id %}`)">{{ i.title }}</a></td>
+                            <td>{{i.date_created|date_func}}</td>
+                            <td>{{i.views}}</td> <!-- |integer_format -->
+                            <td>{{i.likes}}</td>
+                            <td>{{i.dislikes}}</td>
+                            <td>{{i.comments}}</td>
+                            <td><a style="cursor: pointer;" onclick="transition_link(`{% url 'video__stats__page' i.video_id %}`)">View stats</a></td>
+                            <td><a style="cursor: pointer;" onclick="transition_link(`{% url 'edit__video__page' i.video_id %}`)">Edit video</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.has_next %}
+            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm"
+            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>      
+
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.table')[0],
+            handler: function(direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

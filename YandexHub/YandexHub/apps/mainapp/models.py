@@ -25,9 +25,19 @@ class CustomUser(AbstractUser):
     avatar = models.ImageField(blank=True, null=True, upload_to = 'avatars/', default='avatars/default/default_avatar.png')
     banner = models.ImageField(blank=True, null=True, upload_to='users_banners/')
     
-    # user stats
+    # video
     all_views = models.BigIntegerField(default=0)
+    all_comments = models.BigIntegerField(default=0)
+    all_likes = models.BigIntegerField(default=0)
+    all_dislikes = models.BigIntegerField(default=0)
+
+    # user
     all_subscribers = models.BigIntegerField(default=0)
+    all_notifications = models.BigIntegerField(default=0)
+
+    # posts
+    all_posts_likes = models.BigIntegerField(default=0)
+    all_posts_dislikes = models.BigIntegerField(default=0)
     
     # user info
     description = models.TextField(blank=True, null=True, max_length=5000)

@@ -6,6 +6,11 @@ from rest_framework import permissions
 # MODELS
 from .models import *
 
+# DATE/TIME
+from datetime import date, datetime, timedelta, timezone
+
+# MESSAGES
+from django.contrib import messages
 
 # subscribe to user
 class SubscribeApi(APIView):
@@ -37,10 +42,14 @@ class NotificationsApi(APIView):
         notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)
 
         if notification.count() > 0:
+            channel.all_notifications -= 1
+            channel.save()
             notification.delete()
             return Response({"data": {"notification": 0}, "message": "Notifications turned off for this channel 😬", "status": "ok"})
 
         elif notification.count() == 0:
+            channel.all_notifications += 1
+            channel.save()
             Notification.objects.create(notification_channel=channel, notification_user=request.user)
             return Response({"data": {"notification": 1}, "message": "You’ll get all notifications 😃", "status": "ok"})
 
@@ -95,18 +104,27 @@ class LikeVideoApi(APIView):
             if like:
                 video.likes += 1
                 video.save()
+                video.creator.all_likes += 1
+                video.creator.save()
             return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": video.likes, "dislikes": video.dislikes}}, "message": "Added to Liked videos 👍", "status": "ok"})
 
         elif like.count() == 1 and dislike.count() == 0:
             like[0].delete()
             video.likes -= 1
             video.save()
+            video.creator.all_likes -= 1
+            video.creator.save()
             return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": video.likes, "dislikes": video.dislikes}}, "message": "Removed from Liked videos 👀", "status": "ok"})
 
         elif like.count() == 0 and dislike.count() == 1:
             video.dislikes -= 1
             video.likes += 1
             video.save()
+
+            video.creator.all_dislikes -= 1
+            video.creator.all_likes += 1
+            video.creator.save()
+
             dislike[0].delete()
             like = Like.objects.create(liked_video=video, liked_user=request.user)
             return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": video.likes, "dislikes": video.dislikes}}, "message": "Added to Liked videos 👍", "status": "ok"})
@@ -127,18 +145,27 @@ class DislikeVideoApi(APIView):
             if dislike:
                 video.dislikes += 1
                 video.save()
+                video.creator.all_dislikes += 1
+                video.creator.save()
             return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": video.likes, "dislikes": video.dislikes}}, "message": "You dislike this video 👎", "status": "ok"})
 
         elif dislike.count() == 1 and like.count() == 0:
             dislike[0].delete()
             video.dislikes -= 1
             video.save()
+            video.creator.all_dislikes -= 1
+            video.creator.save()
             return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": video.likes, "dislikes": video.dislikes}}, "message": "Dislike removed 😎", "status": "ok"})
 
         elif dislike.count() == 0 and like.count() == 1:
             video.likes -= 1
             video.dislikes += 1
             video.save()
+
+            video.creator.all_likes -= 1
+            video.creator.all_dislikes += 1
+            video.creator.save()
+
             like[0].delete()
             dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)
             return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": video.likes, "dislikes": video.dislikes}}, "message": "You dislike this video 👎", "status": "ok"})
@@ -158,6 +185,8 @@ class AddCommentApi(APIView):
             Comment.objects.create(comment_id=generate_id(32), commented_video=video, creator=request.user, comment_text=text)
             video.comments += 1
             video.save()
+            video.creator.all_comments += 1
+            video.creator.save()
             return Response({"data": {}, "message": "Comment added 🌚", "status": "ok"})
         else:
             return Response({"data": {}, "message": "Comment cannot contain spaces or be empty 🙉", "status": "err"})            
@@ -236,6 +265,8 @@ class DeleteCommentApi(APIView):
                 video = comment[0].commented_video 
                 video.comments -= (1 + comment[0].replies)
                 video.save()
+                video.creator.all_comments -= 1
+                video.creator.save()
                 comment[0].delete()
                 return Response({"data": {}, "message": "Comment has been deleted 🧸", "status": "ok"})
             else:
@@ -257,6 +288,8 @@ class AddReplyCommentApi(APIView):
             comment.save()
             video.comments += 1
             video.save()    
+            video.creator.all_comments += 1
+            video.creator.save()
             return Response({"data": {}, "message": "Reply to comment added ⛄️", "status": "ok"})
         else:
             return Response({"data": {}, "message": "Comment cannot contain spaces or be empty 🙉", "status": "err"})            
@@ -338,6 +371,8 @@ class DeleteReplyCommentApi(APIView):
                 comment_parent.save()
                 video.comments -= 1 
                 video.save()
+                video.creator.all_comments -= 1
+                video.creator.save()
                 comment[0].delete()
                 return Response({"data": {}, "message": "Comment has been deleted 🧸", "status": "ok"})
             else:
@@ -357,22 +392,23 @@ class VideoStatsApi(APIView):
         likes_stats = {}
         dislikes_stats = {}
 
-        now = date.today()
+        from datetime import date
+        today = date.today()
+
         for i in range(10):
-            enddate = now - timedelta(days=i)
-            views = VideoViewModel.objects.filter(watched_video=video, date_created__range=(enddate, now))
-            comments = Comment.objects.filter(commented_video=video, date_created__range=(enddate, now))
-            reply_comments = ReplyComment.objects.filter(reply_commented_video=video, date_created__range=(enddate, now))
-            likes = Like.objects.filter(liked_video=video, date_created__range=(enddate, now))
-            dislikes = Dislike.objects.filter(disliked_video=video, date_created__range=(enddate, now))
+            day = today - timedelta(days=i)
+            views = VideoViewModel.objects.filter(watched_video=video, date_created__gt=(day))
+            comments = Comment.objects.filter(commented_video=video, date_created__gt=(day))
+            reply_comments = ReplyComment.objects.filter(reply_commented_video=video, date_created__gt=(day))
+            likes = Like.objects.filter(liked_video=video, date_created__gt=(day))
+            dislikes = Dislike.objects.filter(disliked_video=video, date_created__gt=(day))
 
-            views_stats[str(now)] = len(views)
-            comments_stats[str(now)] = len(comments) + len(reply_comments)
-            likes_stats[str(now)] = len(likes)
-            dislikes_stats[str(now)] = len(dislikes)
+            views_stats[str(day)] = len(views)
+            comments_stats[str(day)] = len(comments) + len(reply_comments)
+            likes_stats[str(day)] = len(likes)
+            dislikes_stats[str(day)] = len(dislikes)
             
-            now -= timedelta(days=1)
-
+        print(views_stats)
         return Response({"data": {"views": views_stats, "comments": comments_stats, "likes": likes_stats, "dislikes": dislikes_stats}, "message": "", "status": "ok"})     
 
 
@@ -455,3 +491,100 @@ class BuyFilmApi(APIView):
 
         messages.success(self.request, f"You purchased the movie: <b>{film.title}</b> 🥳")
         return Response({"data": {}, "status": "ok"})
+
+# delete article
+class DeleteArticleApi(APIView):
+    def post(self, request):
+        article_id = request.data.get("article_id")
+        article = Article.objects.filter(article_id=article_id)
+        if article.count() > 0:
+            if article[0].creator == request.user:
+                article[0].delete()
+                messages.success(request, f"Article successfully deleted! 🩸")
+                return Response({"data": {"user_id": request.user.user_id}, "status": "ok"})
+            else:
+                return Response({"data": {}, "message": "You are not authorized to delete this article because you are not its creator", "status": "err"})
+        else:
+            return Response({"data": {}, "message": "Article not found", "status": "err"})
+
+# like article
+class LikeArticleApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        article = Article.objects.get(article_id=request.data.get("article_id"))
+        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
+        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
+
+        if like.count() == 0 and dislike.count() == 0:
+            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
+            if like:
+                article.likes += 1
+                article.save()
+                article.creator.all_posts_likes += 1
+                article.creator.save()
+            return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You like this article 👍", "status": "ok"})
+
+        elif like.count() == 1 and dislike.count() == 0:
+            like[0].delete()
+            article.likes -= 1
+            article.save()
+            article.creator.all_posts_likes -= 1
+            article.creator.save()
+            return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "Like removed 👀", "status": "ok"})
+
+        elif like.count() == 0 and dislike.count() == 1:
+            article.dislikes -= 1
+            article.likes += 1
+            article.save()
+
+            article.creator.all_posts_dislikes -= 1
+            article.creator.all_posts_likes += 1
+            article.creator.save()
+
+            dislike[0].delete()
+            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
+            return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You like this article 👍", "status": "ok"})
+
+        else:
+            return Response({"data": {}, "status": "err"})
+
+# dislike article
+class DislikeArticleApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        article = Article.objects.get(article_id=request.data.get("article_id"))
+        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
+        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
+
+        if like.count() == 0 and dislike.count() == 0:
+            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
+            if dislike:
+                article.dislikes += 1
+                article.save()
+                article.creator.all_posts_dislikes += 1
+                article.creator.save()
+            return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You dislike this article 👎", "status": "ok"})
+
+        elif dislike.count() == 1 and like.count() == 0:
+            dislike[0].delete()
+            article.dislikes -= 1
+            article.save()
+            article.creator.all_posts_dislikes -= 1
+            article.creator.save()
+            return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "Dislike removed 😎", "status": "ok"})
+
+        elif dislike.count() == 0 and like.count() == 1:
+            article.likes -= 1
+            article.dislikes += 1
+            article.save()
+
+            article.creator.all_posts_likes -= 1
+            article.creator.all_posts_dislikes += 1
+            article.creator.save()
+            
+            like[0].delete()
+            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
+            return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You dislike this article 👎", "status": "ok"})
+
+        else:
+            return Response({"data": {}, "status": "err"})

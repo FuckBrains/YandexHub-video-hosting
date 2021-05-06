@@ -579,101 +579,6 @@ class AlertBotManualView(TemplateView):
         return context
 
 
-# delete article
-class DeleteArticleApi(APIView):
-    def post(self, request):
-        article_id = request.data.get("article_id")
-        article = Article.objects.filter(article_id=article_id)
-        if article.count() > 0:
-            if article[0].creator == request.user:
-                article[0].delete()
-                messages.success(request, f"Article successfully deleted! 🩸")
-                return Response({"data": {"user_id": request.user.user_id}, "status": "ok"})
-            else:
-                return Response({"data": {}, "message": "You are not authorized to delete this article because you are not its creator", "status": "err"})
-        else:
-            return Response({"data": {}, "message": "Article not found", "status": "err"})
-
-# delete article
-class DeleteArticleApi(APIView):
-    def post(self, request):
-        article_id = request.data.get("article_id")
-        article = Article.objects.filter(article_id=article_id)
-        if article.count() > 0:
-            if article[0].creator == request.user:
-                article[0].delete()
-                messages.success(request, f"Article successfully deleted! 🩸")
-                return Response({"data": {"user_id": request.user.user_id}, "status": "ok"})
-            else:
-                return Response({"data": {}, "message": "You are not authorized to delete this article because you are not its creator", "status": "err"})
-        else:
-            return Response({"data": {}, "message": "Article not found", "status": "err"})
-
-# like article
-class LikeArticleApi(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def post(self, request):
-        article = Article.objects.get(article_id=request.data.get("article_id"))
-        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
-        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
-
-        if like.count() == 0 and dislike.count() == 0:
-            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
-            if like:
-                article.likes += 1
-                article.save()
-            return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You like this article 👍", "status": "ok"})
-
-        elif like.count() == 1 and dislike.count() == 0:
-            like[0].delete()
-            article.likes -= 1
-            article.save()
-            return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "Like removed 👀", "status": "ok"})
-
-        elif like.count() == 0 and dislike.count() == 1:
-            article.dislikes -= 1
-            article.likes += 1
-            article.save()
-            dislike[0].delete()
-            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
-            return Response({"data": {"like": 1, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You like this article 👍", "status": "ok"})
-
-        else:
-            return Response({"data": {}, "status": "err"})
-
-# dislike article
-class DislikeArticleApi(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def post(self, request):
-        article = Article.objects.get(article_id=request.data.get("article_id"))
-        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
-        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
-
-        if like.count() == 0 and dislike.count() == 0:
-            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
-            if dislike:
-                article.dislikes += 1
-                article.save()
-            return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You dislike this article 👎", "status": "ok"})
-
-        elif dislike.count() == 1 and like.count() == 0:
-            dislike[0].delete()
-            article.dislikes -= 1
-            article.save()
-            return Response({"data": {"like": 0, "dislike": 0, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "Dislike removed 😎", "status": "ok"})
-
-        elif dislike.count() == 0 and like.count() == 1:
-            article.likes -= 1
-            article.dislikes += 1
-            article.save()
-            like[0].delete()
-            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
-            return Response({"data": {"like": 0, "dislike": 1, "stats": {"likes": article.likes, "dislikes": article.dislikes}}, "message": "You dislike this article 👎", "status": "ok"})
-
-        else:
-            return Response({"data": {}, "status": "err"})
-
-
 # community page
 class CommunityView(ListView):
     template_name = "user/community/community.html"
@@ -861,9 +766,27 @@ class SubscriptionsView(TemplateView):
         return context
 
 
+# analytics
+class AnalyticsView(TemplateView):
+    template_name = 'user/analytics/analytics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AnalyticsView, self).get_context_data(**kwargs)
+        context['title'] = 'Analytics 🧐'
+        return context
+
+# dashboard
+class DashboardView(TemplateView):
+    template_name = 'user/analytics/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        context['title'] = 'Dashboard 📈'
+        return context
+
 # user videos page 
 class UserVideosView(ListView):
-    template_name = 'user/studio/videos.html'
+    template_name = 'user/analytics/videos/videos.html'
     paginate_by = 10
     queryset = Video
     context_object_name = "videos"
@@ -881,7 +804,7 @@ class UserVideosView(ListView):
 
 # video comments page 
 class VideoCommentsView(ListView):
-    template_name = 'user/studio/comments.html'
+    template_name = 'user/analytics/videos/comments.html'
     paginate_by = 25
     queryset = Comment
     context_object_name = "comments"
@@ -901,7 +824,7 @@ class VideoCommentsView(ListView):
 
 # comment page 
 class CommentView(ListView):
-    template_name = 'user/studio/comment.html'
+    template_name = 'user/analytics/videos/comment.html'
     paginate_by = 25
     queryset = ReplyComment
     context_object_name = "comments"
@@ -921,7 +844,7 @@ class CommentView(ListView):
 
 # video stats page
 class VideoStatsView(TemplateView):
-    template_name = 'user/studio/video.html'
+    template_name = 'user/analytics/videos/video.html'
 
     def get_context_data(self, **kwargs):
         context = super(VideoStatsView, self).get_context_data(**kwargs)
@@ -929,6 +852,24 @@ class VideoStatsView(TemplateView):
 
         context['title'] = f'{video.title}'
         context['video'] = video
+        return context
+
+# user posts page 
+class UserVideosView(ListView):
+    template_name = 'user/analytics/posts/posts.html'
+    paginate_by = 10
+    queryset = Video
+    context_object_name = "videos"
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Video.objects.filter(creator=self.request.user).order_by('-date_created')
+        else:
+            return Video.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super(UserVideosView, self).get_context_data(**kwargs)
+        context['title'] = 'Your videos 🎥'
         return context
 
 

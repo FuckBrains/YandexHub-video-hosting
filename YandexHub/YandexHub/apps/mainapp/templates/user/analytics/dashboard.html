@@ -1,0 +1,101 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <h1 style="text-align: center; margin-bottom: 40px;">Dashboard 📈</h1>
+        <div class="container py-2" id="featured-3" style="text-align: center;">
+
+            <div class="row g-3 py-5">
+                <h2 style="text-align: center; margin-bottom: 40px;">Channel 👻</h2>
+                <div class="feature col-md-3" style="margin-left: auto;">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👱‍♂️
+                    </div>
+                    <h2>{{request.user.all_subscribers|integer_format}}</h2>
+                    <p>The total number of subscribers on the channel.</p>
+                </div>
+                <div class="feature col-md-3" style="margin-right: auto;">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        🔔
+                    </div>
+                    <h2>{{request.user.all_notifications|integer_format}}</h2>
+                    <p>Number of subscribers who have turned on the notification bell.</p>
+                </div>
+            </div>
+
+            <div class="row g-3 py-5">
+                <h2 style="text-align: center; margin-bottom: 40px;">Videos 🎥</h2>
+                <div class="feature col-md-3">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👁
+                    </div>
+                    <h2>{{request.user.all_views|integer_format}}</h2>
+                    <p>The total number of views under all of your videos.</p>
+                </div>
+                <div class="feature col-md-3">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        💬
+                    </div>
+                    <h2>{{request.user.all_comments|integer_format}}</h2>
+                    <p>The total number of comments under all videos.</p>
+                </div>
+                <div class="feature col-md-3">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👍
+                    </div>
+                    <h2>{{request.user.all_likes|integer_format}}</h2>
+                    <p>The total number of likes under all your videos.</p>
+                </div>
+                <div class="feature col-md-3">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👎
+                    </div>
+                    <h2>{{request.user.all_dislikes|integer_format}}</h2>
+                    <p>The total number of dislikes under all your videos.</p>
+                </div>
+            </div>
+
+            <div class="row g-3 py-5">
+                <h2 style="text-align: center; margin-bottom: 40px;">Posts 📢</h2>
+                <div class="feature col-md-3" style="margin-left: auto;">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        💬
+                    </div>
+                    <h2>???</h2>
+                    <p>The total number of comments under all posts.</p>
+                </div>
+                <div class="feature col-md-3">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👍
+                    </div>
+                    <h2>{{request.user.all_posts_likes|integer_format}}</h2>
+                    <p>The total number of likes for all posts in the community tab.</p>
+                </div>
+                <div class="feature col-md-3" style="margin-right: auto;">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👎
+                    </div>
+                    <h2>{{request.user.all_posts_dislikes|integer_format}}</h2>
+                    <p>The total number of dislikes for all posts in the community tab.</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card shadow-sm"
+            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+
+{% endblock %}

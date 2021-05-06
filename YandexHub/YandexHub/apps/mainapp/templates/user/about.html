@@ -14,8 +14,10 @@
                             <p style="font-size: 18px; margin-bottom: 25px;">Description</p>
                             {{channel.description|safe}}
                             {% endif %}
+                            {% if channel.contact_email != '' and channel.contact_email is not None or channel.location != '' and channel.location is not None %}
                             <hr style="margin-top: 25px; margin-bottom: 25px;">
                             <p style="font-size: 18px; margin-bottom: 25px;">Details</p>
+                            {% endif %}
                             {% if channel.contact_email != '' and channel.contact_email is not None %}
                             <p style="font-size: 15px; margin-bottom: 20px;">For business inquiries: <a
                                     style="color: #065FD4; margin-left: 10px;">{{channel.contact_email}}</a></p>
@@ -24,8 +26,10 @@
                             <p style="font-size: 15px; margin-bottom: 25px;">Location: <a
                                     style="color: #065FD4; margin-left: 10px;">{{channel.location}}</a></p>
                             {% endif %}
+                            {% if channel.vk_link != '' and channel.vk_link is not None or channel.instagram_link != '' and channel.instagram_link is not None or channel.facebook_link != '' and channel.facebook_link is not None or channel.reddit_link != '' and channel.reddit_link is not None or channel.telegram_link != '' and channel.telegram_link is not None or channel.twitter_link != '' and channel.twitter_link is not None or channel.website_link != '' and channel.website_link is not None%}
                             <hr>
                             <p style="font-size: 18px; margin-top: 25px; margin-bottom: 25px;">Links</p>
+                            {% endif %}
                             {% if channel.vk_link != '' and channel.vk_link is not None %}
                             <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.vk_link}}"
                                     style="color: #065FD4;" target="_blank">VK</a></p>
