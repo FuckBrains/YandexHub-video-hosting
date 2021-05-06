@@ -3,7 +3,7 @@
 {% load static %}
 {% load poll_extras %}
 <main role="main" style="margin-top: 35px;">
-    <div class="block-content">    
+    <div class="block-content">
         {% if videos %}
         <div class="infinite-container">
             {% for i in videos %}
@@ -19,11 +19,16 @@
                         </div>
                         <div class="col-md-8" style="top: 0; position: absolute; left: 365px;">
                             <div style="padding-top: 0; margin-left: 10px;">
-                                <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' i.video_id %}`)">
+                                <a style="cursor: pointer;"
+                                    onclick="transition_link(`{% url 'video__page' i.video_id %}`)">
                                     <p style="font-size: 18px; margin-bottom: -2px; color: #000;">{{ i.title }}</p>
                                 </a>
-                                <small style="color: #606060; font-size: 13px;"><a style="color: #606060; cursor: pointer;" onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">{{i.creator.username}}</a> · {{i.views|brief_views_format}}</small>
-                                <a style="cursor: pointer;" onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">
+                                <small style="color: #606060; font-size: 13px;"><a
+                                        style="color: #606060; cursor: pointer;"
+                                        onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">{{i.creator.username}}</a>
+                                    · {{i.views|brief_views_format}}</small>
+                                <a style="cursor: pointer;"
+                                    onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">
                                     <small style="display: block; margin-top: 12px; font-size: 13px; color: #606060;">
                                         <div class="img"
                                             style="display: inline-block; margin-right: 7px; width: 27px; height: 27px; border-radius: 50%; background-image: url({{i.creator.avatar.url}});">
@@ -42,13 +47,14 @@
             {% endfor %}
         </div>
         {% if page_obj.has_next %}
-            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}
         {% else %}
-        <h2 style="text-align: center; margin-bottom: 40px;">No results were found for <b style="color: #0d6efd;">{{title}}</b></h2>
+        <h2 style="text-align: center; margin-bottom: 40px;">No results were found for <b
+                style="color: #0d6efd;">{{title}}</b></h2>
         {% endif %}
     </div>
-</main>      
+</main>
 
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
@@ -56,7 +62,7 @@
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
-            handler: function(direction) {
+        handler: function (direction) {
         },
         offset: 'bottom-in-view',
     });

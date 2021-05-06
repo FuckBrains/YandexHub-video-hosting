@@ -6,21 +6,25 @@
 <main role="main" style="margin-top: 0px !important;">
     {% include "components/channel/header.html" %}
     <div style="position: relative; height: 140px; width: 100%;">
-        <div style="width: 45%; position: relative; margin-left: auto; margin-right: auto;" class="user-video-block row row-cols-5" data-masonry='{"percentPosition": true }'>
+        <div style="width: 45%; position: relative; margin-left: auto; margin-right: auto;"
+            class="user-video-block row row-cols-5" data-masonry='{"percentPosition": true }'>
             {% for i in videos %}
-                <div class="col infinite-item">
-                    <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' i.video_id %}`)">
-                        <div class="card mb-2" style="height: 200px;">
-                            <div class="bd-placeholder-img video-img img" style="width: 210px; height: 120px; background-image: url({{i.video_banner.url}});"></div>
-                            <div class="card-body" style="padding: 0.3rem 0rem;">  
-                                <div  style="display: inline-block;">
-                                    <p class="card-text" style="font-size: 1rem; color: #000;">{{i.title|truncatechars:26}}</p>
-                                    <div class="card-bottom" style="font-size: 12px;">{{i.views|brief_views_format}} · {{i.date_created|time_func}}</div>
-                                </div>
+            <div class="col infinite-item">
+                <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' i.video_id %}`)">
+                    <div class="card mb-2" style="height: 200px;">
+                        <div class="bd-placeholder-img video-img img"
+                            style="width: 210px; height: 120px; background-image: url({{i.video_banner.url}});"></div>
+                        <div class="card-body" style="padding: 0.3rem 0rem;">
+                            <div style="display: inline-block;">
+                                <p class="card-text" style="font-size: 1rem; color: #000;">{{i.title|truncatechars:26}}
+                                </p>
+                                <div class="card-bottom" style="font-size: 12px;">{{i.views|brief_views_format}} ·
+                                    {{i.date_created|time_func}}</div>
                             </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -32,11 +36,9 @@
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.row')[0],
-            handler: function(direction) {
+        handler: function (direction) {
         },
         offset: 'bottom-in-view',
     });
 </script>
 {% endblock %}
-
-

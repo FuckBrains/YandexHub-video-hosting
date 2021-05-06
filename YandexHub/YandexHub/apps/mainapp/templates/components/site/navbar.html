@@ -24,8 +24,9 @@
     {% endif %}
     <div class="d-flex container search-bar">
         <div class="input-group search-block">
-            <input id="search-input" type="text" class="form-control" style="border-radius: 5px 0 0 5px; margin-left: 120px !important;"
-                placeholder="Search" aria-label="Search" aria-describedby="input-group-1" autocomplete="off">
+            <input id="search-input" type="text" class="form-control"
+                style="border-radius: 5px 0 0 5px; margin-left: 120px !important;" placeholder="Search"
+                aria-label="Search" aria-describedby="input-group-1" autocomplete="off">
             <div id="voice-trigger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Voice search">
                 <i class="fas fa-microphone"></i>
             </div>
@@ -36,7 +37,7 @@
             </div>
         </div>
     </div>
-    
+
     {% if request.user.is_authenticated %}
     <div class="dropdown wrapper-dropdown-3">
         <a role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">

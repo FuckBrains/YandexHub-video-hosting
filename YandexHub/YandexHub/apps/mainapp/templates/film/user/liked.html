@@ -14,9 +14,10 @@
                 </div>
             </div>
         </section>
-        
+
         {% if films %}
-        <div class="row infinite-container row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
+        <div
+            class="row infinite-container row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
             {% for film in films %}
             <div class="infinite-item col" style="cursor: pointer;">
                 <div class="card" style="margin-bottom: 95px;">
@@ -39,7 +40,7 @@
         <h2 style="text-align: center; margin-bottom: 40px;">You have not liked any films.</h2>
         {% endif %}
         {% if page_obj.has_next %}
-            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}
 
         {% else %}
@@ -49,13 +50,13 @@
                 <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
             </div>
             <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
-                <a class="btn btn-primary" style="cursor: pointer;"
-                    onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
             </div>
         </div>
         {% endif %}
     </div>
-</main>      
+</main>
 
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
@@ -63,7 +64,7 @@
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
-            handler: function(direction) {
+        handler: function (direction) {
         },
         offset: 'bottom-in-view',
     });

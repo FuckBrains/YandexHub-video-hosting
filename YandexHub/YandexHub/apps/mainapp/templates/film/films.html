@@ -14,9 +14,9 @@
                     {% if request.user.is_authenticated %}
                     <a style="cursor: pointer; padding: .5rem 1rem;"
                         onclick="transition_link(`{% url 'user__films__page' %}`)" class="btn btn-primary">My films</a>
-                    <a
-                        onclick="transition_link(`{% url 'liked__films__page' %}`)" class="btn btn-reaction"
-                        style="cursor: pointer; padding: .5rem 0rem !important; max-width: 109px !important;">Liked films</a>
+                    <a onclick="transition_link(`{% url 'liked__films__page' %}`)" class="btn btn-reaction"
+                        style="cursor: pointer; padding: .5rem 0rem !important; max-width: 109px !important;">Liked
+                        films</a>
                     {% endif %}
                 </div>
             </div>

@@ -17,7 +17,7 @@
         </div>
         {% if request.user.is_authenticated %}
         {% if request.user.username != channel.username %}
-        
+
         {% if not notifications %}
         <button class="btn btn-notifications" id="notifications" onclick="notifications('{{channel.user_id}}');"
             style="margin-top: 10px;">🔔</button>
@@ -44,19 +44,28 @@
             in</a>
         {% endif %}
         <div style="position: relative; left: 100px; bottom: -86px;" class="user-menu">
-            <a onclick="transition_link(`{% url 'channel__page' channel.user_id %}`)" style="cursor: pointer; font-size: 16px; bottom: -27px; color:#000000; position: absolute;">Home</a>
+            <a onclick="transition_link(`{% url 'channel__page' channel.user_id %}`)"
+                style="cursor: pointer; font-size: 16px; bottom: -27px; color:#000000; position: absolute;">Home</a>
             {% if page == 'channel' %}
-            <div style="height: 3px; width: 95px; left: -25px; position: absolute; background-color: #606060; bottom: -39px;"></div>
+            <div
+                style="height: 3px; width: 95px; left: -25px; position: absolute; background-color: #606060; bottom: -39px;">
+            </div>
             {% endif %}
 
-            <a onclick="transition_link(`{% url 'community__page' channel.user_id %}`)" style="cursor: pointer; font-size: 16px; bottom: -27px; left: 95px; color:#000000; position: absolute;">Community</a>
+            <a onclick="transition_link(`{% url 'community__page' channel.user_id %}`)"
+                style="cursor: pointer; font-size: 16px; bottom: -27px; left: 95px; color:#000000; position: absolute;">Community</a>
             {% if page == 'community' %}
-            <div style="height: 3px; width: 95px; left: 89px; position: absolute; background-color: #606060; bottom: -39px;"></div>
+            <div
+                style="height: 3px; width: 95px; left: 89px; position: absolute; background-color: #606060; bottom: -39px;">
+            </div>
             {% endif %}
 
-            <a onclick="transition_link(`{% url 'about__channel' channel.user_id %}`)" style="cursor: pointer; font-size: 16px; bottom: -27px; left: 229px; color:#000000; position: absolute;">About</a>
+            <a onclick="transition_link(`{% url 'about__channel' channel.user_id %}`)"
+                style="cursor: pointer; font-size: 16px; bottom: -27px; left: 229px; color:#000000; position: absolute;">About</a>
             {% if page == 'about' %}
-            <div style="height: 3px; width: 95px; left: 205px; position: absolute; background-color: #606060; bottom: -39px;"></div>
+            <div
+                style="height: 3px; width: 95px; left: 205px; position: absolute; background-color: #606060; bottom: -39px;">
+            </div>
             {% endif %}
         </div>
     </div>

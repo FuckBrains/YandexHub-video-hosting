@@ -16,7 +16,7 @@
         <script>
           document.getElementById("video").muted = false;
         </script>
-        
+
         <div style="position: relative;">
 
           <!-- Stats -->
@@ -358,8 +358,8 @@
                 chat, {{ request.user.username }}</div>
               {% else %}
               <div class="message-text">Hi friend 👋<br />To log in or create an account follow the <a
-                  style="color: #0D6EFD; cursor: pointer;"
-                  onclick="transition_link(`{% url 'signin' %}`)">link</a> 👾</div>
+                  style="color: #0D6EFD; cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">link</a> 👾
+              </div>
               {% endif %}
             </div>
           </div>

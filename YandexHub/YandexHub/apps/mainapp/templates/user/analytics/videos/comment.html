@@ -3,7 +3,7 @@
 {% load poll_extras %}
 {% load static %}
 <main role="main" style="margin-top: 35px;">
-    <div class="block-content">    
+    <div class="block-content">
         {% if request.user.is_authenticated %}
         {% if comment.creator == request.user or comment.commented_video.creator == request.user %}
         <section class="py-3 text-center container-fluid">
@@ -19,29 +19,31 @@
         <div class="infinite-container">
             <table class="table">
                 <thead>
-                  <tr>
-                    <th scope="col">Comment</th>
-                    <th scope="col">Creator</th>
-                    <th scope="col">Date created</th>
-                    <th scope="col">Likes</th>
-                    <th scope="col">Dislikes</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">Comment</th>
+                        <th scope="col">Creator</th>
+                        <th scope="col">Date created</th>
+                        <th scope="col">Likes</th>
+                        <th scope="col">Dislikes</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    {% for i in comments %}   
-                        <tr class="infinite-item">
-                            <td>{{ i.comment_text }}</td>
-                            <td><a style="cursor: pointer;" onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">{{ i.creator.username }}</a></td>
-                            <td>{{i.date_created|date_func}}</td>
-                            <td>{{i.likes}}</td>
-                            <td>{{i.dislikes}}</td>
-                        </tr>
+                    {% for i in comments %}
+                    <tr class="infinite-item">
+                        <td>{{ i.comment_text }}</td>
+                        <td><a style="cursor: pointer;"
+                                onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">{{i.creator.username}}</a>
+                        </td>
+                        <td>{{i.date_created|date_func}}</td>
+                        <td>{{i.likes}}</td>
+                        <td>{{i.dislikes}}</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
         {% if page_obj.has_next %}
-            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}
         {% else %}
         <div class="card shadow-sm"
@@ -62,13 +64,13 @@
                 <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
             </div>
             <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
-                <a class="btn btn-primary" style="cursor: pointer;"
-                    onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
             </div>
         </div>
         {% endif %}
     </div>
-</main>      
+</main>
 
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
@@ -76,7 +78,7 @@
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.table')[0],
-            handler: function(direction) {
+        handler: function (direction) {
         },
         offset: 'bottom-in-view',
     });

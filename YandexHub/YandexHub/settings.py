@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os, sys
+import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', # DRF
-    'django_summernote', # custom input
-    'mainapp', # site app
-    
+    'rest_framework',  # DRF
+    'django_summernote',  # custom input
+    'mainapp',  # site app
+
 ]
 
 AUTH_USER_MODEL = 'mainapp.CustomUser'
@@ -141,8 +142,8 @@ DEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')   
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 
 STATIC_URL = "/static/"
@@ -171,7 +172,7 @@ SUMMERNOTE_CONFIG = {
         'width': '100%',
         'height': '500',
 
-        
+
         # Toolbar customization
         # https://summernote.org/deep-dive/#custom-toolbar-popover
         'toolbar': [
@@ -182,16 +183,16 @@ SUMMERNOTE_CONFIG = {
             ['para', ['ul', 'ol', 'paragraph']],
             ['table', ['table']],
             ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen']], #codeview, help
+            ['view', ['fullscreen']],  # codeview, help
         ],
     },
 }
 
-#CHANNEL_LAYERS = {
+# CHANNEL_LAYERS = {
 #    "default": {
 #        "BACKEND": "channels_redis.core.RedisChannelLayer",
 #        "CONFIG": {
 #            "hosts": [("127.0.0.1", 6379)],
 #        },
 #    },
-#}
+# }

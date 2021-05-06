@@ -20,12 +20,14 @@
             <div class="col" style="cursor: pointer;">
                 <div class="card" style="margin-bottom: 95px;">
                     <a onclick="transition_link(`{% url 'film__page' film.buy_film.film_id %}`)">
-                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top film-img" width="285" height="385" src="{{ film.buy_film.film_poster.url }}">
+                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top film-img" width="285"
+                            height="385" src="{{ film.buy_film.film_poster.url }}">
                     </a>
                     <div class="card-body" style="padding: 0.5rem 0.5rem;">
                         <div style="display: inline-block;"
                             onclick="transition_link(`{% url 'film__page' film.buy_film.film_id %}`)">
-                            <p class="card-text" style="color: #000; font-weight: 500; font-size: 20px;">{{ film.buy_film.title|truncatechars:70 }}</p>
+                            <p class="card-text" style="color: #000; font-weight: 500; font-size: 20px;">{{
+                                film.buy_film.title|truncatechars:70 }}</p>
                         </div>
                     </div>
                 </div>
@@ -40,11 +42,11 @@
                 <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
             </div>
             <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
-                <a class="btn btn-primary" style="cursor: pointer;"
-                    onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
             </div>
         </div>
         {% endif %}
-    </div>       
+    </div>
 </main>
 {% endblock %}
