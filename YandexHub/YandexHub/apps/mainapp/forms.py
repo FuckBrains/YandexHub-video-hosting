@@ -1,9 +1,9 @@
 from django_summernote.widgets import SummernoteWidget
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import *
 from django.forms import ModelForm, TextInput, TimeField, Textarea
+
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -19,6 +19,7 @@ class VideoTextArea(ModelForm):
             'description': SummernoteWidget(),
         }
 
+
 class ArticleTextArea(ModelForm):
     class Meta:
         model = Article
@@ -26,6 +27,7 @@ class ArticleTextArea(ModelForm):
         widgets = {
             'text': SummernoteWidget(),
         }
+
 
 class CustomUserTextArea(ModelForm):
     class Meta:

@@ -855,6 +855,7 @@ class VideoStatsView(TemplateView):
         return context
 
 # user posts page 
+'''
 class UserVideosView(ListView):
     template_name = 'user/analytics/posts/posts.html'
     paginate_by = 10
@@ -871,7 +872,7 @@ class UserVideosView(ListView):
         context = super(UserVideosView, self).get_context_data(**kwargs)
         context['title'] = 'Your videos 🎥'
         return context
-
+'''
 
 # actor page
 class ActorView(TemplateView):
@@ -958,7 +959,12 @@ class FilmView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(FilmView, self).get_context_data(**kwargs)
         film = Film.objects.get(film_id=self.kwargs['pk'])
-        buy = BuyFilm.objects.filter(buy_film=film, buy_user=self.request.user)
+
+        # find buy model 
+        if self.request.user.is_authenticated:
+            buy = BuyFilm.objects.filter(buy_film=film, buy_user=self.request.user)
+        else:
+            buy = None
 
         context['title'] = f'{film.title}'
         context['buy'] = buy

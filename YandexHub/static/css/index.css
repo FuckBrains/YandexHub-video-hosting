@@ -298,6 +298,9 @@ a {
 }
 
 @media (max-width: 1920px) {
+  .search-bar {
+    width: 40% !important;
+  }
   .block-content {
     margin-left: 6%;
     margin-right: 6%;
@@ -352,7 +355,7 @@ a {
     padding-bottom: 0.2rem;
   }
   .video-img {
-    height: auto;
+    height: 180px;
   }
 }
 @media (max-width: 1440px) {
@@ -366,6 +369,9 @@ a {
 }
 
 @media (max-width: 1366px) {
+  .search-bar {
+    width: 50% !important;
+  }
   .block-content {
     margin-left: 2%;
     margin-right: 2%;
@@ -919,4 +925,8 @@ main {
   max-width: 40px;
   margin-top: -6px;
   margin-left: 55px;
+}
+
+.search-bar {
+  width: 30%;
 }

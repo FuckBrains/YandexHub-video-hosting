@@ -392,7 +392,11 @@ class VideoStatsApi(APIView):
         likes_stats = {}
         dislikes_stats = {}
 
+        from django.utils import timezone
+        import pytz
         from datetime import date
+
+        today = datetime.utcnow()
         today = date.today()
 
         for i in range(10):

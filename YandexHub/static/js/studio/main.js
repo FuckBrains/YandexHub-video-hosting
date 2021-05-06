@@ -41,7 +41,6 @@ async function views_stats(days, views) {
             labels: days,
             datasets: [{
                 data: views,
-
                 lineTension: 0,
                 backgroundColor: 'transparent',
                 borderColor: '#007bff',
@@ -78,7 +77,6 @@ async function comments_stats(days, comments) {
             labels: days,
             datasets: [{
                 data: comments,
-
                 lineTension: 0,
                 backgroundColor: 'transparent',
                 borderColor: '#007bff',
@@ -116,7 +114,6 @@ async function likes_and_dislikes_stats(days, likes, dislikes) {
             labels: days,
             datasets: [{
                 data: dislikes,
-
                 lineTension: 0,
                 backgroundColor: 'transparent',
                 borderColor: '#000',
@@ -144,7 +141,6 @@ async function likes_and_dislikes_stats(days, likes, dislikes) {
             labels: days,
             datasets: [{
                 data: likes,
-
                 lineTension: 0,
                 backgroundColor: 'transparent',
                 borderColor: '#E81224',
