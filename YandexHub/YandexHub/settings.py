@@ -28,7 +28,7 @@ SECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '4d62143bf9f9.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,8 +85,6 @@ TEMPLATES = [
 
 
 WSGI_APPLICATION = 'YandexHub.wsgi.application'
-#ASGI_APPLICATION = 'YandexHub.routing.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -129,7 +127,6 @@ USE_I18N = True
 
 USE_L10N = True
 
-#USE_TZ = False
 USE_TZ = True
 
 # add email settings
@@ -143,7 +140,7 @@ DEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 
 STATIC_URL = "/static/"
@@ -161,20 +158,14 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 SUMMERNOTE_THEME = 'bs4'
 
 SUMMERNOTE_CONFIG = {
-    # Using SummernoteWidget - iframe mode, default
     'iframe': True,
     'attachment_filesize_limit': 5000 * 5000,
     'summernote': {
-        # As an example, using Summernote Air-mode
         'airMode': False,
 
-        # Change editor size
         'width': '100%',
         'height': '500',
 
-
-        # Toolbar customization
-        # https://summernote.org/deep-dive/#custom-toolbar-popover
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'underline', 'clear']],
@@ -187,12 +178,3 @@ SUMMERNOTE_CONFIG = {
         ],
     },
 }
-
-# CHANNEL_LAYERS = {
-#    "default": {
-#        "BACKEND": "channels_redis.core.RedisChannelLayer",
-#        "CONFIG": {
-#            "hosts": [("127.0.0.1", 6379)],
-#        },
-#    },
-# }

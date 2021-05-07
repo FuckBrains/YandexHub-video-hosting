@@ -67,15 +67,14 @@
 
                             <!-- Ratio -->
                             {% if film.likes != 0 or film.dislikes != 0 %}
-                            <div
-                                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
+                            <div  style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
-                            <div id="ratio-dislikes-film"
-                                style="height: 2px; width: {{film.likes|ratio:film.dislikes}}px; position: absolute; background: #DC3545; right: 105px; bottom: -11px; z-index: 100;">
+                            <div id="ratio-dislikes-film" style="height: 2px; width: {{film.likes|ratio:film.dislikes}}px; position: absolute; background: #DC3545; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
                             {% else %}
-                            <div
-                                style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 105px; bottom: -11px; z-index: 100;">
+                            <div style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
+                            </div>
+                            <div id="ratio-dislikes-film" style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
                             {% endif %}
                         </div>

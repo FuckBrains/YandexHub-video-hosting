@@ -4,7 +4,7 @@
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         {% if request.user.is_authenticated %}
-        <h1 style="text-align: center; margin-bottom: 40px;">Analytics 🧐</h1>
+        <h1 class="text-center dashboard-label">Analytics 🧐</h1>
         <div class="container py-2" id="featured-3" style="text-align: center;">
             <div class="row g-5 py-5">
                 <div class="feature col-md-4">
@@ -42,12 +42,11 @@
             </div>
         </div>
         {% else %}
-        <div class="card shadow-sm"
-            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+        <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
                 <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
             </div>
-            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+            <div class="warning-btn">
                 <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
                     in</a>
             </div>

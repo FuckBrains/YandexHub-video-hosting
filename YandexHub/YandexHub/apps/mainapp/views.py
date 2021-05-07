@@ -39,52 +39,50 @@ from django.contrib.auth.forms import UserCreationForm
 # DATE/TIME
 from datetime import date, datetime, timedelta, timezone
 
-# OTHER
-from itertools import groupby
-
 # TELEGRAM
 import telebot
 
-DOMEN = "http://127.0.0.1:8000/"
+# helpers
+from .helpers import generate_id
 
-# Generate random string
-def generate_id(num):
-    symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'
-    key = ''.join(choice(symbols) for i in range(num))
-    return key
+DOMEN = 'http://127.0.0.1:8000/'
 
-# Get random list
+# get random list
 def random_list(x):
     random.shuffle(x)
     return x
 
-# Get recommendations on video page
+
+# get recommendations on video page
 def get_video_recommendations(channel, video):
     video_channel_recommendations = []
     for i in range(5):
         try:
-            channel_video = Video.objects.filter(creator=channel).order_by('-date_created')[i]
+            channel_video = Video.objects.filter(
+                creator=channel).order_by('-date_created')[i]
             if channel_video == video:
                 pass
             else:
                 video_channel_recommendations.append(channel_video)
         except:
             pass
-    
+
     video_recommendations = []
     for i in range(30):
         try:
-            other_video = Video.objects.order_by('likes', 'comments', 'views', 'date_created')[i]
+            other_video = Video.objects.order_by(
+                'likes', 'comments', 'views', 'date_created')[i]
             if other_video == video:
                 pass
             else:
                 video_recommendations.append(other_video)
         except:
             pass
-    
+
     return list(set(video_channel_recommendations + random_list(video_recommendations)))
 
-# Get recommendations on film page
+
+# get recommendations on film page
 def get_film_recommendations(film):
     film_recommendations = []
     for i in range(30):
@@ -96,13 +94,15 @@ def get_film_recommendations(film):
                 film_recommendations.append(other_film)
         except:
             pass
-    
+
     return film_recommendations
 
-# Add coefficient for video
+
+# add coefficient for video
 def coefficient_func(video):
     video.coefficient = video.views / (video.dislikes + video.comments - video.likes + 10)
     video.save()
+
 
 # view function
 def view_func(video, request):
@@ -115,7 +115,8 @@ def view_func(video, request):
 
     coefficient_func(video)
 
-# get IP
+
+# get user IP
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -123,6 +124,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 # get info about IP
 def get_ip_info(ip):
@@ -138,9 +140,34 @@ def get_ip_info(ip):
 
     return response
 
+
+# get city and country ip
+def get_city_and_country_ip(request):
+    ip = get_client_ip(request)
+    now = datetime.now() 
+    date = now.strftime('%d-%m-%Y %H:%M:%S')
+    ip_info = get_ip_info(ip)
+    if 'country' in ip_info:
+        country = ip_info['country']
+    else:
+        country = '???'
+
+    if 'city' in ip_info:
+        city = ip_info['city']
+    else:
+        city = '???' 
+
+    return f'Date: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}'
+
+
 # bot send message
 def YandexHubAlert(text, telegram_id):
     try:
+        '''
+        Если бот не будет работать, то...
+        1) Создайте своего telegram бота по инструкции https://core.telegram.org/bots#6-botfather
+        2) Полученный token вставьте вместо старого 
+        '''
         bot = telebot.TeleBot('1785721677:AAF0OeaZ-ZC_Zf5IF0BMaDqacKE3y7OB290')
         bot.send_message(telegram_id, text)
         return 'ok'
@@ -153,19 +180,20 @@ class HomeView(ListView):
     template_name = 'home.html'
     paginate_by = 20
     model = Video
-    context_object_name = "videos"
-    
+    context_object_name = 'videos'
+
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['title'] = 'YandexHub'
         return context
 
+
 # search video system
 class SearchView(ListView):
-    template_name = "video/search/search.html"
+    template_name = 'video/search/search.html'
     paginate_by = 10
     queryset = Video
-    context_object_name = "videos"
+    context_object_name = 'videos'
 
     def get_queryset(self):
         return Video.objects.filter(title__icontains=self.kwargs['pk']).order_by('-coefficient')
@@ -178,25 +206,28 @@ class SearchView(ListView):
 
 # channel page
 class ChannelView(ListView):
-    template_name = "user/channel.html"
-    paginate_by = 1
+    template_name = 'user/channel.html'
+    paginate_by = 10
     queryset = Video
-    context_object_name = "videos"
+    context_object_name = 'videos'
 
     def get_queryset(self):
         self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
         return Video.objects.filter(creator=self.channel).order_by('-date_created')
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super(ChannelView, self).get_context_data(**kwargs)
-        self.videos = Video.objects.filter(creator=self.channel).order_by('-date_created')
+        self.videos = Video.objects.filter(
+            creator=self.channel).order_by('-date_created')
 
         # find subscribe model
-        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=self.channel)
+        self.subscribe = Subscribe.objects.filter(
+            subscriber=self.request.user.id, channel=self.channel)
 
-        # find notification model 
+        # find notification model
         if self.request.user.is_authenticated:
-            self.notifications = Notification.objects.filter(notification_channel=self.channel, notification_user=self.request.user)
+            self.notifications = Notification.objects.filter(
+                notification_channel=self.channel, notification_user=self.request.user)
         else:
             self.notifications = None
 
@@ -206,22 +237,25 @@ class ChannelView(ListView):
         context['videos'] = self.videos
         context['channel'] = self.channel
         context['page'] = 'channel'
-        return context     
+        return context
+    
 
 # about channel page
 class AboutView(TemplateView):
-    template_name = "user/about.html"
+    template_name = 'user/about.html'
 
     def get_context_data(self, **kwargs):
         context = super(AboutView, self).get_context_data(**kwargs)
         self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
 
-        # find subscribe model 
-        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=self.channel)
+        # find subscribe model
+        self.subscribe = Subscribe.objects.filter(
+            subscriber=self.request.user.id, channel=self.channel)
 
-        # find notification model 
+        # find notification model
         if self.request.user.is_authenticated:
-            self.notifications = Notification.objects.filter(notification_channel=self.channel, notification_user=self.request.user)
+            self.notifications = Notification.objects.filter(
+                notification_channel=self.channel, notification_user=self.request.user)
         else:
             self.notifications = None
 
@@ -239,9 +273,10 @@ class SettingsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         if self.request.user.is_authenticated:
-            context = super(SettingsView,self).get_context_data(**kwargs)
+            context = super(SettingsView, self).get_context_data(**kwargs)
             context['title'] = 'Settings ⚙️'
             return context
+
 
 # channel settings page
 class ChannelSettingsView(TemplateView):
@@ -249,24 +284,26 @@ class ChannelSettingsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         if self.request.user.is_authenticated:
-            context = super(ChannelSettingsView,self).get_context_data(**kwargs)
+            context = super(ChannelSettingsView,
+                            self).get_context_data(**kwargs)
             context['title'] = 'Channel settings 👻'
-            context['CustomUserTextArea'] = CustomUserTextArea(instance=self.request.user)
+            context['CustomUserTextArea'] = CustomUserTextArea(
+                instance=self.request.user)
             return context
 
     def post(self, request):
-        user = request.user     
+        user = request.user
         try:
             user.avatar = request.FILES['avatar']
         except:
             pass
-        
+
         try:
             user.banner = request.FILES['banner']
         except:
             pass
 
-        user.username = request.POST['username'] 
+        user.username = request.POST['username']
         user.description = request.POST['description']
         user.location = request.POST['location']
         user.contact_email = request.POST['contact_email']
@@ -277,12 +314,12 @@ class ChannelSettingsView(TemplateView):
         user.twitter_link = request.POST['twitter_link']
         user.reddit_link = request.POST['reddit_link']
         user.website_link = request.POST['website_link']
-
         user.save()
 
-        messages.success(request, "Settings have been saved 👽")
+        messages.success(request, 'Settings have been saved 👽')
         return redirect('channel__settings__page')
-        
+
+
 # account settings page
 class AccountSettingsView(TemplateView):
     template_name = 'user/settings/account.html'
@@ -307,21 +344,7 @@ class AccountSettingsView(TemplateView):
             # YandexHub Alert
             if telegram:
                 # send alert
-                ip = get_client_ip(request)
-                now = datetime.now() 
-                date = now.strftime("%d-%m-%Y %H:%M:%S")
-                ip_info = get_ip_info(ip)
-                if 'country' in ip_info:
-                    country = ip_info['country']
-                else:
-                    country = '???'
-
-                if 'city' in ip_info:
-                    city = ip_info['city']
-                else:
-                    city = '???'
-
-                message = YandexHubAlert(f"Your YandexHub account has been successfully deleted 💀\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", telegram)
+                message = YandexHubAlert(f'Your YandexHub account has been successfully deleted 💀\n\n{get_city_and_country_ip(request)}', telegram)
                 if message == 'ok':
                     pass 
                 else:
@@ -329,10 +352,10 @@ class AccountSettingsView(TemplateView):
             else:
                 pass
 
-            messages.success(request, "Account successfully deleted 😭")
+            messages.success(request, 'Account successfully deleted 😭')
             return redirect('main__page')
         else:
-            messages.success(request, "Wrong password entered 😖")
+            messages.success(request, 'Wrong password entered 😖')
             return redirect('account__settings__page')
 
 # change password page
@@ -352,7 +375,7 @@ class ChangePasswordView(TemplateView):
 
         if new_password == confirm_new_password:
             if len(new_password) < 8 or len(str(new_password).replace(' ', '')) < 8:
-                messages.success(request, "Password cannot contain only spaces or be less than 8 characters 🧸")
+                messages.success(request, 'Password cannot contain only spaces or be less than 8 characters 🧸')
                 return redirect('change__password__page')
             else:
                 email = request.user.email
@@ -369,36 +392,22 @@ class ChangePasswordView(TemplateView):
                     # YandexHub Alert
                     if telegram:
                         # send alert
-                        ip = get_client_ip(request)
-                        now = datetime.now() 
-                        date = now.strftime("%d-%m-%Y %H:%M:%S")
-                        ip_info = get_ip_info(ip)
-                        if 'country' in ip_info:
-                            country = ip_info['country']
-                        else:
-                            country = '???'
-
-                        if 'city' in ip_info:
-                            city = ip_info['city']
-                        else:
-                            city = '???'
-                        
-                        message = YandexHubAlert(f"Your password has been successfully changed 👻\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", telegram)
+                        message = YandexHubAlert(f'Your password has been successfully changed 👻\n\n{get_city_and_country_ip(request)}', telegram)
                         if message == 'ok':
                             pass 
                         else:
-                            messages.success(self.request, """An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖""")
+                            messages.success(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
                     else:
                         pass
 
-                    messages.success(request, "Your password has been successfully changed 👻")
-                    messages.success(request, """After changing your password, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱""")
+                    messages.success(request, 'Your password has been successfully changed 👻')
+                    messages.success(request, '''After changing your password, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱''')
                     return redirect('main__page')
                 else:
-                    messages.success(request, "Wrong password entered 😖")
+                    messages.success(request, 'Wrong password entered 😖')
                     return redirect('change__password__page')
         else:
-            messages.success(request, "Password mismatch 😿")
+            messages.success(request, 'Password mismatch 😿')
             return redirect('change__password__page')
 
 # change email page
@@ -428,43 +437,29 @@ class ChangeEmailView(TemplateView):
             # YandexHub Alert
             if telegram:
                 # send alert
-                ip = get_client_ip(request)
-                now = datetime.now() 
-                date = now.strftime("%d-%m-%Y %H:%M:%S")
-                ip_info = get_ip_info(ip)
-                if 'country' in ip_info:
-                    country = ip_info['country']
-                else:
-                    country = '???'
-
-                if 'city' in ip_info:
-                    city = ip_info['city']
-                else:
-                    city = '???'
-                
-                message = YandexHubAlert(f"Your email has been successfully changed 🙃\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", telegram)
+                message = YandexHubAlert(f'Your email has been successfully changed 🙃\n\n{get_city_and_country_ip(request)}', telegram)
                 if message == 'ok':
                     pass 
                 else:
-                    messages.success(self.request, """An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖""")
+                    messages.success(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
             else:
                 pass
 
-            messages.success(request, "Your email has been successfully changed 🙃")
-            messages.success(request, """After changing your email, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱""")
+            messages.success(request, 'Your email has been successfully changed 🙃')
+            messages.success(request, '''After changing your email, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱''')
             return redirect('main__page')
   
         else:
-            messages.success(request, "Wrong password entered 😖")
+            messages.success(request, 'Wrong password entered 😖')
             return redirect('change__email__page')
 
 
 # video page
 class VideoView(ListView):
-    template_name = "video/video.html"
+    template_name = 'video/video.html'
     paginate_by = 10
     queryset = Comment
-    context_object_name = "comments"
+    context_object_name = 'comments'
 
     def get_queryset(self, **kwargs):
         video = Video.objects.get(video_id=self.kwargs['pk'])
@@ -498,29 +493,29 @@ class CreateVideoView(TemplateView):
     
     def post(self, request):
         if request.POST['title'] is None or len(request.POST['title'].replace(' ', '')) == 0:
-            messages.success(request, "Video title cannot contain spaces 😈")
+            messages.success(request, 'Video title cannot contain spaces 😈')
             return redirect('create__video__page')
         else:
             if 'video' not in request.FILES or 'video_banner' not in request.FILES:
-                messages.success(request, "You must upload <b>video</b> and <b>banner</b> 😖")
+                messages.success(request, 'You must upload <b>video</b> and <b>banner</b> 😖')
                 return redirect('create__video__page')
             else:
                 # create video model
-                video = Video.objects.create(creator=request.user, video_id=generate_id(32), video=request.FILES['video'], video_banner=request.FILES['video_banner'], title=request.POST['title'], description=request.POST['description'])
+                video = Video.objects.create(creator=request.user, video=request.FILES['video'], video_id=generate_id(32), video_banner=request.FILES['video_banner'], title=request.POST['title'], description=request.POST['description'])
                 video.save()
                 
-                # send notification
+                # send notifications
                 subscribers = Subscribe.objects.filter(channel=video.creator)
                 for i in subscribers:
                     if i.subscriber.telegram:
                         YandexHubAlert(f'A new video has been released on the {video.creator.username} channel 🥳\n{DOMEN}video/{video.video_id}/', i.subscriber.telegram)
 
-                messages.success(request, f"You have successfully posted a video: <b>{video.title}</b> 🤩")
+                messages.success(request, f'You have successfully posted a video: <b>{video.title}</b> 🤩')
                 return redirect('video__page', video.video_id)
 
 # change video page
 class ChangeVideoView(TemplateView):
-    template_name = "video/change.html"
+    template_name = 'video/change.html'
 
     def get_context_data(self, **kwargs):
         context = super(ChangeVideoView, self).get_context_data(**kwargs)
@@ -544,12 +539,12 @@ class ChangeVideoView(TemplateView):
             video.save()    
 
             # alert
-            messages.success(request, f"You have successfully changed the video: <b>{video.title}</b> 😍")
+            messages.success(request, f'You have successfully changed the video: <b>{video.title}</b> 😍')
             return redirect('video__page', video.video_id)
 
         else:
             # alert
-            messages.success(request, f"You are not the author of the video: <b>{video.title}</b> 😡")
+            messages.success(request, f'You are not the author of the video: <b>{video.title}</b> 😡')
             return redirect('main__page')
 
 
@@ -566,7 +561,7 @@ class AlertBotView(TemplateView):
         request.user.telegram = request.POST['telegram']
         request.user.save()
 
-        messages.success(request, "Your Telegram ID has been successfully saved 🤖")
+        messages.success(request, 'Your Telegram ID has been successfully saved 🤖')
         return redirect('bot__page')
 
 # alert bot manual page
@@ -581,10 +576,10 @@ class AlertBotManualView(TemplateView):
 
 # community page
 class CommunityView(ListView):
-    template_name = "user/community/community.html"
+    template_name = 'user/community/community.html'
     paginate_by = 10
     model = Article
-    context_object_name = "articles"
+    context_object_name = 'articles'
 
     def get_queryset(self, **kwargs):
         channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
@@ -622,19 +617,19 @@ class CreateArticleView(TemplateView):
     
     def post(self, request):
         if request.POST['text'] is None or len(request.POST['text'].replace(' ', '')) == 0:
-            messages.success(request, "Article text cannot contain spaces 😈")
+            messages.success(request, 'Article text cannot contain spaces 😈')
             return redirect('create__article__page')
         else:
             # create article model
             article = Article.objects.create(creator=request.user, article_id=generate_id(32), text=request.POST['text'])
             article.save()
             
-            messages.success(request, f"You have successfully posted a article 🤪")
+            messages.success(request, f'You have successfully posted a article 🤪')
             return redirect('community__page', request.user.user_id)
 
 # change article page 
 class ChangeArticleView(TemplateView):
-    template_name = "user/community/change.html"
+    template_name = 'user/community/change.html'
 
     def get_context_data(self, **kwargs):
         context = super(ChangeArticleView, self).get_context_data(**kwargs)
@@ -652,12 +647,12 @@ class ChangeArticleView(TemplateView):
             article.save()    
 
             # alert
-            messages.success(request, f"You have successfully changed the article 😍")
+            messages.success(request, f'You have successfully changed the article 😍')
             return redirect('community__page', article.creator.user_id)
 
         else:
             # alert
-            messages.success(request, f"You are not the author of the article 😡")
+            messages.success(request, f'You are not the author of the article 😡')
             return redirect('main__page')
 
 
@@ -666,11 +661,11 @@ class SavedVideosView(ListView):
     template_name = 'user/video/saved.html'
     paginate_by = 10
     queryset = SavedVideo
-    context_object_name = "videos"
+    context_object_name = 'videos'
     
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return SavedVideo.objects.filter(saved_user=self.request.user).order_by("-date_created")
+            return SavedVideo.objects.filter(saved_user=self.request.user).order_by('-date_created')
         else:
             return SavedVideo.objects.none()
 
@@ -684,11 +679,11 @@ class LikedVideosView(ListView):
     template_name = 'user/video/liked.html'
     paginate_by = 10
     queryset = Like
-    context_object_name = "videos"
+    context_object_name = 'videos'
     
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Like.objects.filter(liked_user=self.request.user).order_by("-date_created")
+            return Like.objects.filter(liked_user=self.request.user).order_by('-date_created')
         else:
             return Like.objects.none()
 
@@ -702,11 +697,11 @@ class HistoryView(ListView):
     template_name = 'user/video/history.html'
     paginate_by = 10
     queryset = VideoViewModel
-    context_object_name = "videos"
+    context_object_name = 'videos'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return VideoViewModel.objects.filter(watched_user=self.request.user).order_by("-date_created")
+            return VideoViewModel.objects.filter(watched_user=self.request.user).order_by('-date_created')
         else:
             return VideoViewModel.objects.none()
 
@@ -720,7 +715,7 @@ class TrendingView(ListView):
     template_name = 'video/other/trending.html'
     paginate_by = 10
     queryset = Video
-    context_object_name = "videos"
+    context_object_name = 'videos'
 
     def get_queryset(self):
         tranding_time = datetime.utcnow() - timedelta(days=2)
@@ -752,7 +747,7 @@ class SubscriptionsView(TemplateView):
             n = 0
             videos = []
             for i in Subscribe.objects.filter(subscriber=self.request.user):
-                for j in Video.objects.filter(creator=i.channel).order_by("-date_created"):
+                for j in Video.objects.filter(creator=i.channel).order_by('-date_created'):
                     videos.append(j)
 
                 n += 1
@@ -789,7 +784,7 @@ class UserVideosView(ListView):
     template_name = 'user/analytics/videos/videos.html'
     paginate_by = 10
     queryset = Video
-    context_object_name = "videos"
+    context_object_name = 'videos'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -807,7 +802,7 @@ class VideoCommentsView(ListView):
     template_name = 'user/analytics/videos/comments.html'
     paginate_by = 25
     queryset = Comment
-    context_object_name = "comments"
+    context_object_name = 'comments'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -827,7 +822,7 @@ class CommentView(ListView):
     template_name = 'user/analytics/videos/comment.html'
     paginate_by = 25
     queryset = ReplyComment
-    context_object_name = "comments"
+    context_object_name = 'comments'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -860,7 +855,7 @@ class UserVideosView(ListView):
     template_name = 'user/analytics/posts/posts.html'
     paginate_by = 10
     queryset = Video
-    context_object_name = "videos"
+    context_object_name = 'videos'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -876,7 +871,7 @@ class UserVideosView(ListView):
 
 # actor page
 class ActorView(TemplateView):
-    template_name = "film/actor.html"
+    template_name = 'film/actor.html'
 
     def get_context_data(self, **kwargs):
         context = super(ActorView, self).get_context_data(**kwargs)
@@ -887,7 +882,7 @@ class ActorView(TemplateView):
 
 # producer page
 class ProducerView(TemplateView):
-    template_name = "film/producer.html"
+    template_name = 'film/producer.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProducerView, self).get_context_data(**kwargs)
@@ -898,7 +893,7 @@ class ProducerView(TemplateView):
 
 # writer page
 class WriterView(TemplateView):
-    template_name = "film/writer.html"
+    template_name = 'film/writer.html'
 
     def get_context_data(self, **kwargs):
         context = super(WriterView, self).get_context_data(**kwargs)
@@ -909,10 +904,10 @@ class WriterView(TemplateView):
 
 # genre page
 class GenreView(ListView):
-    template_name = "film/genre.html"
+    template_name = 'film/genre.html'
     paginate_by = 20
     model = Film
-    context_object_name = "films"
+    context_object_name = 'films'
 
     def get_queryset(self):
         genre = Genre.objects.get(name=self.kwargs['pk'])
@@ -930,7 +925,7 @@ class FilmsView(ListView):
     template_name = 'film/films.html'
     paginate_by = 20
     model = Film
-    context_object_name = "films"
+    context_object_name = 'films'
     
     def get_context_data(self, **kwargs):
         context = super(FilmsView, self).get_context_data(**kwargs)
@@ -948,10 +943,10 @@ class UserFilmsView(TemplateView):
 
 # film page
 class FilmView(TemplateView):
-    template_name = "film/film.html"
+    template_name = 'film/film.html'
     #paginate_by = 10
     #queryset = Comment
-    #context_object_name = "comments"
+    #context_object_name = 'comments'
 
     #def get_queryset(self, **kwargs):
     #    return Comment.objects.all()
@@ -983,11 +978,11 @@ class LikedFilmsView(ListView):
     template_name = 'film/user/liked.html'
     paginate_by = 10
     queryset = FilmLike
-    context_object_name = "films"
+    context_object_name = 'films'
     
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return FilmLike.objects.filter(liked_user=self.request.user).order_by("-date_created")
+            return FilmLike.objects.filter(liked_user=self.request.user).order_by('-date_created')
         else:
             return FilmLike.objects.none()
 
@@ -999,25 +994,24 @@ class LikedFilmsView(ListView):
 
 # sign up page
 class SignUpView(TemplateView):
-    template_name = "user/auth/sign_up.html"
+    template_name = 'user/auth/sign_up.html'
 
     def post(self, request):
         form = CreateUserForm(request.POST)
 
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.user_id = generate_id(24)
             form.save()
             
             # alert
-            messages.success(self.request, "Account created successfully 😃")
+            messages.success(self.request, 'Account created successfully 😃')
             return redirect('main__page')
         else:
             return redirect('sign__up__page')
 
 # sign in page
 class SignInView(TemplateView):
-    template_name = "user/auth/sign_in.html"
+    template_name = 'user/auth/sign_in.html'
 
     def post(self, request):
         email = request.POST['email']
@@ -1031,29 +1025,15 @@ class SignInView(TemplateView):
                 # YandexHub Alert
                 if user.telegram:
                     # send alert
-                    ip = get_client_ip(request)
-                    now = datetime.now() 
-                    date = now.strftime("%d-%m-%Y %H:%M:%S")
-                    ip_info = get_ip_info(ip)
-                    if 'country' in ip_info:
-                        country = ip_info['country']
-                    else:
-                        country = '???'
-
-                    if 'city' in ip_info:
-                        city = ip_info['city']
-                    else:
-                        city = '???'
-
-                    message = YandexHubAlert(f"Login to your account 🤨\n\nDate: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}", user.telegram)
+                    message = YandexHubAlert(f'Login to your account 🤨\n\n{get_city_and_country_ip(request)}', user.telegram)
                     if message == 'ok':
                         pass 
                     else:
-                        messages.success(self.request, """An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖""")
+                        messages.success(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
                 else:
-                    messages.success(self.request, """In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😃""")
+                    messages.success(self.request, '''In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😃''')
 
-                messages.success(self.request, f"You are logged in as: <b>{user.username}</b> 🥳")
+                messages.success(self.request, f'You are logged in as: <b>{user.username}</b> 🥳')
                 return redirect('main__page')
             else:
                 return redirect('signin')
@@ -1066,7 +1046,7 @@ class SignOutView(View):
         logout(request)
 
         # send alert
-        messages.success(request, "You have successfully logged out of your account 💀")
+        messages.success(request, 'You have successfully logged out of your account 💀')
         return redirect('main__page')
 
 

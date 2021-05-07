@@ -184,9 +184,16 @@ async function like_video(video_id) {
         // alert
         await view_alert(result.message);
 
+
         // ratio
         let ratio = document.getElementById('ratio-dislikes');
-        ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        if (result.data.stats.likes == 0 && result.data.stats.dislikes == 0) {
+            ratio.style.width = '140px';
+            ratio.style.background = '#7D7D7D';
+        } else {
+            ratio.style.background = '#DC3545';
+            ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        }
     };
 };
 
@@ -226,7 +233,13 @@ async function dislike_video(video_id) {
 
         // ratio
         let ratio = document.getElementById('ratio-dislikes');
-        ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        if (result.data.stats.likes == 0 && result.data.stats.dislikes == 0) {
+            ratio.style.width = '140px';
+            ratio.style.background = '#7D7D7D';
+        } else {
+            ratio.style.background = '#DC3545';
+            ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        }
     };
 };
 
@@ -538,7 +551,13 @@ async function like_film(film_id) {
 
         // ratio
         let ratio = document.getElementById('ratio-dislikes-film');
-        ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        if (result.data.stats.likes == 0 && result.data.stats.dislikes == 0) {
+            ratio.style.width = '140px';
+            ratio.style.background = '#7D7D7D';
+        } else {
+            ratio.style.background = '#DC3545';
+            ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        }
     };
 };
 
@@ -578,7 +597,13 @@ async function dislike_film(film_id) {
 
         // ratio
         let ratio = document.getElementById('ratio-dislikes-film');
-        ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        if (result.data.stats.likes == 0 && result.data.stats.dislikes == 0) {
+            ratio.style.width = '140px';
+            ratio.style.background = '#7D7D7D';
+        } else {
+            ratio.style.background = '#DC3545';
+            ratio.style.width = `${1.4 * (result.data.stats.dislikes * 100 / (result.data.stats.likes + result.data.stats.dislikes))}px`;
+        }
     };
 };
 

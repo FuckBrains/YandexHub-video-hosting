@@ -53,15 +53,14 @@
 
               <!-- Ratio -->
               {% if video.likes != 0 or video.dislikes != 0 %}
-              <div
-                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
+              <div style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
               </div>
-              <div id="ratio-dislikes"
-                style="height: 2px; width: {{video.likes|ratio:video.dislikes}}px; position: absolute; background: #DC3545; right: 205px; bottom: -11px; z-index: 100;">
+              <div id="ratio-dislikes" style="height: 2px; width: {{video.likes|ratio:video.dislikes}}px; position: absolute; background: #DC3545; right: 205px; bottom: -11px; z-index: 100;">
               </div>
               {% else %}
-              <div
-                style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 205px; bottom: -11px; z-index: 100;">
+              <div style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
+              </div>
+              <div id="ratio-dislikes" style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 205px; bottom: -11px; z-index: 100;">
               </div>
               {% endif %}
             </div>
@@ -127,7 +126,7 @@
               onclick="subscribe('{{video.creator.user_id}}');">Subscribe</button>
             {% else %}
             <button class="btn btn-warning btn-subscribe" id="subscribe"
-              onclick="subscribe('{{video.creator.user_id}}');">Unsubscribed</button>
+              onclick="subscribe('{{video.creator.user_id}}');">Subscribed</button>
             {% endif %}
             {% else %}
             <button type="button" class="btn btn-danger delete-btn" data-bs-toggle="modal"

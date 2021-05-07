@@ -1,19 +1,14 @@
+# MODELS
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# RANDOM
-import random
-from random import choice
-def generate_id(num):
-    symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'
-    key = ''.join(choice(symbols) for i in range(num))
-    return key
-
+# HELPERS
+from .helpers import generate_id
 
 # User
 class CustomUser(AbstractUser):
     # user id
-    user_id = models.CharField(blank=True, null=True, max_length=24)
+    user_id = models.CharField(blank=True, null=True, max_length=24, default=generate_id(24))
     
     # email
     email = models.EmailField(null=True, unique=True)
@@ -85,13 +80,13 @@ class Video(models.Model):
     video = models.FileField(upload_to='videos/')
     video_banner = models.ImageField(upload_to='video_banners/')
 
-    # video stats
+    # stats
     views = models.BigIntegerField(default=0)
     likes = models.BigIntegerField(default=0)
     dislikes = models.BigIntegerField(default=0)
     comments = models.BigIntegerField(default=0)
 
-
+    # coefficient for tranding tab
     coefficient = models.FloatField(default=0)
 
     # video info
@@ -100,6 +95,7 @@ class Video(models.Model):
 
     # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+
     def __str__(self):
         return self.title
 
@@ -125,18 +121,26 @@ class Dislike(models.Model):
 
 # Comments for videos
 class Comment(models.Model):
+    # comment id
     comment_id = models.CharField(blank=True, null=True, max_length=32)
 
+    # comment creator
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='comment_creator')
+
+    # video
     commented_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='commented_video')
 
+    # stats
     likes = models.BigIntegerField(default=0)
     dislikes = models.BigIntegerField(default=0)
     replies = models.BigIntegerField(default=0)
 
+    # text
     comment_text = models.TextField(max_length=5000)
 
+    # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+
     def __str__(self):
         return self.comment_text
 
@@ -152,17 +156,24 @@ class CommentDislike(models.Model):
 
 # Reply comments for videos
 class ReplyComment(models.Model):
+    # reply comment id
     reply_comment_id = models.CharField(blank=True, null=True, max_length=32)
 
+    # reply comment creator
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='reply_comment_creator')
     reply_commented_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='reply_commented_video')
+
+    # comment parent
     comment_parent = models.ForeignKey(Comment, on_delete=models.CASCADE, null=False, related_name='comment_parent')
 
+    # stats
     likes = models.BigIntegerField(default=0)
     dislikes = models.BigIntegerField(default=0)
     
+    # text
     comment_text = models.TextField(max_length=5000)
 
+    # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
     
     def __str__(self):
@@ -178,19 +189,20 @@ class ReplyCommentDislike(models.Model):
     disliked_reply_comment = models.ForeignKey(ReplyComment, on_delete=models.CASCADE, null=False, related_name='disliked_reply_comment')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
-# Articles
+
+# Article
 class Article(models.Model):
     # article id
     article_id = models.CharField(blank=True, null=True, max_length=32)
 
-    # creator
+    # article creator
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='article_creator')
 
-    # article stats
+    # stats
     likes = models.BigIntegerField(default=0)
     dislikes = models.BigIntegerField(default=0)
 
-    # article info
+    # text
     text = models.TextField(blank=True, null=True, max_length=1000000)
 
     # date created
@@ -210,7 +222,7 @@ class ArticleDislike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
 
-# Actor & Producer & Writer & Genre
+# Actor
 class Actor(models.Model):
     GENDER = (
         ('Male', 'Male'),
@@ -218,7 +230,7 @@ class Actor(models.Model):
     )
 
     # actor id
-    actor_id = models.CharField(blank=True, null=True, max_length=32, default=f'{generate_id(32)}')
+    actor_id = models.CharField(blank=True, null=True, max_length=32, default=generate_id(32))
 
     # actor info
     name = models.CharField(max_length=100)
@@ -228,6 +240,7 @@ class Actor(models.Model):
     def __str__(self):
         return self.name
 
+# Producer
 class Producer(models.Model):
     GENDER = (
         ('Male', 'Male'),
@@ -235,7 +248,7 @@ class Producer(models.Model):
     )
 
     # producer id
-    producer_id = models.CharField(blank=True, null=True, max_length=32, default=f'{generate_id(32)}')
+    producer_id = models.CharField(blank=True, null=True, max_length=32, default=generate_id(32))
 
     # producer info
     name = models.CharField(max_length=100)
@@ -245,6 +258,7 @@ class Producer(models.Model):
     def __str__(self):
         return self.name
 
+# Writer
 class Writer(models.Model):
     GENDER = (
         ('Male', 'Male'),
@@ -252,7 +266,7 @@ class Writer(models.Model):
     )
 
     # writer id
-    writer_id = models.CharField(blank=True, null=True, max_length=32, default=f'{generate_id(32)}')
+    writer_id = models.CharField(blank=True, null=True, max_length=32, default=generate_id(32))
 
     # writer info
     name = models.CharField(max_length=100)
@@ -262,12 +276,14 @@ class Writer(models.Model):
     def __str__(self):
         return self.name
 
+# Genre
 class Genre(models.Model):
     # genre name
     name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
+
 
 # Film
 class Film(models.Model):
@@ -288,12 +304,12 @@ class Film(models.Model):
     film_poster = models.ImageField(upload_to='film_posters/')
     film_banner = models.ImageField(upload_to='film_banners/')
 
-    # video stats
+    # stats
     likes = models.BigIntegerField(default=0)
     dislikes = models.BigIntegerField(default=0)
     #comments = models.BigIntegerField(default=0)
 
-    # video info
+    # film info
     title = models.CharField(max_length=150)
     price = models.FloatField(default=0)
     running_time = models.CharField(max_length=150, default="0:00")
@@ -305,6 +321,7 @@ class Film(models.Model):
 
     # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+
     def __str__(self):
         return self.title
 

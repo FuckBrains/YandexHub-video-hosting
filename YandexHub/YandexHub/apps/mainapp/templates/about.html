@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <link href="{% static 'css/about.css' %}" rel="stylesheet">
-    <script src="{% static 'js/transition.js' %}"></script>
 </head>
 
 <body>
@@ -20,7 +19,7 @@
         <div class="content">
             <h1>About the project</h1>
             <h3>There is no idea as such, but you read</h3>
-            <a onclick="transition_link(`{% url 'main__page' %}`)" class="btn">Home page</a>
+            <a href="{% url 'main__page' %}" class="btn">Home page</a>
         </div>
     </section>
 

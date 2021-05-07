@@ -11,37 +11,34 @@
                 <div class="row" style="padding-bottom: 3rem!important;">
                     <div class="col-lg-12 col-md-8 mx-auto">
                         <img class="banner-icon" src="{% static 'media/site/icons/chart.png' %}">
-                        <h1 style="margin-bottom: 25px;">Films & Shows</h1>
-                        <h2 style="margin-bottom: 15px;">Video: <a style="cursor: pointer;"
+                        <h1 style="margin-bottom: 25px;">Video analytics</h1>
+                        <h2 style="margin-bottom: 15px;">Video: <a class="pointer"
                                 onclick="transition_link(`{% url 'video__page' video.video_id %}`)">{{video.title}}</a>
                         </h2>
-                        <a style="cursor: pointer; padding: .5rem 1rem;"
+                        <a style="padding: .5rem 1rem;"
                             onclick="transition_link(`{% url 'video__comments__page' video.video_id %}`)"
-                            class="btn btn-primary my-2">Comments</a>
-                        <a style="cursor: pointer; padding: .5rem 1rem;"
+                            class="btn btn-primary my-2 pointer">Comments</a>
+                        <a style="padding: .5rem 1rem;"
                             onclick="transition_link(`{% url 'edit__video__page' video.video_id %}`)"
-                            class="btn btn-secondary my-2">Edit video</a>
+                            class="btn btn-secondary my-2 pointer">Edit video</a>
                     </div>
                 </div>
             </section>
 
-            <div class="card shadow-sm"
-                style="height: auto !important; border: 1px solid rgba(0,0,0,.125); padding: 25px;">
+            <div class="card shadow-sm chart">
                 <h1 style="text-align: center;">Views 👀</h1>
                 <canvas class="my-4 w-100 chartjs-render-monitor" id="views" width="2071" height="874"
                     style="display: block; width: 2071px; height: 874px;"></canvas>
             </div>
 
-            <div class="card shadow-sm"
-                style="height: auto !important; border: 1px solid rgba(0,0,0,.125); padding: 25px; margin-top: 30px;">
-                <h1 style="text-align: center; margin-top: 35px;">Likes & Dislikes ❤️</h1>
+            <div class="card shadow-sm chart" style="margin-top: 30px;">
+                <h1 class="text-center" style="margin-top: 35px;">Likes & Dislikes ❤️</h1>
                 <canvas class="my-4 w-100 chartjs-render-monitor" id="likes_and_dislkes" width="2071" height="874"
                     style="display: block; width: 2071px; height: 874px;"></canvas>
             </div>
 
-            <div class="card shadow-sm"
-                style="height: auto !important; border: 1px solid rgba(0,0,0,.125); padding: 25px; margin-top: 30px;">
-                <h1 style="text-align: center; margin-top: 35px;">Comments 📝</h1>
+            <div class="card shadow-sm chart" style="margin-top: 30px;">
+                <h1 class="text-center" style="margin-top: 35px;">Comments 📝</h1>
                 <canvas class="my-4 w-100 chartjs-render-monitor" id="comments" width="2071" height="874"
                     style="display: block; width: 2071px; height: 874px;"></canvas>
             </div>
@@ -59,13 +56,12 @@
             </script>
         </div>
         {% else %}
-        <div class="card shadow-sm"
-            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+        <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
                 <h4 style="text-align: center;">You are not authorized to view this page 😱</h4>
             </div>
-            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
-                <a class="btn btn-primary" style="cursor: pointer;"
+            <div class="warning-btn">
+                <a class="btn btn-primary pointer"
                     onclick="transition_link(`{% url 'main__page' %}`)">Home</a>
             </div>
         </div>
@@ -76,8 +72,8 @@
             <div style="margin-top: 10px;">
                 <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
             </div>
-            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
-                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+            <div class="warning-btn">
+                <a class="btn btn-primary pointer" onclick="transition_link(`{% url 'signin' %}`)">Sign
                     in</a>
             </div>
         </div>

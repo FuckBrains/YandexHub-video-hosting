@@ -5,11 +5,11 @@
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         {% if request.user.is_authenticated %}
-        <h1 style="text-align: center; margin-bottom: 40px;">Dashboard 📈</h1>
-        <div class="container py-2" id="featured-3" style="text-align: center;">
+        <h1 class="text-center dashboard-label">Dashboard 📈</h1>
+        <div class="container text-cente py-2" id="featured-3">
 
-            <div class="row g-3 py-5">
-                <h2 style="text-align: center; margin-bottom: 40px;">Channel 👻</h2>
+            <div class="row g-3 py-5 text-center">
+                <h2 class="dashboard-label">Channel 👻</h2>
                 <div class="feature col-md-3" style="margin-left: auto;">
                     <div class="feature-icon bg-primary bg-gradient">
                         👱‍♂️
@@ -26,8 +26,8 @@
                 </div>
             </div>
 
-            <div class="row g-3 py-5">
-                <h2 style="text-align: center; margin-bottom: 40px;">Videos 🎥</h2>
+            <div class="row g-3 py-5 text-center">
+                <h2 class="dashboard-label">Videos 🎥</h2>
                 <div class="feature col-md-3">
                     <div class="feature-icon bg-primary bg-gradient">
                         👁
@@ -58,16 +58,9 @@
                 </div>
             </div>
 
-            <div class="row g-3 py-5">
-                <h2 style="text-align: center; margin-bottom: 40px;">Posts 📢</h2>
+            <div class="row g-3 py-5 text-center">
+                <h2 class="dashboard-label">Posts 📢</h2>
                 <div class="feature col-md-3" style="margin-left: auto;">
-                    <div class="feature-icon bg-primary bg-gradient">
-                        💬
-                    </div>
-                    <h2>???</h2>
-                    <p>The total number of comments under all posts.</p>
-                </div>
-                <div class="feature col-md-3">
                     <div class="feature-icon bg-primary bg-gradient">
                         👍
                     </div>
@@ -84,12 +77,11 @@
             </div>
         </div>
         {% else %}
-        <div class="card shadow-sm"
-            style="margin-left: auto; margin-right: auto; width: 85%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
+        <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
                 <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
             </div>
-            <div style="margin-top: 15px; margin-left: auto; margin-right: auto; padding-bottom: 5px;">
+            <div class="warning-btn">
                 <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
                     in</a>
             </div>
