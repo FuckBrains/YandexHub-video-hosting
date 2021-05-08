@@ -2,7 +2,6 @@
 {% block content %}
 {% load poll_extras %}
 {% load static %}
-
 <main role="main">
     <div class="block-content">
         {% if request.user.is_authenticated %}
@@ -14,7 +13,6 @@
                 </div>
             </div>
         </section>
-
         {% if request.user.buy_user.all %}
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
             {% for film in request.user.buy_user.all %}

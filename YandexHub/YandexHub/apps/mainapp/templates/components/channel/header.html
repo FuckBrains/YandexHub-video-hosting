@@ -17,7 +17,6 @@
         </div>
         {% if request.user.is_authenticated %}
         {% if request.user.username != channel.username %}
-
         {% if not notifications %}
         <button class="btn btn-notifications" id="notifications" onclick="notifications('{{channel.user_id}}');"
             style="margin-top: 10px;">🔔</button>
@@ -25,7 +24,6 @@
         <button class="btn btn-notifications-active" id="notifications" onclick="notifications('{{channel.user_id}}');"
             style="margin-top: 10px;">🔔</button>
         {% endif %}
-
         {% if not subscribe %}
         <button class="btn btn-danger btn-subscribe" id="subscribe" style="margin-right: 57px; margin-top: 10px;"
             onclick="subscribe('{{channel.user_id}}');">Subscribe</button>
@@ -33,7 +31,6 @@
         <button class="btn btn-warning btn-subscribe" id="subscribe" onclick="subscribe('{{channel.user_id}}');"
             style="margin-right: 57px; margin-top: 10px;">Subscribed</button>
         {% endif %}
-
         {% else %}
         <a onclick="transition_link(`{% url 'settings__page' %}`)" class="btn btn-primary settings-page-btn"
             style="cursor: pointer; position: absolute; right: 0; top: 15px; padding: .4rem .80rem; font-weight: 500;">Settings</a>
@@ -51,7 +48,6 @@
                 style="height: 3px; width: 95px; left: -25px; position: absolute; background-color: #606060; bottom: -39px;">
             </div>
             {% endif %}
-
             <a onclick="transition_link(`{% url 'community__page' channel.user_id %}`)"
                 style="cursor: pointer; font-size: 16px; bottom: -27px; left: 95px; color:#000000; position: absolute;">Community</a>
             {% if page == 'community' %}
@@ -59,7 +55,6 @@
                 style="height: 3px; width: 95px; left: 89px; position: absolute; background-color: #606060; bottom: -39px;">
             </div>
             {% endif %}
-
             <a onclick="transition_link(`{% url 'about__channel' channel.user_id %}`)"
                 style="cursor: pointer; font-size: 16px; bottom: -27px; left: 229px; color:#000000; position: absolute;">About</a>
             {% if page == 'about' %}

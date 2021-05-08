@@ -1,13 +1,11 @@
 {% extends "main.html" %}
 {% block content %}
 {% load poll_extras %}
-
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         {% if request.user.is_authenticated %}
         <h1 class="text-center dashboard-label">Dashboard 📈</h1>
         <div class="container text-cente py-2" id="featured-3">
-
             <div class="row g-3 py-5 text-center">
                 <h2 class="dashboard-label">Channel 👻</h2>
                 <div class="feature col-md-3" style="margin-left: auto;">
@@ -25,7 +23,6 @@
                     <p>Number of subscribers who have turned on the notification bell.</p>
                 </div>
             </div>
-
             <div class="row g-3 py-5 text-center">
                 <h2 class="dashboard-label">Videos 🎥</h2>
                 <div class="feature col-md-3">
@@ -57,7 +54,6 @@
                     <p>The total number of dislikes under all your videos.</p>
                 </div>
             </div>
-
             <div class="row g-3 py-5 text-center">
                 <h2 class="dashboard-label">Posts 📢</h2>
                 <div class="feature col-md-3" style="margin-left: auto;">
@@ -89,5 +85,4 @@
         {% endif %}
     </div>
 </main>
-
 {% endblock %}

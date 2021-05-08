@@ -12,7 +12,6 @@
         document.querySelectorAll('.toast').forEach((elem) => {
             elem.className = "toast show";
         });
-
         document.querySelectorAll('.toast').forEach((elem) => {
             setTimeout(function () {
                 elem.style.display = 'none';
@@ -22,7 +21,6 @@
     {% endfor %}
 </div>
 {% endif %}
-
 <div style="position: fixed; right: 25px; z-index: 9999;">
     <div class="toast" id="toast" style="position: relative; display: none;" role="alert" aria-live="assertive"
         aria-atomic="true">

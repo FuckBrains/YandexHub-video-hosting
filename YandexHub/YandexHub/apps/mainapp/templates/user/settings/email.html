@@ -1,11 +1,9 @@
 {% extends "main.html" %}
 {% block content %}
-
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         {% if request.user.is_authenticated %}
         <h1 style="text-align: center; margin-bottom: 40px;">Change email ✉️</h1>
-
         <div class="container py-2" id="featured-3" style="text-align: center;">
             <div class="card shadow-sm"
                 style="margin-left: auto; margin-right: auto; width: 50%; border: 1px solid rgba(0,0,0,.125); padding: 15px; height: auto; margin-bottom: 25px;">
@@ -16,12 +14,12 @@
                             asked to log in again.</p>
                         <div class="form-floating mb-3">
                             <input type="password" name="password" id="id_password" class="form-control"
-                                placeholder="Your password">
+                                placeholder="Your password" autocomplete="off" maxlength="150">
                             <label for="id_password">Your password</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="email" name="new_email" id="id_new_email" class="form-control"
-                                placeholder="New email" autocomplete="off">
+                                placeholder="New email" autocomplete="off" maxlength="150">
                             <label for="id_new_email">New email</label>
                         </div>
                         <div class="form-floating" style="display: grid;">
@@ -31,7 +29,6 @@
                 </form>
             </div>
         </div>
-
         {% else %}
         <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
@@ -45,5 +42,4 @@
         {% endif %}
     </div>
 </main>
-
 {% endblock %}

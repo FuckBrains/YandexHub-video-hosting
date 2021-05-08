@@ -1,7 +1,6 @@
 {% extends "main.html" %}
 {% block content %}
 {% load static %}
-
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         <div class="px-4 py-5 my-5 text-center">
@@ -34,7 +33,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" name="telegram" id="id_telegram" class="form-control"
                                                 value="{% if request.user.telegram %}{{request.user.telegram}}{% endif %}"
-                                                placeholder="*********" autocomplete="off">
+                                                placeholder="*********" autocomplete="off" maxlength="10">
                                             <label for="id_telegram">Telegram ID</label>
                                         </div>
                                     </div>
@@ -59,5 +58,4 @@
         </div>
     </div>
 </main>
-
 {% endblock %}

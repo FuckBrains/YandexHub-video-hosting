@@ -8,8 +8,9 @@
       <div class="video-block col-md-10" style="width: 70%">
 
         <!-- Video -->
-        <video style="width: 100%; height: auto;" controls="controls" poster="{{video.video_banner.url}}" preload="auto"
-          id="video" autoplay="true" muted="muted">
+        <video style="width: 100%; height: auto;" controls="controls"
+          poster="{% static 'media/site/video/placeholder.jpg' %}" preload="auto" id="video" autoplay="true"
+          muted="muted">
           <source src="{{video.video.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
           The video tag is not supported by your browser.
         </video>
@@ -18,19 +19,16 @@
         </script>
 
         <div style="position: relative;">
-
           <!-- Stats -->
           <div style="display: inline-block;">
             <p class="card-text video-title" style="margin-top: 12px; margin-bottom: 10px;">{{video.title}}</p>
             <div class="card-bottom views-video">{{video.views|integer_format}} views ·
               {{video.date_created|date_func}}</div>
           </div>
-
-
           <div style="display: inline-block;">
             <div>
-
               <!-- Likes -->
+              {% if not requset.user.is_authorizated %}
               {% if liked|length == 0 %}
               <button class="btn btn-reaction btn-like" id="like"
                 onclick="like_video('{{video.video_id}}');">{{video.likes|brief_likes_format}}
@@ -51,26 +49,40 @@
                 onclick="dislike_video('{{video.video_id}}');">{{video.dislikes|brief_likes_format}} 👎</button>
               {% endif %}
 
+              {% else %}
+              <button class="btn btn-reaction btn-like" id="like"
+                onclick="transition_link(`{% url 'signin' %}`);">{{video.likes|brief_likes_format}}
+                👍</button>
+              <button class="btn btn-reaction btn-dislike" id="dislike"
+                onclick="transition_link(`{% url 'signin' %}`);">{{video.dislikes|brief_likes_format}}
+                👎</button>
+              {% endif %}
               <!-- Ratio -->
               {% if video.likes != 0 or video.dislikes != 0 %}
-              <div style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
+              <div
+                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
               </div>
-              <div id="ratio-dislikes" style="height: 2px; width: {{video.likes|ratio:video.dislikes}}px; position: absolute; background: #DC3545; right: 205px; bottom: -11px; z-index: 100;">
+              <div id="ratio-dislikes"
+                style="height: 2px; width: {{video.likes|ratio:video.dislikes}}px; position: absolute; background: #DC3545; right: 205px; bottom: -11px; z-index: 100;">
               </div>
               {% else %}
-              <div style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
+              <div
+                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
               </div>
-              <div id="ratio-dislikes" style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 205px; bottom: -11px; z-index: 100;">
+              <div id="ratio-dislikes"
+                style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 205px; bottom: -11px; z-index: 100;">
               </div>
               {% endif %}
             </div>
-
+            {% if not requset.user.is_authorizated %}
             {% if saved_video|length == 0 %}
             <button class="btn btn-save" id="save" onclick="save_video('{{video.video_id}}');">Save 📌</button>
             {% else %}
             <button class="btn btn-save-active" id="save" onclick="save_video('{{video.video_id}}');">Save 📌</button>
             {% endif %}
-
+            {% else %}
+            <button class="btn btn-save" id="save" onclick="transition_link(`{% url 'signin' %}`);">Save 📌</button>
+            {% endif %}
             <!-- Share -->
             <button class="btn btn-share" data-bs-toggle="modal" data-bs-target="#saveModal">Share ❤️</button>
             <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
@@ -89,7 +101,6 @@
                     <script>
                       let share = document.getElementById('share-input')
                       share.value = `${location.protocol}//${location.hostname + (location.port ? ':' + location.port : '')}/video/${"{{video.video_id}}"}/`
-
                       // copy text
                       function copy_text(button) {
                         new Clipboard(button);
@@ -103,7 +114,6 @@
           </div>
         </div>
         <hr style="margin-top: 10px; margin-bottom: 20px;">
-
         <div class="row g-0" style="align-items: end; width: auto; justify-content: end; position:relative;">
           <div class="col-md-4" style="width: auto;">
             <div class="avatar-video-img img"
@@ -158,27 +168,23 @@
             <a class="btn btn-outline-primary change-btn" style="cursor: painter;"
               onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
             {% endif %}
-
           </div>
           <div style="margin-left: 57px; margin-top: 25px;" class="description">
             {{video.description|safe}}
           </div>
         </div>
         <hr style="margin-bottom: 15px;">
-
         <!-- Comments -->
         <div style="margin-left: 20px;" class="comments-main-block">
           <p class="card-text" id="comments_num" style="font-size: 1.05rem; margin-left: -18px;">
             {{video.comments|comments_format}}</p>
           <div style="margin-top: 25px; position: relative; margin-left: -20px; justify-content: end;" class="row">
-
             <!-- Add comment -->
             {% if request.user.is_authenticated %}
             <div class="avatar-video-img col-md-1 img"
               style="width: 45px; height: 45px; margin-bottom: 35px; display: inline-block; background-image: url({{ request.user.avatar.url }});">
             </div>
             <div class="form col-md-11" style="display: inline-block; margin-bottom: 35px;">
-
               <div>
                 <textarea id="id_comment_text"
                   style="box-shadow: rgb(224 224 224) 0px 2px 0px 0px; width: 102.7%; border:none; background-color: #F9F9F9; border-radius: 0px; padding: 0rem .0rem;"
@@ -189,7 +195,6 @@
                 style="position: absolute; right: 0; margin-top: 15px; margin-right: 15px; padding: .4rem .80rem; font-weight: 500;">Comment</button>
             </div>
             {% endif %}
-
             <!-- comments -->
             <div class="infinite-container" style="width: 85%; margin-left: 1px;" id="comments_block">
               {% for comment in comments %}
@@ -218,8 +223,8 @@
                         {% endif %}
                       </a>
                       <small style="font-size: 14px; color: #656e75;">{{comment.comment_text}}</small>
-
                       <div style="margin-top: 6px">
+                        {% if not requset.user.is_authorizated %}
                         {% if comment.comment_id|check_comment_like:request.user.user_id %}
                         <button class="btn btn-reaction-active" id="like_comment_{{comment.comment_id}}"
                           onclick="like_comment('{{comment.comment_id}}');">{{comment.likes|brief_likes_format}}
@@ -229,7 +234,6 @@
                           onclick="like_comment('{{comment.comment_id}}');">{{comment.likes|brief_likes_format}}
                           👍</button>
                         {% endif %}
-
                         {% if comment.comment_id|check_comment_dislike:request.user.user_id %}
                         <button class="btn btn-reaction-active" id="dislike_comment_{{comment.comment_id}}"
                           onclick="dislike_comment('{{comment.comment_id}}');">{{comment.dislikes|brief_likes_format}}
@@ -239,7 +243,14 @@
                           onclick="dislike_comment('{{comment.comment_id}}');">{{comment.dislikes|brief_likes_format}}
                           👎</button>
                         {% endif %}
-
+                        {% else %}
+                        <button class="btn btn-reaction" id="like_comment_{{comment.comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{comment.likes|brief_likes_format}}
+                          👍</button>
+                        <button class="btn btn-reaction" id="dislike_comment_{{comment.comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% endif %}
                         {% if comment.creator == request.user %}
                         <button class="btn btn-danger" style="padding: 0.35rem 0.75rem;"
                           onclick="delete_comment('{{comment.comment_id}}');">Delete 🗑</button>
@@ -250,10 +261,15 @@
                           style="box-shadow: rgb(224 224 224) 0px 2px 0px 0px; width: 102.7%; border:none; background-color: #F9F9F9; border-radius: 0px; padding: 0rem .0rem;"
                           class="form-control" placeholder="Add a pubic reply" rows="1"></textarea>
                       </div>
+                      {% if not requset.user.is_authorizated %}
                       <button
                         onclick="add_reply_comment('{{video.video_id}}', '{{comment.comment_id}}', document.getElementById('id_reply_comment_text_{{comment.comment_id}}').value); document.getElementById('id_reply_comment_text_{{comment.comment_id}}').value = ''"
                         class="btn btn-primary"
                         style="display: inline-block; margin-left: 15px; margin-bottom: 20px; padding: .3rem .60rem;">Reply</button>
+                      {% else %}
+                      <button onclick="transition_link(`{% url 'signin' %}`);" class="btn btn-primary"
+                        style="display: inline-block; margin-left: 15px; margin-bottom: 20px; padding: .3rem .60rem;">Reply</button>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -262,7 +278,6 @@
                   <div class="avatar-video-img col-md-1 img"
                     style="width: 37px; height: 37px; display: inline-block; position: absolute; background-image: url({{reply_comment.creator.avatar.url}});">
                   </div>
-
                   <div class="form col-md-11" style="display: inline-block;">
                     <div style="padding-top: 0; margin-left: 53px; display: inline-block;">
                       <a style="cursor: pointer;"
@@ -286,8 +301,8 @@
                       </a>
                       <small
                         style="font-size: 14px; color: #656e75; word-break: break-all;">{{reply_comment.comment_text}}</small>
-
                       <div style="margin-top: 6px; width: 250px;">
+                        {% if not requset.user.is_authorizated %}
                         {% if reply_comment.reply_comment_id|check_reply_comment_like:request.user.user_id %}
                         <button class="btn btn-reaction-active"
                           id="like_reply_comment_{{reply_comment.reply_comment_id}}"
@@ -298,7 +313,6 @@
                           onclick="like_reply_comment('{{reply_comment.reply_comment_id}}');">{{reply_comment.likes|brief_likes_format}}
                           👍</button>
                         {% endif %}
-
                         {% if reply_comment.reply_comment_id|check_reply_comment_dislike:request.user.user_id %}
                         <button class="btn btn-reaction-active"
                           id="dislike_reply_comment_{{reply_comment.reply_comment_id}}"
@@ -309,13 +323,20 @@
                           onclick="dislike_reply_comment('{{reply_comment.reply_comment_id}}');">{{reply_comment.dislikes|brief_likes_format}}
                           👎</button>
                         {% endif %}
+                        {% else %}
+                        <button class="btn btn-reaction" id="like_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{reply_comment.likes|brief_likes_format}}
+                          👍</button>
+                        <button class="btn btn-reaction" id="dislike_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{reply_comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% endif %}
 
                         {% if reply_comment.creator == request.user %}
                         <button class="btn btn-danger" style="padding: 0.35rem 0.75rem;"
                           onclick="delete_reply_comment('{{reply_comment.reply_comment_id}}');">Delete 🗑</button>
                         {% endif %}
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -326,7 +347,6 @@
             {% if page_obj.has_next %}
             <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
             {% endif %}
-
           </div>
         </div>
       </div>
@@ -341,7 +361,6 @@
           offset: 'bottom-in-view',
         });
       </script>
-
       <!-- Videos -->
       <div class="col-md">
         <div>
@@ -368,21 +387,18 @@
             <button style="display: inline-block; margin-top: -5px; padding: .35rem .75rem;" class="btn btn-primary"
               id="send">Send</button>
           </div>
-
           <script>
             let video = document.getElementById("video")
             video_height = video.offsetHeight
             video_width = video.offsetWidth
             let block_width = document.getElementById("row").offsetWidth
             let body_width = document.getElementById("body").offsetWidth
-
             let chat = document.getElementById("chat-block");
             let message = document.getElementById("message");
             if (body_width > 1024) {
               chat.style.height = video_height + "px";
               chat.style.width = block_width - video_width - 50 + "px";
               message.style.width = chat.offsetWidth - 105 + "px";
-
             } else if (body_width > 550 && body_width <= 1024) {
               chat.style.height = video_height + "px";
               chat.style.width = "100%";
@@ -393,19 +409,15 @@
               message.style.width = chat.offsetWidth - 100 + "px";
             }
           </script>
-
         </div>
-
         <script>
           // scroll messages block to bottom
           function ScrollBottom() {
             var chat_block = document.getElementById("chat-block");
             chat_block.scrollTop = chat_block.scrollHeight;
           }
-
           // connect to server
           let socket = new WebSocket(`wss://socketserver92875.herokuapp.com/ws/chat/{{ video.video_id }}/`);
-
           // Send message func
           let Send = function (data) {
             if (!socket.readyState) {
@@ -414,34 +426,31 @@
               socket.send(data);
             }
           };
-
           // get message
           socket.onmessage = async function (event) {
             let response = JSON.parse(event.data);
-
             // create message block
             let chat_block = document.getElementById("chat-block");
             let message = document.createElement('div');
             message.className = "message";
-            if (response.data.user_id == "{{ video.creator.user_id }}") {
+            if (response.data.username == "Anonymous") {
+              message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000;">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+            } else if (response.data.user_id == "{{ video.creator.user_id }}") {
               message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #0D6EFD; cursor: pointer; font-wight: 700;" href="/channel/${response.data.user_id}/">${response.data.username} ✔️</a></div><div class="message-text">${response.data.message}</div>`;
             } else if (response.data.user_id == "{{ request.user.user_id}}") {
               message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #828282; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
             } else {
               message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
             };
-
             chat_block.append(message)
             ScrollBottom()
-
           };
-
           // send message
           send.onclick = function () {
             let message = document.getElementById('message').value;
             if (message != "" && message.length < 501) {
               if ("{{ request.user.username }}" == "") {
-                Send(JSON.stringify({ "username": "Ananimus", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "{{ request.user.user_id }}", "message": message }));
+                Send(JSON.stringify({ "username": "Anonymous", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "", "message": message }));
               } else {
                 Send(JSON.stringify({ "username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message }));
               };
@@ -450,7 +459,6 @@
             };
             document.getElementById('message').value = "";
           };
-
           // ENTER button click
           $(document).keypress(function (e) {
             if (e.which == 13) {
@@ -458,7 +466,6 @@
             }
           });
         </script>
-
         {% for video in video_recommendations %}
         <div class="card mb-3" style="max-width: auto; height: 100px;">
           <div class="row g-0" style="align-items: end; width: auto;">
@@ -481,7 +488,6 @@
         </div>
         {% endfor %}
       </div>
-
     </div>
   </div>
 </main>

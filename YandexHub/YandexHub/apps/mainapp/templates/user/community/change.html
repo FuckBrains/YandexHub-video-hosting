@@ -1,6 +1,5 @@
 {% extends "main.html" %}
 {% block content %}
-
 <main role="main" style="margin-top: 35px;">
     <div class="block-content">
         {% if request.user.is_authenticated %}
@@ -9,7 +8,6 @@
             {% csrf_token %}
             {{ArticleTextArea}}
             <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Save">
-
             {% if article.creator == request.user %}
             <button style="margin-top: 15px;" type="button" class="btn btn-danger" data-bs-toggle="modal"
                 data-bs-target="#DeleteModel">
@@ -49,5 +47,4 @@
         {% endif %}
     </div>
 </main>
-
 {% endblock %}

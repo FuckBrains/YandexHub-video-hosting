@@ -2,10 +2,8 @@
 {% block content %}
 {% load poll_extras %}
 {% load static %}
-
 <main role="main">
     <div class="block-content">
-
         <section class="py-3 text-center container-fluid">
             <div class="row" style="padding-bottom: 3rem!important;">
                 <div class="col-lg-12 col-md-8 mx-auto">
@@ -21,7 +19,6 @@
                 </div>
             </div>
         </section>
-
         <div
             class="row infinite-container row-cols-sm-1 row-cols-sm-2 row-cols-sm-3 row-cols-sm-4 row-cols-sm-5 row-cols-xl-6 g-3">
             {% for film in films %}
@@ -47,7 +44,6 @@
         {% endif %}
     </div>
 </main>
-
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/lazyload/infinite.min.js' %}"></script>

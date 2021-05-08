@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 
 # NETWORK
-from urllib.request import urlopen
+#from urllib.request import urlopen
 
 # JSON
 import json 
@@ -32,26 +32,33 @@ from random import choice
 from .models import *
 from django.db.models import Q
 
+# DECORATORS
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 # FORMS
 from .forms import *
 from django.contrib.auth.forms import UserCreationForm
 
 # DATE/TIME
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 
-# TELEGRAM
-import telebot
+# OS
+from pathlib import Path
 
-# helpers
-from .helpers import generate_id
+# HELPERS
+from .helpers import random_list, generate_id, get_client_ip, get_ip_info, get_city_and_country_ip
 
+# BOT
+from .bot import YandexHubAlert
+
+# site domen, use for telegram bot
 DOMEN = 'http://127.0.0.1:8000/'
 
-# get random list
-def random_list(x):
-    random.shuffle(x)
-    return x
-
+VIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']
+IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']
+MAX_IMAGE_SIZE = 7864320 # 7.5 MB
+MAX_VIDEO_SIZE = 209715200 # 200 MB
 
 # get recommendations on video page
 def get_video_recommendations(channel, video):
@@ -116,64 +123,6 @@ def view_func(video, request):
     coefficient_func(video)
 
 
-# get user IP
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[-1].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-
-# get info about IP
-def get_ip_info(ip):
-    url = 'https://ipinfo.io/' + ip + '/json'
-    res = urlopen(url)
-    data = json.load(res)
-    response = {}
-    if 'country' in data:
-        response['country'] = data['country']
-
-    if 'city' in data:
-        response['city'] = data['city']
-
-    return response
-
-
-# get city and country ip
-def get_city_and_country_ip(request):
-    ip = get_client_ip(request)
-    now = datetime.now() 
-    date = now.strftime('%d-%m-%Y %H:%M:%S')
-    ip_info = get_ip_info(ip)
-    if 'country' in ip_info:
-        country = ip_info['country']
-    else:
-        country = '???'
-
-    if 'city' in ip_info:
-        city = ip_info['city']
-    else:
-        city = '???' 
-
-    return f'Date: {date}\nIP: {ip}\nCountry: {country}\nCity: {city}'
-
-
-# bot send message
-def YandexHubAlert(text, telegram_id):
-    try:
-        '''
-        Если бот не будет работать, то...
-        1) Создайте своего telegram бота по инструкции https://core.telegram.org/bots#6-botfather
-        2) Полученный token вставьте вместо старого 
-        '''
-        bot = telebot.TeleBot('1785721677:AAF0OeaZ-ZC_Zf5IF0BMaDqacKE3y7OB290')
-        bot.send_message(telegram_id, text)
-        return 'ok'
-    except:
-        return 'err'
-
 
 #  home page
 class HomeView(ListView):
@@ -217,12 +166,16 @@ class ChannelView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ChannelView, self).get_context_data(**kwargs)
+        # get video model
         self.videos = Video.objects.filter(
             creator=self.channel).order_by('-date_created')
 
         # find subscribe model
-        self.subscribe = Subscribe.objects.filter(
-            subscriber=self.request.user.id, channel=self.channel)
+        if self.request.user.is_authenticated:
+            self.subscribe = Subscribe.objects.filter(
+                subscriber=self.request.user, channel=self.channel)
+        else:
+            self.subscribe = None
 
         # find notification model
         if self.request.user.is_authenticated:
@@ -249,8 +202,11 @@ class AboutView(TemplateView):
         self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
 
         # find subscribe model
-        self.subscribe = Subscribe.objects.filter(
-            subscriber=self.request.user.id, channel=self.channel)
+        if self.request.user.is_authenticated:
+            self.subscribe = Subscribe.objects.filter(
+                subscriber=self.request.user.id, channel=self.channel)
+        else:
+            self.subscribe = None
 
         # find notification model
         if self.request.user.is_authenticated:
@@ -272,10 +228,9 @@ class SettingsView(TemplateView):
     template_name = 'user/settings/main.html'
 
     def get_context_data(self, **kwargs):
-        if self.request.user.is_authenticated:
-            context = super(SettingsView, self).get_context_data(**kwargs)
-            context['title'] = 'Settings ⚙️'
-            return context
+        context = super(SettingsView, self).get_context_data(**kwargs)
+        context['title'] = 'Settings ⚙️'
+        return context
 
 
 # channel settings page
@@ -283,41 +238,132 @@ class ChannelSettingsView(TemplateView):
     template_name = 'user/settings/channel.html'
 
     def get_context_data(self, **kwargs):
+        context = super(ChannelSettingsView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context = super(ChannelSettingsView,
-                            self).get_context_data(**kwargs)
             context['title'] = 'Channel settings 👻'
-            context['CustomUserTextArea'] = CustomUserTextArea(
-                instance=self.request.user)
+            context['CustomUserTextArea'] = CustomUserTextArea(instance=self.request.user)
+            return context
+        else:
+            context['title'] = 'Channel settings 👻'
             return context
 
     def post(self, request):
         user = request.user
-        try:
-            user.avatar = request.FILES['avatar']
-        except:
-            pass
+        if user.is_authenticated:
+            try:
+                _file = request.FILES['avatar']
+                file_extension = Path(str(_file)).suffix
+                if not file_extension in IMAGE_EXTENSIONS:
+                    messages.error(request, 'This file extension is not supported 😑<br/>You can read more about supported extensions here.')
+                    return redirect('channel__settings__page')
+                else:
+                    if _file.size > MAX_IMAGE_SIZE:
+                        messages.error(request, 'The size of the photo should not exceed 7.5 MB. 💡')
+                        return redirect('channel__settings__page')
+                    else:
+                        user.avatar = _file
+            except:
+                pass
 
-        try:
-            user.banner = request.FILES['banner']
-        except:
-            pass
+            try:    
+                _file = request.FILES['banner']
+                file_extension = Path(str(_file)).suffix
+                if not file_extension in IMAGE_EXTENSIONS:
+                    messages.error(request, 'This file extension is not supported 😑<br/>You can read more about supported extensions here.')
+                    return redirect('channel__settings__page')
+                else:
+                    if _file.size > MAX_IMAGE_SIZE:
+                        messages.error(request, 'The size of the photo should not exceed 7.5 MB. 💡')
+                        return redirect('channel__settings__page')
+                    else:
+                        user.banner = _file
+            except:
+                pass
 
-        user.username = request.POST['username']
-        user.description = request.POST['description']
-        user.location = request.POST['location']
-        user.contact_email = request.POST['contact_email']
-        user.vk_link = request.POST['vk_link']
-        user.telegram_link = request.POST['telegram_link']
-        user.instagram_link = request.POST['instagram_link']
-        user.facebook_link = request.POST['facebook_link']
-        user.twitter_link = request.POST['twitter_link']
-        user.reddit_link = request.POST['reddit_link']
-        user.website_link = request.POST['website_link']
-        user.save()
+            username = request.POST['username']
+            if len(str(username).replace(' ', '')) != 0:
+                user.username = username
+            else: 
+                messages.error(request, 'Username cannot be empty 😦')
+                return redirect('channel__settings__page')
 
-        messages.success(request, 'Settings have been saved 👽')
-        return redirect('channel__settings__page')
+            description = request.POST['description']
+            if len(str(description)) > 5000:
+                messages.error(request, 'Maximum description length 5000 characters 😯')
+                return redirect('channel__settings__page')
+            else:
+                user.description = description
+            
+            location = request.POST['location']
+            if len(str(location)) <= 150:
+                user.location = location
+            else: 
+                messages.error(request, 'Maximum location length 150 characters 😓')
+                return redirect('channel__settings__page')
+
+            contact_email = request.POST['contact_email']
+            if len(str(contact_email)) <= 150:
+                user.contact_email = contact_email
+            else: 
+                messages.error(request, 'Maximum contact email length 150 characters 🤕')
+                return redirect('channel__settings__page')
+            
+            vk_link = request.POST['vk_link']
+            if len(str(vk_link)) <= 150:
+                user.vk_link = vk_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 😕')
+                return redirect('channel__settings__page')
+
+            telegram_link = request.POST['telegram_link']
+            if len(str(telegram_link)) <= 150:
+                user.telegram_link = telegram_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 🥺')
+                return redirect('channel__settings__page')
+                
+            instagram_link = request.POST['instagram_link']
+            if len(str(instagram_link)) <= 150:
+                user.instagram_link = instagram_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 😣')
+                return redirect('channel__settings__page')
+
+            facebook_link = request.POST['facebook_link']
+            if len(str(facebook_link)) <= 150:
+                user.facebook_link = facebook_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 😖')
+                return redirect('channel__settings__page')
+
+            twitter_link = request.POST['twitter_link']
+            if len(str(twitter_link)) <= 150:
+                user.twitter_link = twitter_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 🤨')
+                return redirect('channel__settings__page')
+
+            reddit_link = request.POST['reddit_link']
+            if len(str(reddit_link)) <= 150:
+                user.reddit_link = reddit_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 🥴')
+                return redirect('channel__settings__page')
+
+            website_link = request.POST['website_link']
+            if len(str(website_link)) <= 150:
+                user.website_link = website_link
+            else:
+                messages.error(request, 'Maximum link length 150 characters 🤒')
+                return redirect('channel__settings__page')
+
+            user.save()
+
+            messages.success(request, 'Settings have been saved 👽')
+            return redirect('channel__settings__page')
+        else:
+            messages.error(request, '''You must be logged in to change channel settings. You can also do it via the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a>. 😲''')
+            return redirect('main__page')
 
 
 # account settings page
@@ -325,10 +371,9 @@ class AccountSettingsView(TemplateView):
     template_name = 'user/settings/account.html'
 
     def get_context_data(self, **kwargs):
-        if self.request.user.is_authenticated:
-            context = super(AccountSettingsView,self).get_context_data(**kwargs)
-            context['title'] = 'Account settings 🤡'
-            return context
+        context = super(AccountSettingsView,self).get_context_data(**kwargs)
+        context['title'] = 'Account settings 🤡'
+        return context
 
     def post(self, request):   
         password = request.POST['password']
@@ -338,24 +383,31 @@ class AccountSettingsView(TemplateView):
         user = authenticate(email=email, password=password)
 
         if user is not None:
+            # logout
             logout(request)
-            CustomUser.objects.get(email=email, user_id=user_id).delete()
+            user = CustomUser.objects.filter(email=email, user_id=user_id)
+            if user.count() > 0:
+                # delete user model
+                user[0].delete()
 
-            # YandexHub Alert
-            if telegram:
-                # send alert
-                message = YandexHubAlert(f'Your YandexHub account has been successfully deleted 💀\n\n{get_city_and_country_ip(request)}', telegram)
-                if message == 'ok':
-                    pass 
+                # YandexHub Alert
+                if telegram:
+                    # send alert
+                    message = YandexHubAlert(f'Your YandexHub account has been successfully deleted 💀\n\n{get_city_and_country_ip(request)}', telegram)
+                    if message == 'ok':
+                        pass 
+                    else:
+                        pass            
                 else:
-                    pass            
-            else:
-                pass
+                    pass
 
-            messages.success(request, 'Account successfully deleted 😭')
-            return redirect('main__page')
+                messages.success(request, 'Account successfully deleted 😭')
+                return redirect('main__page')
+            else:
+                messages.error(request, 'Fatal error 🤬')
+                return redirect('main__page')
         else:
-            messages.success(request, 'Wrong password entered 😖')
+            messages.error(request, 'Wrong password entered 😖')
             return redirect('account__settings__page')
 
 # change password page
@@ -363,10 +415,9 @@ class ChangePasswordView(TemplateView):
     template_name = 'user/settings/password.html'
 
     def get_context_data(self, **kwargs):
-        if self.request.user.is_authenticated:
-            context = super(ChangePasswordView,self).get_context_data(**kwargs)
-            context['title'] = 'Change password 🔒'
-            return context
+        context = super(ChangePasswordView,self).get_context_data(**kwargs)
+        context['title'] = 'Change password 🔒'
+        return context
 
     def post(self, request):   
         password = request.POST['password']
@@ -374,10 +425,7 @@ class ChangePasswordView(TemplateView):
         confirm_new_password = request.POST['confirm_new_password']
 
         if new_password == confirm_new_password:
-            if len(new_password) < 8 or len(str(new_password).replace(' ', '')) < 8:
-                messages.success(request, 'Password cannot contain only spaces or be less than 8 characters 🧸')
-                return redirect('change__password__page')
-            else:
+            if 7 < len(new_password) < 150 and 7 < len(str(new_password).replace(' ', '')) < 150:
                 email = request.user.email
                 user_id = request.user.user_id
                 telegram = request.user.telegram
@@ -387,16 +435,19 @@ class ChangePasswordView(TemplateView):
                     user.set_password(new_password)
                     user.save()
                     
+                    # logout
                     logout(request)
 
                     # YandexHub Alert
                     if telegram:
                         # send alert
                         message = YandexHubAlert(f'Your password has been successfully changed 👻\n\n{get_city_and_country_ip(request)}', telegram)
-                        if message == 'ok':
+                        if message == 200:
                             pass 
+                        elif message == 400:
+                            messages.error(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
                         else:
-                            messages.success(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
+                            messages.error(self.request, '''An error occurred while sending a notification. You have blocked the bot from sending messages to fix this read the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/manual/")'>manual</a> 🤖''')
                     else:
                         pass
 
@@ -404,10 +455,13 @@ class ChangePasswordView(TemplateView):
                     messages.success(request, '''After changing your password, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱''')
                     return redirect('main__page')
                 else:
-                    messages.success(request, 'Wrong password entered 😖')
+                    messages.error(request, 'Wrong password entered 😖')
                     return redirect('change__password__page')
+            else: 
+                messages.error(request, 'Password cannot contain only spaces or be less than 8 characters 🧸')
+                return redirect('change__password__page')
         else:
-            messages.success(request, 'Password mismatch 😿')
+            messages.error(request, 'Password mismatch 😿')
             return redirect('change__password__page')
 
 # change email page
@@ -415,44 +469,51 @@ class ChangeEmailView(TemplateView):
     template_name = 'user/settings/email.html'
 
     def get_context_data(self, **kwargs):
-        if self.request.user.is_authenticated:
-            context = super(ChangeEmailView,self).get_context_data(**kwargs)
-            context['title'] = 'Change email ✉️'
-            return context
+        context = super(ChangeEmailView,self).get_context_data(**kwargs)
+        context['title'] = 'Change email ✉️'
+        return context
 
-    def post(self, request):   
-        password = request.POST['password']
-        new_email = request.POST['new_email']
+    def post(self, request):  
+        if request.user.is_authenticated: 
+            password = request.POST['password']
+            new_email = request.POST['new_email']
+            if len(str(new_email).replace(' ', '')) < 5:
+                messages.error(request, 'Invalid email ☠️')
+                return redirect('change__email__page')
+            else: 
+                email = request.user.email
+                telegram = request.user.telegram
+                user = authenticate(email=email, password=password)
 
-        email = request.user.email
-        telegram = request.user.telegram
-        user = authenticate(email=email, password=password)
+                if user is not None:
+                    user.email = new_email
+                    user.save()
+                    
+                    # logout
+                    logout(request)
 
-        if user is not None:
-            user.email = new_email
-            user.save()
-            
-            logout(request)
+                    # YandexHub Alert
+                    if telegram:
+                        # send alert
+                        message = YandexHubAlert(f'Your email has been successfully changed 🙃\n\n{get_city_and_country_ip(request)}', telegram)
+                        if message == 200:
+                            pass 
+                        elif message == 400:
+                            messages.error(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
+                        else:
+                            messages.error(self.request, '''An error occurred while sending a notification. You have blocked the bot from sending messages to fix this read the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/manual/")'>manual</a> 🤖''')
+                    else:
+                        pass
 
-            # YandexHub Alert
-            if telegram:
-                # send alert
-                message = YandexHubAlert(f'Your email has been successfully changed 🙃\n\n{get_city_and_country_ip(request)}', telegram)
-                if message == 'ok':
-                    pass 
+                    messages.success(request, 'Your email has been successfully changed 🙃')
+                    messages.success(request, '''After changing your email, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱''')
+                    return redirect('main__page')
+        
                 else:
-                    messages.success(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
-            else:
-                pass
-
-            messages.success(request, 'Your email has been successfully changed 🙃')
-            messages.success(request, '''After changing your email, you must re-enter your account using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/sign/in/")'>link</a> 📱''')
-            return redirect('main__page')
-  
+                    messages.error(request, 'Wrong password entered 😖')
+                    return redirect('change__email__page')
         else:
-            messages.success(request, 'Wrong password entered 😖')
-            return redirect('change__email__page')
-
+            pass
 
 # video page
 class VideoView(ListView):
@@ -471,7 +532,7 @@ class VideoView(ListView):
 
         view_func(video, self.request) # view video
         
-        context['title'] = f'{video.title}'
+        context['title'] = video.title
         context['video'] = video
         context['video_recommendations'] = get_video_recommendations(video.creator, video)
         if self.request.user.is_authenticated:
@@ -479,6 +540,7 @@ class VideoView(ListView):
             context['saved_video'] = SavedVideo.objects.filter(saved_user=self.request.user, saved_video=video)
             context['liked'] = Like.objects.filter(liked_user=self.request.user, liked_video=video)
             context['disliked'] = Dislike.objects.filter(disliked_user=self.request.user, disliked_video=video)
+
         return context
 
 # create video page
@@ -493,15 +555,45 @@ class CreateVideoView(TemplateView):
     
     def post(self, request):
         if request.POST['title'] is None or len(request.POST['title'].replace(' ', '')) == 0:
-            messages.success(request, 'Video title cannot contain spaces 😈')
+            messages.error(request, 'Video title cannot contain spaces 😈')
             return redirect('create__video__page')
         else:
             if 'video' not in request.FILES or 'video_banner' not in request.FILES:
-                messages.success(request, 'You must upload <b>video</b> and <b>banner</b> 😖')
+                messages.error(request, 'You must upload <b>video</b> and <b>banner</b> 😖')
                 return redirect('create__video__page')
             else:
+                video = request.FILES['video']
+                file_extension = Path(str(video)).suffix
+                if not file_extension in VIDEO_EXTENSIONS:
+                    messages.error(request, 'This file extension is not supported (<b>video</b>) 😑<br/>You can read more about supported extensions here.')
+                    return redirect('create__video__page')
+                else:
+                    if video.size > MAX_VIDEO_SIZE:
+                        messages.error(request, 'The size of the video should not exceed 200 MB. 💡')
+                        return redirect('create__video__page')
+
+                banner = request.FILES['video_banner']
+                file_extension = Path(str(banner)).suffix
+                if not file_extension in IMAGE_EXTENSIONS:
+                    messages.error(request, 'This file extension is not supported (<b>banner</b>) 😑<br/>You can read more about supported extensions here.')
+                    return redirect('create__video__page')
+                else:
+                    if banner.size > MAX_IMAGE_SIZE:
+                        messages.error(request, 'The size of the photo should not exceed 7.5 MB. 💡')
+                        return redirect('create__video__page')
+
+                title = request.POST['title']
+                if len(str(title)) > 150:
+                    messages.error(request, 'Maximum title length 150 characters 🥴')
+                    return redirect('create__video__page')
+
+                description = request.POST['description']
+                if len(str(description)) > 5000:
+                    messages.error(request, 'Maximum description length 5000 characters 🥴')
+                    return redirect('create__video__page')
+
                 # create video model
-                video = Video.objects.create(creator=request.user, video=request.FILES['video'], video_id=generate_id(32), video_banner=request.FILES['video_banner'], title=request.POST['title'], description=request.POST['description'])
+                video = Video.objects.create(creator=request.user, video=video, video_id=generate_id(32), video_banner=banner, title=title, description=description)
                 video.save()
                 
                 # send notifications
@@ -530,12 +622,34 @@ class ChangeVideoView(TemplateView):
 
         if video.creator == self.request.user:
             try:
-                video.video_banner = request.FILES['video_banner']
+                banner = request.FILES['video_banner']
+                file_extension = Path(str(banner)).suffix
+                if not file_extension in IMAGE_EXTENSIONS:
+                    messages.error(request, 'This file extension is not supported (<b>banner</b>) 😑<br/>You can read more about supported extensions here.')
+                    return redirect('edit__video__page', video.video_id)
+                else:
+                    if banner.size > MAX_IMAGE_SIZE:
+                        messages.error(request, 'The size of the photo should not exceed 7.5 MB. 💡')
+                        return redirect('edit__video__page', video.video_id)
+                    else:
+                        video.video_banner = banner
             except:
                 pass
-        
-            video.title = request.POST['title'] 
-            video.description = request.POST['description'] 
+
+            title = request.POST['title']
+            if len(str(title)) > 150:
+                messages.error(request, 'Maximum title length 150 characters 🥴')
+                return redirect('edit__video__page', video.video_id)
+            else:
+                video.title = title
+
+            description = request.POST['description']
+            if len(str(title)) > 150:
+                messages.error(request, 'Maximum description length 5000 characters 🥴')
+                return redirect('edit__video__page', video.video_id)
+            else:
+                video.description = description 
+
             video.save()    
 
             # alert
@@ -544,7 +658,7 @@ class ChangeVideoView(TemplateView):
 
         else:
             # alert
-            messages.success(request, f'You are not the author of the video: <b>{video.title}</b> 😡')
+            messages.error(request, f'You are not the author of the video: <b>{video.title}</b> 😡')
             return redirect('main__page')
 
 
@@ -558,11 +672,23 @@ class AlertBotView(TemplateView):
         return context
 
     def post(self, request):
-        request.user.telegram = request.POST['telegram']
-        request.user.save()
-
-        messages.success(request, 'Your Telegram ID has been successfully saved 🤖')
-        return redirect('bot__page')
+        if request.user.is_authenticated:
+            telegram = request.POST['telegram']
+            if len(str(telegram)) < 10:
+                message = YandexHubAlert('YandexHub Alert successfully connected 👻', telegram)
+                if message == 200:
+                    request.user.telegram = telegram
+                    request.user.save()
+                    messages.success(request, 'Your Telegram ID has been successfully saved 🤖')
+                    return redirect('bot__page')
+                elif message == 400:
+                    messages.error(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
+                    return redirect('bot__page')
+                else:
+                    messages.error(self.request, '''An error occurred while sending a notification. You have blocked the bot from sending messages to fix this read the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/manual/")'>manual</a> 🤖''')
+                    return redirect('bot__page')
+        else:
+            pass
 
 # alert bot manual page
 class AlertBotManualView(TemplateView):
@@ -590,8 +716,10 @@ class CommunityView(ListView):
         self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
 
         # find subscribe model 
-        self.subscribe = Subscribe.objects.filter(subscriber=self.request.user.id, channel=self.channel)
-
+        if self.request.user.is_authenticated:
+            self.subscribe = Subscribe.objects.filter(subscriber=self.request.user, channel=self.channel)
+        else:
+            self.subscribe = None
         # find notification model 
         if self.request.user.is_authenticated:
             self.notifications = Notification.objects.filter(notification_channel=self.channel, notification_user=self.request.user)
@@ -616,16 +744,24 @@ class CreateArticleView(TemplateView):
         return context
     
     def post(self, request):
-        if request.POST['text'] is None or len(request.POST['text'].replace(' ', '')) == 0:
-            messages.success(request, 'Article text cannot contain spaces 😈')
-            return redirect('create__article__page')
-        else:
-            # create article model
-            article = Article.objects.create(creator=request.user, article_id=generate_id(32), text=request.POST['text'])
-            article.save()
-            
-            messages.success(request, f'You have successfully posted a article 🤪')
-            return redirect('community__page', request.user.user_id)
+        if request.user.is_authenticated:
+            if request.POST['text'] is None or len(request.POST['text'].replace(' ', '')) == 0:
+                messages.error(request, 'Article text cannot contain spaces 😈')
+                return redirect('create__article__page')
+            else:
+                text = request.POST['text']
+                if len(str(text)) > 5000:
+                    messages.error(request, 'Maximum text length 5000 characters 🥴')
+                    return redirect('create__article__page')
+
+                # create article model
+                article = Article.objects.create(creator=request.user, article_id=generate_id(32), text=text)
+                article.save()
+                
+                messages.success(request, f'You have successfully posted a article 🤪')
+                return redirect('community__page', request.user.user_id)
+        else: 
+            pass
 
 # change article page 
 class ChangeArticleView(TemplateView):
@@ -640,21 +776,28 @@ class ChangeArticleView(TemplateView):
         return context
 
     def post(self, request, **kwargs):
-        article = Article.objects.get(article_id=self.kwargs['pk'])
+        if request.user.is_authenticated:
+            article = Article.objects.get(article_id=self.kwargs['pk'])
 
-        if article.creator == self.request.user:
-            article.text = request.POST['text'] 
-            article.save()    
+            if article.creator == self.request.user:
+                text = request.POST['text']
+                if len(str(text)) > 5000:
+                    messages.error(request, 'Maximum text length 5000 characters 🥴')
+                    return redirect('edit__article__page', article.article_id)
+                
+                article.text = text
+                article.save()    
 
-            # alert
-            messages.success(request, f'You have successfully changed the article 😍')
-            return redirect('community__page', article.creator.user_id)
+                # alert
+                messages.success(request, f'You have successfully changed the article 😍')
+                return redirect('community__page', article.creator.user_id)
 
+            else:
+                # alert
+                messages.error(request, f'You are not the author of the article 😡')
+                return redirect('main__page')
         else:
-            # alert
-            messages.success(request, f'You are not the author of the article 😡')
-            return redirect('main__page')
-
+            pass
 
 # saved videos page
 class SavedVideosView(ListView):
@@ -740,9 +883,7 @@ class SubscriptionsView(TemplateView):
 
 
     def get_context_data(self, **kwargs):
-     
         context = super(SubscriptionsView, self).get_context_data(**kwargs)
-
         if self.request.user.is_authenticated:
             n = 0
             videos = []
@@ -845,7 +986,7 @@ class VideoStatsView(TemplateView):
         context = super(VideoStatsView, self).get_context_data(**kwargs)
         video = Video.objects.get(video_id=self.kwargs['pk'])
 
-        context['title'] = f'{video.title}'
+        context['title'] = video.title
         context['video'] = video
         return context
 
@@ -996,6 +1137,12 @@ class LikedFilmsView(ListView):
 class SignUpView(TemplateView):
     template_name = 'user/auth/sign_up.html'
 
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return HttpResponseRedirect('/')  
+        else:
+            return super(SignUpView, self).dispatch(*args, **kwargs)
+
     def post(self, request):
         form = CreateUserForm(request.POST)
 
@@ -1013,6 +1160,12 @@ class SignUpView(TemplateView):
 class SignInView(TemplateView):
     template_name = 'user/auth/sign_in.html'
 
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return HttpResponseRedirect('/')  
+        else:
+            return super(SignInView, self).dispatch(*args, **kwargs)
+
     def post(self, request):
         email = request.POST['email']
         password = request.POST['password']
@@ -1026,10 +1179,12 @@ class SignInView(TemplateView):
                 if user.telegram:
                     # send alert
                     message = YandexHubAlert(f'Login to your account 🤨\n\n{get_city_and_country_ip(request)}', user.telegram)
-                    if message == 'ok':
+                    if message == 200:
                         pass 
+                    elif message == 400:
+                        messages.error(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
                     else:
-                        messages.success(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
+                        messages.error(self.request, '''An error occurred while sending a notification. You have blocked the bot from sending messages to fix this read the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/manual/")'>manual</a> 🤖''')
                 else:
                     messages.success(self.request, '''In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😃''')
 
@@ -1042,6 +1197,7 @@ class SignInView(TemplateView):
 
 # sign out
 class SignOutView(View):
+    @method_decorator(login_required)
     def get(self, request):
         logout(request)
 

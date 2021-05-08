@@ -13,19 +13,17 @@
                 </div>
             </div>
         </section>
-
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div style="margin-top: 15px;" class="custom-file">
                 <label class="custom-file-label" for="id_video_banner">Upload banner</label>
                 <input name="video_banner" id="id_video_banner" type="file" class="custom-file-input form-control">
             </div>
-
             <div style="margin-top: 15px;" class="form-floating mb-3">
-                <input name="title" id="id_title" value="{{video.title}}" type="text" class="form-control">
+                <input name="title" id="id_title" value="{{video.title}}" type="text" class="form-control"
+                    maxlength="150">
                 <label for="id_title">Title</label>
             </div>
-
             {{VideoTextArea}}
             <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Save">
             {% if video.creator == request.user %}
@@ -78,5 +76,4 @@
         {% endif %}
     </div>
 </main>
-
 {% endblock %}

@@ -5,7 +5,6 @@
     <div class="spinner horizontal"></div>
     <div class="spinner diagonal part-2"></div>
 </label>
-
 <div id="sidebarMenu" style="z-index: 9999; background-color: #fff;">
     <ul class="sidebarMenuInner">
         <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
@@ -14,14 +13,12 @@
             <div class="spinner horizontal"></div>
             <div class="spinner diagonal part-2"></div>
         </label>
-
         <li>
             <a class="navbar-brand" rel="home" style="cursor: pointer; max-width:40px; margin-left: 40px;"
                 onclick="transition_link(`{% url 'main__page' %}`)">
                 <b style="font-size: 23px; font-weight: 700;" class="sidebar-logo">YandexHub 👾</b>
             </a>
         </li>
-
         <hr style="margin-top: 0px;">
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 5px;"
@@ -43,7 +40,6 @@
                 onclick="transition_link(`{% url 'subscriptions__page' %}`)"> Subscriptions</a>
         </li>
         <hr>
-
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 5px;"
                 src="{% static 'media/site/icons/history_icon.png' %}">
@@ -73,8 +69,8 @@
         <li>
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 2px;"
                 src="{% static 'media/site/icons/film_icon.png' %}">
-            <a class="menu__item menu3" style="cursor: pointer;"
-                onclick="transition_link(`{% url 'films__page' %}`)"> Films</a>
+            <a class="menu__item menu3" style="cursor: pointer;" onclick="transition_link(`{% url 'films__page' %}`)">
+                Films</a>
         </li>
         <hr>
         {% if request.user.subscriber.all %}
@@ -95,8 +91,8 @@
         <li style="bottom: 0; position: absolute;">
             <img class="menu__icon" style="width: 21px; margin-right: 10px; margin-bottom: 2px;"
                 src="{% static 'media/site/icons/about.png' %}">
-            <a class="menu__item menu3" style="cursor: pointer;"
-                onclick="transition_link(`{% url 'about__page' %}`)"> About</a>
+            <a class="menu__item menu3" style="cursor: pointer;" onclick="transition_link(`{% url 'about__page' %}`)">
+                About</a>
         </li>
     </ul>
 </div>

@@ -11,12 +11,11 @@
                 <div class="col-lg-12 col-md-8 mx-auto">
                     <img class="banner-icon" src="{% static 'media/site/icons/paper.png' %}">
                     <h1 style="margin-bottom: 25px;">Video comments</h1>
-                    <h2 style="margin-bottom: 15px;">Video: <a style="cursor: pointer;"
+                    <h2 style="margin-bottom: 15px;">Video: <a class="a"
                             onclick="transition_link(`{% url 'video__page' video.video_id %}`)">{{video.title}}</a></h2>
                 </div>
             </div>
         </section>
-
         {% if comments %}
         <div class="infinite-container">
             <table class="table">
@@ -31,7 +30,7 @@
                         <th scope="col">View stats</th>
                     </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                     {% for i in comments %}
                     <tr class="infinite-item">
                         <td>{{ i.comment_text }}</td>
@@ -55,7 +54,6 @@
         {% else %}
         <h2 class="text-center" style="margin-bottom: 40px;">The video has no comments yet.</h2>
         {% endif %}
-
         {% else %}
         <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
@@ -80,7 +78,6 @@
         {% endif %}
     </div>
 </main>
-
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/lazyload/infinite.min.js' %}"></script>

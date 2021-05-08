@@ -55,9 +55,9 @@
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}
         {% else %}
-        <h2 style="text-align: center; margin-bottom: 40px;">You haven't uploaded any videos. You can do it <a class="a" onclick="transition_link(`{% url 'create__video__page' %}`)">here</a>.</h2>
+        <h2 style="text-align: center; margin-bottom: 40px;">You haven't uploaded any videos. You can do it <a class="a"
+                onclick="transition_link(`{% url 'create__video__page' %}`)">here</a>.</h2>
         {% endif %}
-
         {% else %}
         <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
@@ -71,7 +71,6 @@
         {% endif %}
     </div>
 </main>
-
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/lazyload/infinite.min.js' %}"></script>

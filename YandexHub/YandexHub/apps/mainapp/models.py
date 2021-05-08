@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(null=True, unique=True)
 
     # username
-    username = models.CharField(blank=True, null=True, max_length=25)
+    username = models.CharField(blank=True, null=True, max_length=50)
 
     # user media
     avatar = models.ImageField(blank=True, null=True, upload_to = 'avatars/', default='avatars/default/default_avatar.png')

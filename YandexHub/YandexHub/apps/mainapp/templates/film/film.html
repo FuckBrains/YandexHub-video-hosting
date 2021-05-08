@@ -6,17 +6,18 @@
     <div class="block-content">
         <div class="row" id="row" style="justify-content: end; align-items: end;">
             <div class="video-block col-md-10" style="width: 70%">
-
                 <!-- Video -->
                 {% if buy|length == 0 %}
-                <video style="width: 100%; height: auto;" controls="controls" poster="{{film.film_banner.url}}"
-                    preload="auto" id="video" autoplay="true" muted="muted">
+                <video style="width: 100%; height: auto;" controls="controls"
+                    poster="{% static 'media/site/video/placeholder.jpg' %}" preload="auto" id="video" autoplay="true"
+                    muted="muted">
                     <source src="{{film.trailer.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
                     The video tag is not supported by your browser.
                 </video>
                 {% else %}
-                <video style="width: 100%; height: auto;" controls="controls" poster="{{film.film_banner.url}}"
-                    preload="auto" id="video" autoplay="true" muted="muted">
+                <video style="width: 100%; height: auto;" controls="controls"
+                    poster="{% static 'media/site/video/placeholder.jpg' %}" preload="auto" id="video" autoplay="true"
+                    muted="muted">
                     <source src="{{film.film.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
                     The video tag is not supported by your browser.
                 </video>
@@ -25,9 +26,7 @@
                     video = document.getElementById("video");
                     video.muted = false;
                 </script>
-
                 <div style="position: relative;">
-
                     <!-- Stats -->
                     <div style="display: inline-block;">
                         <p class="card-text video-title"
@@ -35,11 +34,9 @@
                             {{film.title}}
                         </p>
                     </div>
-
-
                     <div style="display: inline-block;">
                         <div>
-
+                            {% if request.user.is_authenticated %}
                             <!-- Likes -->
                             {% if liked|length == 0 %}
                             <button class="btn btn-reaction btn-like" id="like_film" style="right: 178px !important;"
@@ -51,7 +48,6 @@
                                 onclick="like_film('{{film.film_id}}');">{{film.likes|brief_likes_format}}
                                 👍</button>
                             {% endif %}
-
                             <!-- Dislikes -->
                             {% if disliked|length == 0 %}
                             <button class="btn btn-reaction btn-dislike" id="dislike_film"
@@ -64,21 +60,32 @@
                                 onclick="dislike_film('{{film.film_id}}');">{{film.dislikes|brief_likes_format}}
                                 👎</button>
                             {% endif %}
-
+                            {% else %}
+                            <button class="btn btn-reaction btn-like" id="like_film" style="right: 178px !important;"
+                                onclick="transition_link(`{% url 'signin' %}`)">{{film.likes|brief_likes_format}}
+                                👍</button>
+                            <button class="btn btn-reaction btn-dislike" id="dislike_film"
+                                style="right: 105px !important;"
+                                onclick="transition_link(`{% url 'signin' %}`)">{{film.dislikes|brief_likes_format}}
+                                👎</button>
+                            {% endif %}
                             <!-- Ratio -->
                             {% if film.likes != 0 or film.dislikes != 0 %}
-                            <div  style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
+                            <div
+                                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
-                            <div id="ratio-dislikes-film" style="height: 2px; width: {{film.likes|ratio:film.dislikes}}px; position: absolute; background: #DC3545; right: 105px; bottom: -11px; z-index: 100;">
+                            <div id="ratio-dislikes-film"
+                                style="height: 2px; width: {{film.likes|ratio:film.dislikes}}px; position: absolute; background: #DC3545; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
                             {% else %}
-                            <div style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
+                            <div
+                                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
-                            <div id="ratio-dislikes-film" style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 105px; bottom: -11px; z-index: 100;">
+                            <div id="ratio-dislikes-film"
+                                style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 105px; bottom: -11px; z-index: 100;">
                             </div>
                             {% endif %}
                         </div>
-
                         <!-- Share -->
                         <button class="btn btn-share" data-bs-toggle="modal" data-bs-target="#saveModal">Share
                             ❤️</button>
@@ -115,7 +122,6 @@
                     </div>
                 </div>
                 <hr style="margin-top: 10px; margin-bottom: 20px;">
-
                 <div class="row g-0" style="align-items: end; width: auto; justify-content: end; position:relative;">
                     <div class="col-md-9">
                         <div class="row">
@@ -123,24 +129,20 @@
                                 <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Description</div>
                                 <div class="col-md-10">{{film.description|safe}}</div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75;">Rating</div>
                                 <div class="col-md-10"><a href="https://movielabs.com/md/ratings/v2.3/html/Summary.html"
                                         target="_blank" data-bs-toggle="tooltip" data-bs-placement="top"
                                         title="What is the age rating?">{{ film.rating }}</a></div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75;">Release date</div>
                                 <div class="col-md-10">{{ film.release_date }}</div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75;">Running time</div>
                                 <div class="col-md-10" id="running_time">{{ film.running_time }}</div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Actors</div>
                                 <div class="col-md-10">{% for actor in film.actor_film.all %} <a
@@ -148,7 +150,6 @@
                                         onclick="transition_link(`{% url 'actor__page' actor.actor.actor_id %}`)">{{actor.actor.name}}</a><br />
                                     {% endfor %}</div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Producers</div>
                                 <div class="col-md-10">{% for producer in film.producer_film.all %} <a
@@ -156,7 +157,6 @@
                                         onclick="transition_link(`{% url 'producer__page' producer.producer.producer_id %}`)">{{producer.producer}}</a><br />
                                     {% endfor %}</div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Writers</div>
                                 <div class="col-md-10">{% for writer in film.writer_film.all %} <a
@@ -164,7 +164,6 @@
                                         onclick="transition_link(`{% url 'writer__page' writer.writer.writer_id %}`)">{{writer.writer}}</a><br />
                                     {% endfor %}</div>
                             </div>
-
                             <div style="display: flex !important; margin-bottom: 10px;">
                                 <div class="col-md-2" style="color: #656E75; margin-bottom: auto;">Genres</div>
                                 <div class="col-md-10">
@@ -181,7 +180,6 @@
                         {% if buy|length == 0 %}
                         <button class="btn btn-primary btn-subscribe" data-bs-toggle="modal"
                             data-bs-target="#BuyModal">Buy a film</button>
-
                         <div class="modal fade" id="BuyModal" tabindex="-1" aria-labelledby="BuyModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -213,10 +211,7 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="col-md">
-
                 <!-- chat -->
                 <div>
                     <div class="chat-block" id="chat-block">
@@ -245,7 +240,6 @@
                         <button style="display: inline-block; margin-top: -5px; padding: .35rem .75rem;"
                             class="btn btn-primary" id="send">Send</button>
                     </div>
-
                     <script>
                         let video = document.getElementById("video")
                         video_height = video.offsetHeight
@@ -270,7 +264,6 @@
                             message.style.width = chat.offsetWidth - 100 + "px";
                         }
                     </script>
-
                 </div>
                 <script>
                     // scroll messages block to bottom
@@ -278,7 +271,6 @@
                         var chat_block = document.getElementById("chat-block");
                         chat_block.scrollTop = chat_block.scrollHeight;
                     }
-
                     // connect to server
                     let socket = new WebSocket(`wss://socketserver92875.herokuapp.com/ws/chat/{{ film.film_id }}/`);
 
@@ -290,34 +282,29 @@
                             socket.send(data);
                         }
                     };
-
                     // get message
                     socket.onmessage = async function (event) {
                         let response = JSON.parse(event.data);
-
                         // create message block
                         let chat_block = document.getElementById("chat-block");
                         let message = document.createElement('div');
                         message.className = "message";
-                        if (response.data.user_id == "{{ video.creator.user_id }}") {
-                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #0D6EFD; cursor: pointer; font-wight: 700;" href="/channel/${response.data.user_id}/">${response.data.username} ✔️</a></div><div class="message-text">${response.data.message}</div>`;
+                        if (response.data.username == "Anonymous") {
+                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000;">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
                         } else if (response.data.user_id == "{{ request.user.user_id}}") {
-                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #828282; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+                            message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #0D6EFD; cursor: pointer; font-wight: 700;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
                         } else {
                             message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
                         };
-
                         chat_block.append(message)
                         ScrollBottom()
-
                     };
-
                     // send message
                     send.onclick = function () {
                         let message = document.getElementById('message').value;
                         if (message != "" && message.length < 501) {
                             if ("{{ request.user.username }}" == "") {
-                                Send(JSON.stringify({ "username": "Anonymous", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "{{ request.user.user_id }}", "message": message }));
+                                Send(JSON.stringify({ "username": "Anonymous", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "", "message": message }));
                             } else {
                                 Send(JSON.stringify({ "username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message }));
                             };
@@ -326,7 +313,6 @@
                         };
                         document.getElementById('message').value = "";
                     };
-
                     // ENTER button click
                     $(document).keypress(function (e) {
                         if (e.which == 13) {
@@ -334,7 +320,6 @@
                         }
                     });
                 </script>
-
                 {% for film in film_recommendations %}
                 <div class="card mb-3" style="max-width: auto; height: 100px;">
                     <div class="row g-0" style="align-items: end; width: auto;">
@@ -357,10 +342,8 @@
                     </div>
                 </div>
                 {% endfor %}
-
             </div>
         </div>
-    </div>
     </div>
 </main>
 {% endblock %}

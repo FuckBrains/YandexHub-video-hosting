@@ -2,7 +2,6 @@
 {% block content %}
 {% load poll_extras %}
 {% load static %}
-
 <main role="main">
     <div class="block-content">
         {% if request.user.is_authenticated %}
@@ -14,9 +13,9 @@
                 </div>
             </div>
         </section>
-
         {% if films %}
-        <div class="row infinite-container row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
+        <div
+            class="row infinite-container row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xl-5 row-cols-xl-6 g-3">
             {% for film in films %}
             <div class="infinite-item col" style="cursor: pointer;">
                 <div class="card" style="margin-bottom: 95px;">
@@ -41,7 +40,6 @@
         {% if page_obj.has_next %}
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
         {% endif %}
-
         {% else %}
         <div class="card shadow-sm warning">
             <div style="margin-top: 10px;">
@@ -55,7 +53,6 @@
         {% endif %}
     </div>
 </main>
-
 <!-- lazyload -->
 <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/lazyload/infinite.min.js' %}"></script>

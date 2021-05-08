@@ -28,7 +28,7 @@ SECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '7105b4d06041.ngrok.io']
 
 
 # Application definition
@@ -159,7 +159,7 @@ SUMMERNOTE_THEME = 'bs4'
 
 SUMMERNOTE_CONFIG = {
     'iframe': True,
-    'attachment_filesize_limit': 5000 * 5000,
+    'attachment_filesize_limit': 2560 * 2560,
     'summernote': {
         'airMode': False,
 
