@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 1rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/camera2.png' %}">
+                    <h1 style="margin-bottom: 25px;">Upload video</h1>
+                </div>
+            </div>
+        </section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="margin-top: 15px;" class="custom-file">
+                <label class="custom-file-label" for="id_video">Upload video</label>
+                <input class="form-control" name="video" id="id_video" type="file">
+            </div>
+            <div style="margin-top: 15px;" class="custom-file">
+                <label class="custom-file-label" for="id_video_banner">Upload banner</label>
+                <input class="form-control" name="video_banner" id="id_video_banner" type="file">
+            </div>
+            <div style="margin-top: 15px;" class="form-floating mb-3">
+                <input name="title" id="id_title" type="text" class="form-control" maxlength="150">
+                <label for="id_title">Title</label>
+            </div>
+            {{VideoTextArea}}
+            <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Upload">
+        </form>
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

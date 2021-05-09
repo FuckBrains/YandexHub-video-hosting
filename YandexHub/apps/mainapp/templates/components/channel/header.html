@@ -1,0 +1,88 @@
+{% load poll_extras %}
+{% if channel.banner %}
+<section class="py-5 text-center banner"
+    style="background: url('{{ channel.banner.url }}'); background-position: center; height: 400px; background-size: cover;">
+</section>
+{% endif %}
+<div style="position: relative; height: 140px; width: 100%; background: #fff; margin-bottom: 25px;">
+    <div class="user-video-avatar"
+        style="width: 45%; position: relative; margin-left: auto; margin-right: auto; top: 15px;">
+        <div class="img avatar-user-page"
+            style="width: 75px; height: 75px; border-radius: 50%; position: absolute; background-image: url({{ channel.avatar.url }});">
+        </div>
+        <div style="position: absolute; left: 100px; top: 15px;" class="user-data-user-page">
+            <p class="username-user-page"
+                style="font-size: 22px; font-weight: 500; margin-bottom: -5px; color:#030303;">{{channel.username}}</p>
+            <small style="color:#606060;">{{channel.all_subscribers|subscribers_format}}</small>
+        </div>
+        {% if request.user.is_authenticated %}
+        {% if request.user.username != channel.username %}
+
+        {% if channel.wallet %}
+            <button class="btn btn-notifications" style="margin-top: 10px;" onclick="transition_link(`{% url 'donation__page' channel.user_id %}`)">💸</button>
+            {% if not notifications %}
+            <button class="btn btn-notifications" id="notifications" onclick="notifications('{{channel.user_id}}');"
+                style="margin-top: 10px; right: 55px;">🔔</button>
+            {% else %}
+            <button class="btn btn-notifications-active" id="notifications" onclick="notifications('{{channel.user_id}}');"
+                style="margin-top: 10px; right: 55px;">🔔</button>
+            {% endif %}
+            {% if not subscribe %}
+            <button class="btn btn-danger btn-subscribe" id="subscribe" style="margin-right: 107px; margin-top: 10px;"
+                onclick="subscribe('{{channel.user_id}}');">Subscribe</button>
+            {% else %}
+            <button class="btn btn-warning btn-subscribe" id="subscribe" onclick="subscribe('{{channel.user_id}}');"
+                style="margin-right: 107px; margin-top: 10px;">Subscribed</button>
+            {% endif %}
+        {% else %}
+            <button class="btn btn-notifications" style="margin-top: 10px;">💸</button>
+            {% if not notifications %}
+            <button class="btn btn-notifications" id="notifications" onclick="notifications('{{channel.user_id}}');"
+                style="margin-top: 10px;">🔔</button>
+            {% else %}
+            <button class="btn btn-notifications-active" id="notifications" onclick="notifications('{{channel.user_id}}');"
+                style="margin-top: 10px;">🔔</button>
+            {% endif %}
+            {% if not subscribe %}
+            <button class="btn btn-danger btn-subscribe" id="subscribe" style="margin-right: 57px; margin-top: 10px;"
+                onclick="subscribe('{{channel.user_id}}');">Subscribe</button>
+            {% else %}
+            <button class="btn btn-warning btn-subscribe" id="subscribe" onclick="subscribe('{{channel.user_id}}');"
+                style="margin-right: 57px; margin-top: 10px;">Subscribed</button>
+            {% endif %}
+        {% endif %}
+
+        {% else %}
+        <a onclick="transition_link(`{% url 'settings__page' %}`)" class="btn btn-primary settings-page-btn"
+            style="cursor: pointer; position: absolute; right: 0; top: 15px; padding: .4rem .80rem; font-weight: 500;">Settings</a>
+        {% endif %}
+        {% else %}
+        <a onclick="transition_link(`{% url 'main__page' %}`)" class="btn btn-primary"
+            style="cursor: pointer; position: absolute; right: 0; top: 15px; padding: .4rem .80rem; font-weight: 500;">Sign
+            in</a>
+        {% endif %}
+        <div style="position: relative; left: 100px; bottom: -86px;" class="user-menu">
+            <a onclick="transition_link(`{% url 'channel__page' channel.user_id %}`)"
+                style="cursor: pointer; font-size: 16px; bottom: -27px; color:#000000; position: absolute;">Home</a>
+            {% if page == 'channel' %}
+            <div
+                style="height: 3px; width: 95px; left: -25px; position: absolute; background-color: #606060; bottom: -39px;">
+            </div>
+            {% endif %}
+            <a onclick="transition_link(`{% url 'community__page' channel.user_id %}`)"
+                style="cursor: pointer; font-size: 16px; bottom: -27px; left: 95px; color:#000000; position: absolute;">Community</a>
+            {% if page == 'community' %}
+            <div
+                style="height: 3px; width: 95px; left: 89px; position: absolute; background-color: #606060; bottom: -39px;">
+            </div>
+            {% endif %}
+            <a onclick="transition_link(`{% url 'about__channel' channel.user_id %}`)"
+                style="cursor: pointer; font-size: 16px; bottom: -27px; left: 229px; color:#000000; position: absolute;">About</a>
+            {% if page == 'about' %}
+            <div
+                style="height: 3px; width: 95px; left: 205px; position: absolute; background-color: #606060; bottom: -39px;">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

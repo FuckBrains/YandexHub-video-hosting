@@ -1,0 +1,61 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        <div class="px-4 py-5 my-5 text-center">
+            <img class="d-block mx-auto mb-4" src="{% static 'media/site/bot/bot.svg' %}" alt="" width="100"
+                height="auto">
+            <h1 class="display-5 fw-bold">YandexHub Alert Bot</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">YandexHub Alert is a bot that will notify you of all changes and news related to
+                    your account.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    {% if request.user.is_authenticated %}
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-2" data-bs-toggle="modal"
+                        data-bs-target="#ConnectModal">Connect</button>
+                    <a class="btn btn-outline-secondary btn-lg px-4 me-sm-2" style="cursor: pointer;"
+                        onclick="transition_link(`{% url 'bot__manual__page' %}`)">Manual</a>
+                    <div class="modal fade" id="ConnectModal" tabindex="-1" aria-labelledby="ConnectModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ConnectModalLabel">Connect YandexHub Alert Bot 🤖</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <p>In order for the bot to write to you specify your Telegram ID how to get it
+                                            see the instructions.</p>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="telegram" id="id_telegram" class="form-control"
+                                                value="{% if request.user.telegram %}{{request.user.telegram}}{% endif %}"
+                                                placeholder="*********" autocomplete="off" maxlength="25">
+                                            <label for="id_telegram">Telegram ID</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <input class="btn btn-primary" type="submit" value="Save">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a class="btn btn-primary btn-lg px-4 me-sm-2" style="cursor: pointer;"
+                        onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
+                    <a class="btn btn-outline-secondary btn-lg px-4 me-sm-2" style="cursor: pointer;"
+                        onclick="transition_link(`{% url 'bot__manual__page' %}`)">Manual</a>
+                    {% endif %}
+                </div>
+            </div>
+            <img src="{% static 'media/site/bot/4.jpg' %}" style="margin-top: 55px;" class="img-fluid" alt="...">
+        </div>
+    </div>
+</main>
+{% endblock %}
