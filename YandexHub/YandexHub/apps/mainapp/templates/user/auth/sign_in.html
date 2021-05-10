@@ -17,6 +17,28 @@
 </head>
 
 <body class="text-center">
+    {% if messages %}
+    <div style="right: 25px; z-index: 9999; top: 23px; position: fixed; text-align: left !important;">
+        {% for message in messages %}
+        <div class="toast" id="toast" style="position: relative;" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">YandexHub 👾</strong>
+            </div>
+            <div class="toast-body" id="toast-body">{{message|safe}}</div>
+        </div>
+        <script>
+            document.querySelectorAll('.toast').forEach((elem) => {
+                elem.className = "toast show";
+            });
+            document.querySelectorAll('.toast').forEach((elem) => {
+                setTimeout(function () {
+                    elem.style.display = 'none';
+                }, 7500);
+            });
+        </script>
+        {% endfor %}
+    </div>
+    {% endif %}
     <main class="form-signin">
         <form method="post">
             {% csrf_token %}
@@ -36,10 +58,9 @@
             <button class="w-75 btn btn-md btn-primary" type="submit">Sign in</button>
             <a href="{% url 'reset_password' %}" class="w-24 btn btn-md btn-primary" data-bs-toggle="tooltip"
                 data-bs-placement="right" title="Forgot your password?">🔒</a>
-            <p class="mt-3 mb-3 text-muted">© 2020–2021</p>
+            <p class="mt-3 mb-3 text-muted">© 2018–2021</p>
         </form>
     </main>
-
     <!-- JS -->
     <script src="{% static 'js/tooltip.js' %}"></script>
 </body>

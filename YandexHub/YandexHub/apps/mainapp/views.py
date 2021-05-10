@@ -52,8 +52,8 @@ from .helpers import random_list, generate_id, get_client_ip, get_ip_info, get_c
 # BOT
 from .bot import YandexHubAlert
 
-# site domen, use for telegram bot
-DOMEN = 'http://127.0.0.1:8000/'
+# site domen, used for telegram bot
+DOMEN = 'https://theprogersteam.ru/'
 
 VIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']
 IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']
@@ -161,15 +161,13 @@ class ChannelView(ListView):
     context_object_name = 'videos'
 
     def get_queryset(self):
-        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
-        return Video.objects.filter(creator=self.channel).order_by('-date_created')
+        channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
+        return Video.objects.filter(creator=channel).order_by('-date_created')
 
     def get_context_data(self, **kwargs):
         context = super(ChannelView, self).get_context_data(**kwargs)
-        # get video model
-        self.videos = Video.objects.filter(
-            creator=self.channel).order_by('-date_created')
-
+        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])
+        
         # find subscribe model
         if self.request.user.is_authenticated:
             self.subscribe = Subscribe.objects.filter(
@@ -187,11 +185,10 @@ class ChannelView(ListView):
         context['notifications'] = self.notifications
         context['subscribe'] = self.subscribe
         context['title'] = self.channel.username
-        context['videos'] = self.videos
         context['channel'] = self.channel
         context['page'] = 'channel'
         return context
-    
+
 
 # donation page
 class DonationView(TemplateView):
@@ -207,7 +204,6 @@ class DonationView(TemplateView):
         context['url'] = f'{DOMEN}channel/{self.channel.user_id}/'
         context['channel'] = self.channel
         return context
-
 
 # connect donations
 class ConnectDonationsView(TemplateView):
@@ -255,7 +251,6 @@ class ConnectDonationsView(TemplateView):
             request.user.save()
             messages.success(request, 'Donations are successfully disabled 🤗')
             return redirect('connect__donations__page')
-
 
 # donations manual page
 class DonationsManualView(TemplateView):
@@ -585,7 +580,7 @@ class ChangeEmailView(TemplateView):
             else:
                 messages.error(request, 'Wrong password entered 😖')
                 return redirect('change__email__page')
-    
+
 
 # video page
 class VideoView(ListView):
@@ -670,10 +665,10 @@ class CreateVideoView(TemplateView):
                 video.save()
                 
                 # send notifications
-                subscribers = Subscribe.objects.filter(channel=video.creator)
+                subscribers = Notification.objects.filter(notification_channel=video.creator)
                 for i in subscribers:
-                    if i.subscriber.telegram:
-                        YandexHubAlert(f'A new video has been released on the {video.creator.username} channel 🥳\n{DOMEN}video/{video.video_id}/', i.subscriber.telegram)
+                    if i.notification_user.telegram:
+                        YandexHubAlert(f'A new video has been released on the {video.creator.username} channel 🥳\n{DOMEN}video/{video.video_id}/', i.notification_user.telegram)
 
                 messages.success(request, f'You have successfully posted a video: <b>{video.title}</b> 🤩')
                 return redirect('video__page', video.video_id)
@@ -768,7 +763,6 @@ class AlertBotView(TemplateView):
             request.user.save()
             messages.success(request, 'YandexHub Alert successfully disabled 🤗')
             return redirect('bot__page')
-
 
 # alert bot manual page
 class AlertBotManualView(TemplateView):
@@ -1224,17 +1218,36 @@ class SignUpView(TemplateView):
             return super(SignUpView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
-        form = CreateUserForm(request.POST)
+        try:
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+            username = request.POST['username']
+            if len(str(password1).replace(' ', '')) < 8 or len(str(password2).replace(' ', '')) < 8:
+                messages.error(self.request, 'The password must be at least 8 characters long and consist of Latin letters, numbers and special characters ☹️')
+                return redirect('sign__up__page')
+            else:
+                if str(password1) != str(password2):
+                    messages.error(self.request, "Passwords don't match 😱")
+                    return redirect('sign__up__page')
+                else:
+                    if len(str(username).replace(' ', '')) == 0:
+                        messages.error(self.request, "Username cannot consist of spaces 😖")
+                        return redirect('sign__up__page')
+                    else:
+                        form = CreateUserForm(request.POST)
 
-        if form.is_valid():
-            obj = form.save(commit=False)
-            form.save()
-            
-            # alert
-            messages.success(self.request, 'Account created successfully 😃')
-            return redirect('main__page')
-        else:
-            return redirect('sign__up__page')
+                        if form.is_valid():
+                            obj = form.save(commit=False)
+                            obj.user_id = generate_id(24)
+                            form.save()
+                            
+                            # alert
+                            messages.success(self.request, 'Account created successfully 😃')
+                            return redirect('main__page')
+                        else:
+                            return redirect('sign__up__page')
+        except:
+            pass
 
 # sign in page
 class SignInView(TemplateView):
@@ -1247,33 +1260,37 @@ class SignInView(TemplateView):
             return super(SignInView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
-        email = request.POST['email']
-        password = request.POST['password']
-        user = authenticate(email=email, password=password)
+        try:
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email=email, password=password)
 
-        if user is not None:
-            if user.is_active:
-                login(request, user)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
 
-                # YandexHub Alert
-                if user.telegram:
-                    # send alert
-                    message = YandexHubAlert(f'Login to your account 🤨\n\n{get_city_and_country_ip(request)}', user.telegram)
-                    if message == 200:
-                        pass 
-                    elif message == 400:
-                        messages.error(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
+                    # YandexHub Alert
+                    if user.telegram:
+                        # send alert
+                        message = YandexHubAlert(f'Login to your account 🤨\n\n{get_city_and_country_ip(request)}', user.telegram)
+                        if message == 200:
+                            pass 
+                        elif message == 400:
+                            messages.error(self.request, '''An error occurred while sending the notification. Check the correctness of your Telegram ID by the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 🤖''')
+                        else:
+                            messages.error(self.request, '''An error occurred while sending a notification. You have blocked the bot from sending messages to fix this read the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/manual/")'>manual</a> 🤖''')
                     else:
-                        messages.error(self.request, '''An error occurred while sending a notification. You have blocked the bot from sending messages to fix this read the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/manual/")'>manual</a> 🤖''')
-                else:
-                    messages.success(self.request, '''In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😃''')
+                        messages.success(self.request, '''In order to secure your account, you can connect a <b>YandexHub Alert Bot</b> using the <a style='cursor: pointer; color: #0D6EFD;' onclick='transition_link("/bot/")'>link</a> 😃''')
 
-                messages.success(self.request, f'You are logged in as: <b>{user.username}</b> 🥳')
-                return redirect('main__page')
+                    messages.success(self.request, f'You are logged in as: <b>{user.username}</b> 🥳')
+                    return redirect('main__page')
+                else:
+                    return redirect('signin')
             else:
+                messages.error(self.request, 'Incorrect email or password 😧')
                 return redirect('signin')
-        else:
-            return redirect('signin')
+        except:
+            pass
 
 # sign out
 class SignOutView(View):

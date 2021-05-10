@@ -28,7 +28,7 @@ SECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '7105b4d06041.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF
     'django_summernote',  # custom input
     'mainapp',  # site app
-
 ]
 
 AUTH_USER_MODEL = 'mainapp.CustomUser'

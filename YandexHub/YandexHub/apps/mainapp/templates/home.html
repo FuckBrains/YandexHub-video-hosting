@@ -20,13 +20,13 @@
                         </div>
                         <div style="display: inline-block;"
                             onclick="transition_link(`{% url 'video__page' video.video_id %}`)">
-                            <p class="card-text" style="color: #000;">{{video.title|truncatechars:60}}</p>
+                            <p class="card-text" style="color: #000; word-wrap: break-word; max-width: 65%;">
+                                {{video.title|truncatechars:45}}</p>
                             <div class="card-bottom">{{video.views|brief_views_format}} ·
                                 {{video.date_created|time_func}}</div>
                         </div>
                     </div>
                 </div>
-                </a>
             </div>
             {% endfor %}
         </div>

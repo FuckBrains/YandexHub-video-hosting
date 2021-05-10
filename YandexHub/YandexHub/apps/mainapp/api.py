@@ -411,17 +411,17 @@ class VideoStatsApi(APIView):
         today = date.today()
         for i in range(10):
             day = today - timedelta(days=i)
-            views = VideoViewModel.objects.filter(watched_video=video, date_created2__gt=day)
-            comments = Comment.objects.filter(commented_video=video, date_created__gt=(day))
-            reply_comments = ReplyComment.objects.filter(reply_commented_video=video, date_created__gt=(day))
-            likes = Like.objects.filter(liked_video=video, date_created__gt=(day))
-            dislikes = Dislike.objects.filter(disliked_video=video, date_created__gt=(day))
+            views = VideoViewModel.objects.filter(watched_video=video, date_created_without_time__gt=day)
+            comments = Comment.objects.filter(commented_video=video, date_created_without_time__gt=(day))
+            reply_comments = ReplyComment.objects.filter(reply_commented_video=video, date_created_without_time__gt=(day))
+            likes = Like.objects.filter(liked_video=video, date_created_without_time__gt=(day))
+            dislikes = Dislike.objects.filter(disliked_video=video, date_created_without_time__gt=(day))
 
             if day >= video.date_created_without_time:
                 views_stats[str(day)] = video.views - len(views)
-                comments_stats[str(day)] = len(comments) + len(reply_comments)
-                likes_stats[str(day)] = len(likes)
-                dislikes_stats[str(day)] = len(dislikes)
+                comments_stats[str(day)] = video.comments - (len(comments) + len(reply_comments))
+                likes_stats[str(day)] = video.likes - len(likes)
+                dislikes_stats[str(day)] = video.dislikes - len(dislikes)
 
         return Response({'data': {'views': views_stats, 'comments': comments_stats, 'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'})     
 

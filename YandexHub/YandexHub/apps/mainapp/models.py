@@ -8,7 +8,7 @@ from .helpers import generate_id
 # User
 class CustomUser(AbstractUser):
     # user id
-    user_id = models.CharField(blank=True, null=True, max_length=24, default=generate_id(24))
+    user_id = models.CharField(blank=True, null=True, max_length=24)
     
     # email
     email = models.EmailField(null=True, unique=True)
@@ -110,7 +110,7 @@ class VideoViewModel(models.Model):
     watched_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='watched_user')
     watched_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='watched_video')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
-    date_created2 = models.DateField(auto_now_add=True, db_index=True)
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
 
 class SavedVideo(models.Model):
     saved_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='saved_user')
@@ -121,11 +121,13 @@ class Like(models.Model):
     liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_video_user')
     liked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='liked_video')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
 
 class Dislike(models.Model):
     disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_video_user')
     disliked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='disliked_video')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
 
 # Comments for videos
 class Comment(models.Model):
@@ -148,6 +150,7 @@ class Comment(models.Model):
 
     # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return self.comment_text
@@ -183,7 +186,8 @@ class ReplyComment(models.Model):
 
     # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
-    
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
+
     def __str__(self):
         return self.comment_text
 
@@ -223,12 +227,13 @@ class ArticleLike(models.Model):
     liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_article_user')
     liked_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False, related_name='liked_article')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
 
 class ArticleDislike(models.Model):
     disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_article_user')
     disliked_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False, related_name='disliked_article')
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
-
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
 
 # Actor
 class Actor(models.Model):
