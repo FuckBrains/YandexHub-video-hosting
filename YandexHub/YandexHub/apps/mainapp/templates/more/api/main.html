@@ -1,0 +1,520 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<style>
+    pre {
+        padding: 20px;
+        background-color: #F5F5F5;
+        border: 2px solid #d7d7d7;
+        border-radius: 15px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: bold;
+        margin: 3% 0%;
+    }
+
+    * {
+        font-family: "Comic sans", sans-serif;
+    }
+</style>
+<main role="main" style="margin-top: 35px;">
+    <div class="container">
+        <h1 id="curation-dashboard-public-api">YandexHub Public API</h1>
+        <hr>
+        <h1 id="requirements">Requirements</h1>
+
+        <h2 id="administration">Administration</h2>
+        <p>API keys are administered by YandexHub Token System. If you would like to get an API key, go to the <a
+                href="/token/" target="_blank">link</a>.
+        </p>
+
+        <h2 id="format">Format</h2>
+        <p>YandexHub Public API can be accessed via the following base URI</p>
+        <p><code>{{domen}}api</code></p>
+        <p>All routes given in this documentation are relative to this base route. Note that unlike the Dashboard
+            itself, the Public API only accepts connections over <code>https://</code>. </p>
+        <p>All responses are given in <code>JSON</code>. </p>
+
+
+        <h2 id="authentication">Authentication</h2>
+        <p>YandexHub Public API uses HTTP Basic Access Authentication to ensure only correctly
+            permissioned users are given access to the feeds they are allowed to read. </p>
+        <p>Each API call made to YandexHub Public API is authenticated with a key generated on a per-user basis.
+            YandexHub
+            will provide you with an API key. </p>
+        <p>This key is included in the HTTP header in the call made as follows: </p>
+        <p><code>Authorization: Token [INSERT API KEY]</code></p>
+        
+        <h2 id="content">Content</h2>
+        <pre style="font-size: 1.15em;">├── <a href="#site">Site stats</a>
+├── <a href="#trends">Trends videos</a>
+├── <a href="#user">User</a>
+│ └── <a href="#videos">User videos</a>
+│ └── <a href="#liked-videos">Liked videos</a>
+│ └── <a href="#disliked-videos">Disliked videos</a>
+│ └── <a href="#saved-videos">Saved videos</a>
+├── <a href="#video">Video</a>
+│ └── <a href="#download-video">Download video</a>
+│ └── <a href="#download-video-banner">Download video banner</a>
+│ └── <a href="#upload-video">Upload video</a>
+├── <a href="#sockets">Socket server</a></pre>
+
+        <h1 id="endpoints">Endpoints</h1>
+
+        <h2 id="site">Site stats</h2>
+        <h4><code>/site</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get site stats by sending a GET request
+            to <code>/user</code>. A <code>200</code> response will be returned along
+            with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "users": 19,
+        "subscriptions": 1,
+        "notifications": 0,
+        "videos": {
+            "videos": 7,
+            "views": 23,
+            "likes": 1,
+            "dislikes": 1,
+            "comments": {
+                "total": 6,
+                "comments": {
+                    "comments": 3,
+                    "likes": 1,
+                    "dislikes": 0
+                },
+                "replies": {
+                    "comments": 3,
+                    "likes": 0,
+                    "dislikes": 0
+                }
+            },
+            "saves": 2
+        },
+        "posts": {
+            "posts": 4,
+            "likes": 2,
+            "dislikes": 2
+        },
+        "films": {
+            "films": 0,
+            "purchases": 0,
+            "likes": 0,
+            "dislikes": 0,
+            "actors": 0,
+            "producers": 0,
+            "writers": 0,
+            "genres": 0
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="trends">Get a trends videos</h2>
+        <h4><code>/trending</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get the trend list by sending a GET
+            request to <code>/trending</code>. A <code>200</code> response will be returned along with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "VBQJ91UnwPXV1dCZp4zFwPdBCpUGxk7E": {
+                "title": "Feder feat. Alex Aiono - Lordly (Official Video)",
+                "description": "Description 🥳",
+                "date_created": "2021-05-15T09:40:10.648501Z",
+                "date_created_without_time": "2021-05-15",  
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Feder_feat._Alex_Aiono_-_Lordly_Official_Video.mp4",
+                    "banner": "video_banners/maxresdefault_8.jpg"
+                },
+                "stats": {
+                    "coefficient": 2.0,
+                    "views": 2,
+                    "comments": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                }
+            }
+        }
+    },
+    "status": "ok"
+}
+            </code></pre>
+
+        <h2 id="user">Retrieving User Information</h2>
+        <h4><code>/user</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can obtain complete information about their
+            profile by sending a GET request to <code>/user</code>. A <code>200</code> response will be returned along
+            with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "user": {
+            "user_id": "P1yIWeqotMylWIkXuJCeKr53",
+            "username": "Valery Parkhomenko",
+            "email": "admin@admin.admin",
+            "date_created": "2021-05-11T12:49:58.847545Z",
+            "media": {
+                "avatar": "avatars/default/default_avatar.png",
+                "banner": "null
+            },
+            "details": {
+                "description": "Hi, there 👻",
+                "contact_email": "null,
+                "location": "Orsk"
+            },
+            "links": {
+                "vk_link": null,
+                "instagram_link": null,
+                "facebook_link": null,
+                "reddit_link": null,
+                "telegram_link": null,
+                "twitter_link": null,
+                "website_link": null
+            },
+            "telegram": {
+                "telegram": null
+            },
+            "yoomoney": {
+                "wallet": null,
+                "donat_text": "Support the author ❤️"
+            },
+            "stats": {
+                "videos": {
+                    "videos": 1,
+                    "views": 10,
+                    "comments": 0,
+                    "likes": 1,
+                    "dislikes": 0
+                },
+                "posts": {
+                    "posts": 4,
+                    "likes": 2,
+                    "dislikes": 2
+                },
+                "subscribers": 1,
+                "notifications": 0
+            }
+        }
+    },
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="videos">Get user videos</h2>
+        <h4><code>/videos</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get his videos by sending a GET
+            request to <code>/videos</code>. A <code>200</code> response will be returned along with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "VBQJ91UnwPXV1dCZp4zFwPdBCpUGxk7E": {
+                "title": "Feder feat. Alex Aiono - Lordly (Official Video)",
+                "description": "Description 🥳",
+                "date_created": "2021-05-15T09:40:10.648501Z",
+                "date_created_without_time": "2021-05-15",
+                "media": {
+                    "video": "videos/Feder_feat._Alex_Aiono_-_Lordly_Official_Video.mp4",
+                    "banner": "video_banners/maxresdefault_8.jpg"
+                },
+                "stats": {
+                    "coefficient": 2.0,
+                    "views": 2,
+                    "comments": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                }
+            },
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="liked-videos">Get liked videos</h2>
+        <h4><code>/videos/liked</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get liked videos by sending a GET
+            request to <code>/video/liked</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "VBQJ91UnwPXV1dCZp4zFwPdBCpUGxk7E": {
+                "title": "Feder feat. Alex Aiono - Lordly (Official Video)",
+                "description": "Description 🥳",
+                "date_created": "2021-05-15T09:40:10.648501Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Feder_feat._Alex_Aiono_-_Lordly_Official_Video.mp4",
+                    "banner": "video_banners/maxresdefault_8.jpg"
+                },
+                "stats": {
+                    "coefficient": 2.0,
+                    "views": 3,
+                    "comments": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="disliked-videos">Get disliked videos</h2>
+        <h4><code>/videos/disliked</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get disliked videos by sending a GET
+            request to <code>/video/disliked</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="saved-videos">Get saved videos</h2>
+        <h4><code>/videos/saved</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get saved videos by sending a GET
+            request to <code>/video/saved</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="video">Video</h2>
+        <h4><code>/video/{"video id"}/info</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get info about video by sending a GET
+            request to <code>/video/{"video id"}/info</code>. A <code>200</code> response will be returned along with an
+            array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="download-video">Download video</h2>
+        <h4><code>/video/{"video id"}/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get video file by sending a GET
+            request to <code>/video/{"video id"}/download</code>. A <code>200</code> response will be returned along
+            with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/1.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="download-video-banner">Download video banner</h2>
+        <h4><code>/video/{"video id"}/banner/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get video banner file by sending a GET
+            request to <code>/video/{"video id"}/banner/download</code>. A <code>200</code> response will be returned
+            along with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/2.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="upload-video">Upload video</h2>
+        <h4><code>/video/upload</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can upload video by sending a POST
+            request to <code>/video/upload</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>title</code></td>
+                    <td><em>string</em></td>
+                    <td>The title text of a video.</td>
+                </tr>
+                <tr>
+                    <td><code>description</code></td>
+                    <td><em>string</em></td>
+                    <td>A description of the video.</td>
+                </tr>
+                <tr>
+                    <td><code>video</code></td>
+                    <td><em>file</em></td>
+                    <td>Video file.</td>
+                </tr>
+                <tr>
+                    <td><code>banner</code></td>
+                    <td><em>file</em></td>
+                    <td>Banner file.</td>
+                </tr>
+            </tbody>
+        </table>
+        <pre><img src="{% static 'media/site/api/3.jpg' %}" width="100%" height="auto"></pre>
+        <hr>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "id": "zsByLdm1qFc3mQXdUa86KbxXRXXpsskC"
+    },
+    "message": "Videos uploaded successfully",
+    "status": "OK"
+}
+        </code></pre>
+
+        <h2 id="sockets">Connecting with sockets</h2>
+        <h3>Connect to socket server</h3>
+        <h4><code>wss://socketserver92875.herokuapp.com/ws/chat/{"video id"}/</code></h4>
+        <p>The user can connect to the socket server and listen or send messages to the chat.</p>
+        <pre><code>let socket = new WebSocket(`wss://socketserver92875.herokuapp.com/ws/chat/{"video id"}/`);</code></pre>
+        <h3>Listening for data</h3>
+        <p>On successful connection, you can be listened by joining the room.</p>
+        <pre><code>socket.onmessage = async function (event) {
+    let response = JSON.parse(event.data);
+    console.log(response);
+};</code></pre>
+        <p>The data will come in <code>JSON</code> format in the following format:</p>
+        <pre><code>{
+    "data": {
+        avatar: "/media/avatars/default/default_avatar.png"
+        message: "..."
+        user_id: "N9hBMThu7rzaDYzu8uTHgYkI"
+        username: "Valery Parkhomenko"
+    },
+    "status": "ok"
+}</code></pre>
+        <h3>Send messages</h3>
+        <p>On successful connection, you can be send messages.</p>
+        <pre><code>let Send = function (data) {
+    if (!socket.readyState) {
+        setTimeout(function () { Send(data); }, 100);
+    } else {
+        socket.send(data);
+    }
+};
+
+Send("Some text...");</code></pre>
+    </div>
+</main>
+{% endblock %}

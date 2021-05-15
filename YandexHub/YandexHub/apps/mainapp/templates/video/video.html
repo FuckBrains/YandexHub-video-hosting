@@ -8,8 +8,7 @@
       <div class="video-block col-md-10" style="width: 70%">
 
         <!-- Video -->
-        <video style="width: 100%; height: auto;" controls="controls"
-          poster="{% static 'media/site/video/placeholder.jpg' %}" preload="auto" id="video" autoplay="true"
+        <video style="width: 100%; height: auto;" controls="controls" preload="auto" id="video" autoplay="true"
           muted="muted">
           <source src="{{video.video.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
           The video tag is not supported by your browser.
@@ -261,7 +260,7 @@
                       <a style="cursor: pointer;"
                         onclick="transition_link(`{% url 'channel__page' reply_comment.creator.user_id %}`)">
                         {% if reply_comment.creator == video.creator %}
-                        <p style="margin-bottom: 5px; font-weight: 500; color: #0059ff;">{{comment.creator.username}} <i
+                        <p style="margin-bottom: 5px; font-weight: 500; color: #0059ff;">{{reply_comment.creator.username}} <i
                             class="fa fa-check" style="color: #0D6EFD"></i>
                           <small class="comment-date-created">{{comment.date_created|time_func}}</small>
                         </p>
@@ -366,25 +365,29 @@
               id="send">Send</button>
           </div>
           <script>
-            let video = document.getElementById("video")
-            video_height = video.offsetHeight
-            video_width = video.offsetWidth
-            let block_width = document.getElementById("row").offsetWidth
-            let body_width = document.getElementById("body").offsetWidth
-            let chat = document.getElementById("chat-block");
-            let message = document.getElementById("message");
-            if (body_width > 1024) {
-              chat.style.height = video_height + "px";
-              chat.style.width = block_width - video_width - 50 + "px";
-              message.style.width = chat.offsetWidth - 105 + "px";
-            } else if (body_width > 550 && body_width <= 1024) {
-              chat.style.height = video_height + "px";
-              chat.style.width = "100%";
-              message.style.width = chat.offsetWidth - 100 + "px";
-            } else {
-              chat.style.height = "450px";
-              chat.style.width = "100%";
-              message.style.width = chat.offsetWidth - 100 + "px";
+            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+            sleep(500).then(GetSize);
+            function GetSize() {
+                let video = document.getElementById("video")
+                video_height = video.offsetHeight
+                video_width = video.offsetWidth
+                let block_width = document.getElementById("row").offsetWidth
+                let body_width = document.getElementById("body").offsetWidth
+                let chat = document.getElementById("chat-block");
+                let message = document.getElementById("message");
+                if (body_width > 1024) {
+                  chat.style.height = video_height + "px";
+                  chat.style.width = block_width - video_width - 50 + "px";
+                  message.style.width = chat.offsetWidth - 105 + "px";
+                } else if (body_width > 550 && body_width <= 1024) {
+                  chat.style.height = video_height + "px";
+                  chat.style.width = "100%";
+                  message.style.width = chat.offsetWidth - 100 + "px";
+                } else {
+                  chat.style.height = "450px";
+                  chat.style.width = "100%";
+                  message.style.width = chat.offsetWidth - 100 + "px";
+                }
             }
           </script>
         </div>
@@ -407,6 +410,7 @@
           // get message
           socket.onmessage = async function (event) {
             let response = JSON.parse(event.data);
+            console.log(response);
             // create message block
             let chat_block = document.getElementById("chat-block");
             let message = document.createElement('div');

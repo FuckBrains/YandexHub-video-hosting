@@ -220,6 +220,9 @@ class Article(models.Model):
     # date created
     date_created = models.DateTimeField(auto_now_add=True, db_index=True)
 
+    # date for analytics
+    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)
+
     def __str__(self):
         return self.article_id
 

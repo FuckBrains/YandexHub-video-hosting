@@ -22,18 +22,17 @@
     <!-- Icons -->
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <!-- CSS -->
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
     <link href="{% static 'css/predloader.css' %}" rel="stylesheet">
     <!-- JS -->
-    <script src="{% static 'js/scroll/scroll.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
     <script src="{% static 'js/search/main.js' %}"></script>
     <script src="{% static 'js/transition.js' %}"></script>
     <script src="{% static 'js/alert.js' %}"></script>
     <script src="{% static 'js/cookie/cookie.js' %}"></script>
 </head>
 
-<body translate="no" class="wrapper animated-show animated-show-active" id="body">
+<body class="wrapper animated-show animated-show-active" id="body">
 
     <div class="screen_resolution">
         <h1 class="screen_resolution_text">This screen resolution is not supported 🥺</h1>
@@ -46,9 +45,15 @@
     <!-- main block -->
     {% block content %}{% endblock %}
 
+    {% if request.user.is_authenticated %}
+    <!-- Create video link -->
+    <a class="link-vk" style="cursor: pointer;" onclick="transition_link(`{% url 'create__video__page' %}`)"
+        target="_blank" data-bs-toggle="tooltip" data-bs-placement="left" title="Create video">🎥</a>
+    {% else %}
     <!-- VK link -->
     <a class="link-vk" href="https://vk.com/v.chap" target="_blank" data-bs-toggle="tooltip" data-bs-placement="left"
         title="Contact the main developer">👾</a>
+    {% endif %}
 
     <!-- JS -->
     <script src="{% static 'js/tooltip.js' %}"></script>

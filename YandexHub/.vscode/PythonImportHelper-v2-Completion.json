@@ -1,0 +1,2713 @@
+[
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "django.utils.timezone",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "template",
+        "importPath": "django",
+        "description": "django",
+        "isExtraImport": true,
+        "detail": "django",
+        "documentation": {}
+    },
+    {
+        "label": "forms",
+        "importPath": "django",
+        "description": "django",
+        "isExtraImport": true,
+        "detail": "django",
+        "documentation": {}
+    },
+    {
+        "label": "stringfilter",
+        "importPath": "django.template.defaultfilters",
+        "description": "django.template.defaultfilters",
+        "isExtraImport": true,
+        "detail": "django.template.defaultfilters",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "messages",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "messages",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "SummernoteModelAdmin",
+        "importPath": "django_summernote.admin",
+        "description": "django_summernote.admin",
+        "isExtraImport": true,
+        "detail": "django_summernote.admin",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "permissions",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "generics",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "MultiPartParser",
+        "importPath": "rest_framework.parsers",
+        "description": "rest_framework.parsers",
+        "isExtraImport": true,
+        "detail": "rest_framework.parsers",
+        "documentation": {}
+    },
+    {
+        "label": "FormParser",
+        "importPath": "rest_framework.parsers",
+        "description": "rest_framework.parsers",
+        "isExtraImport": true,
+        "detail": "rest_framework.parsers",
+        "documentation": {}
+    },
+    {
+        "label": "SessionAuthentication",
+        "importPath": "rest_framework.authentication",
+        "description": "rest_framework.authentication",
+        "isExtraImport": true,
+        "detail": "rest_framework.authentication",
+        "documentation": {}
+    },
+    {
+        "label": "BasicAuthentication",
+        "importPath": "rest_framework.authentication",
+        "description": "rest_framework.authentication",
+        "isExtraImport": true,
+        "detail": "rest_framework.authentication",
+        "documentation": {}
+    },
+    {
+        "label": "Token",
+        "importPath": "rest_framework.authtoken.models",
+        "description": "rest_framework.authtoken.models",
+        "isExtraImport": true,
+        "detail": "rest_framework.authtoken.models",
+        "documentation": {}
+    },
+    {
+        "label": "Token",
+        "importPath": "rest_framework.authtoken.models",
+        "description": "rest_framework.authtoken.models",
+        "isExtraImport": true,
+        "detail": "rest_framework.authtoken.models",
+        "documentation": {}
+    },
+    {
+        "label": "FileResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponseRedirect",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "telebot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "telebot",
+        "description": "telebot",
+        "detail": "telebot",
+        "documentation": {}
+    },
+    {
+        "label": "traceback",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "traceback",
+        "description": "traceback",
+        "detail": "traceback",
+        "documentation": {}
+    },
+    {
+        "label": "SummernoteWidget",
+        "importPath": "django_summernote.widgets",
+        "description": "django_summernote.widgets",
+        "isExtraImport": true,
+        "detail": "django_summernote.widgets",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreationForm",
+        "importPath": "django.contrib.auth.forms",
+        "description": "django.contrib.auth.forms",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.forms",
+        "documentation": {}
+    },
+    {
+        "label": "ModelForm",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "TextInput",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "TimeField",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "Textarea",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "choice",
+        "importPath": "random",
+        "description": "random",
+        "isExtraImport": true,
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "urlopen",
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "isExtraImport": true,
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "views",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "authenticate",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "View",
+        "importPath": "django.views.generic",
+        "description": "django.views.generic",
+        "isExtraImport": true,
+        "detail": "django.views.generic",
+        "documentation": {}
+    },
+    {
+        "label": "TemplateView",
+        "importPath": "django.views.generic",
+        "description": "django.views.generic",
+        "isExtraImport": true,
+        "detail": "django.views.generic",
+        "documentation": {}
+    },
+    {
+        "label": "ListView",
+        "importPath": "django.views.generic",
+        "description": "django.views.generic",
+        "isExtraImport": true,
+        "detail": "django.views.generic",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "django.contrib.auth.decorators",
+        "description": "django.contrib.auth.decorators",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "method_decorator",
+        "importPath": "django.utils.decorators",
+        "description": "django.utils.decorators",
+        "isExtraImport": true,
+        "detail": "django.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "static",
+        "importPath": "django.conf.urls.static",
+        "description": "django.conf.urls.static",
+        "isExtraImport": true,
+        "detail": "django.conf.urls.static",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0001_initial",
+        "description": "YandexHub.apps.mainapp.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='CustomUser',\n            fields=[\n                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "YandexHub.apps.mainapp.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0002_auto_20210511_1354",
+        "description": "YandexHub.apps.mainapp.migrations.0002_auto_20210511_1354",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0001_initial'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='keqhSDSpF1mzCabwvMawpqasQX4CduUq', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0002_auto_20210511_1354",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0003_auto_20210511_1355",
+        "description": "YandexHub.apps.mainapp.migrations.0003_auto_20210511_1355",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0002_auto_20210511_1354'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='7HLLmtQLSv9jSCNuzGpFDw3qhenjC7Y4', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0003_auto_20210511_1355",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0004_auto_20210511_2205",
+        "description": "YandexHub.apps.mainapp.migrations.0004_auto_20210511_2205",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0003_auto_20210511_1355'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='article',\n            name='date_created_without_time',\n            field=models.DateField(db_index=True, default='2021-11-5'),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0004_auto_20210511_2205",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0005_auto_20210511_2205",
+        "description": "YandexHub.apps.mainapp.migrations.0005_auto_20210511_2205",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0004_auto_20210511_2205'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='qHxjDCjpu8HnQ96KgnjP2r87vRRxAxGF', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0005_auto_20210511_2205",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0006_auto_20210514_0107",
+        "description": "YandexHub.apps.mainapp.migrations.0006_auto_20210514_0107",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0005_auto_20210511_2205'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='EBZ9DYwdhZnLhApznFLuyREwKmy6C7GG', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0006_auto_20210514_0107",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0007_auto_20210514_0108",
+        "description": "YandexHub.apps.mainapp.migrations.0007_auto_20210514_0108",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0006_auto_20210514_0107'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='Q4fD3BDtTMwgwjgV1FwqrHTXjdY6mr8u', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0007_auto_20210514_0108",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0008_auto_20210514_0108",
+        "description": "YandexHub.apps.mainapp.migrations.0008_auto_20210514_0108",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0007_auto_20210514_0108'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='TjVN5DSgPMKdJbpHJvec8uFVXHyTxPVs', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0008_auto_20210514_0108",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0009_auto_20210514_0112",
+        "description": "YandexHub.apps.mainapp.migrations.0009_auto_20210514_0112",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0008_auto_20210514_0108'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='7jB2c2B8Nxcx42TyRMYyeBHdg4Q94T5N', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0009_auto_20210514_0112",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0010_auto_20210514_0114",
+        "description": "YandexHub.apps.mainapp.migrations.0010_auto_20210514_0114",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0009_auto_20210514_0112'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='REPYVaqpgEqPPAX9RKiMkbaGDkLLvPpx', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0010_auto_20210514_0114",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0011_auto_20210514_0116",
+        "description": "YandexHub.apps.mainapp.migrations.0011_auto_20210514_0116",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0010_auto_20210514_0114'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='9qC1TNKLzMKGUhzYEA3aWXwpfLRHf2cT', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0011_auto_20210514_0116",
+        "documentation": {}
+    },
+    {
+        "label": "time_func",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def time_func(arg):\n    now = datetime.utcnow()\n    time = now - datetime.strptime(arg, '%Y-%m-%d %H:%M:%S.%f+00:00')\n    if time.seconds < 86400 and time.days == 0:\n        if time.seconds == 1: \n            return \"1 second ago\"\n        elif time.seconds < 60:\n            return f'{time.seconds} seconds ago'\n        elif time.seconds < 120:\n            return \"1 minute ago\"",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "date_func",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def date_func(arg):\n    now = datetime.utcnow()\n    date = datetime.strptime(arg, '%Y-%m-%d %H:%M:%S.%f+00:00')\n    time = now - date\n    if time.seconds < 86400 and time.days == 0:\n        if time.seconds == 1: \n            return \"1 second ago\"\n        elif time.seconds < 60:\n            return f'{time.seconds} seconds ago'\n        elif time.seconds < 120:",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "integer_format",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def integer_format(arg):\n    if int(arg) == 1:\n        return '1'\n    else:\n        return '{:,}'.format(int(arg))\n# Comments format\n@register.filter(name='comments_format')\n@stringfilter\ndef comments_format(arg):\n    if int(arg) == 1:",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "comments_format",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def comments_format(arg):\n    if int(arg) == 1:\n        return '1 Comment'\n    else:\n        return '{:,}'.format(int(arg)) + ' Comments'\ndef str_fixed(f: float, arg=0, n=0, name=''):\n    a, b = str(f).split('.')\n    if name == 'views':\n        if int(b) > 500 and arg < 1000000:\n            return '{}.{}{}'.format(a, b[:n], '0'*(n-len(b)))",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "str_fixed",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def str_fixed(f: float, arg=0, n=0, name=''):\n    a, b = str(f).split('.')\n    if name == 'views':\n        if int(b) > 500 and arg < 1000000:\n            return '{}.{}{}'.format(a, b[:n], '0'*(n-len(b)))\n        elif int(b) > 500000 and arg < 1000000000:\n            return '{}.{}{}'.format(a, b[:n], '0'*(n-len(b)))\n        elif int(b) > 500000000 and arg < 1000000000000:\n            return '{}.{}{}'.format(a, b[:n], '0'*(n-len(b)))\n        else:",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "brief_views_format",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def brief_views_format(arg):\n    if int(arg) < 1000000:\n        if int(arg) == 1:\n            return '1 view'\n        elif int(arg) < 1000:\n            return f'{arg} views'\n        else:\n            return f\"{str_fixed(float(int(arg)/1000), int(arg), 1, 'views')}K views\"\n    elif int(arg) < 1000000000:\n        return f\"{str_fixed(float(int(arg)/1000000), int(arg), 1, 'views')}M views\"",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "brief_likes_format",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def brief_likes_format(arg):\n    if int(arg) < 1000000:\n        if int(arg) == 1:\n            return '1'\n        elif int(arg) < 1000:\n            return arg\n        else:\n            return f\"{str_fixed(float(int(arg)/1000), int(arg), 1, 'views')}K\"\n    elif int(arg) < 1000000000:\n        return f\"{str_fixed(float(int(arg)/1000000), int(arg), 1, 'views')}M\"",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "subscribers_format",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def subscribers_format(arg):\n    if int(arg) < 1000000:\n        if int(arg) == 0:\n            return '0 subscribers'\n        elif int(arg) == 1:\n            return '1 subscriber'\n        elif int(arg) < 1000:\n            return f'{arg} subscribers'\n        elif int(arg) < 10000:\n             return f\"{str_fixed(float(int(arg)/1000), int(arg), 2, 'subscribers')}K subscribers\"",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "ratio",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def ratio(likes, dislikes):\n    if int(dislikes) + int(likes) != 0:\n        ratio =  1.4 * ( int(dislikes) * 100 / (int(likes) + int(dislikes)) )\n        return int(ratio)\n    else:\n        return 0\n# check comment like\n@register.filter(name='check_comment_like')\n@stringfilter\ndef check_comment_like(comment_id, user_id):",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "check_comment_like",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def check_comment_like(comment_id, user_id):\n    return CommentLike.objects.filter(liked_comment=Comment.objects.get(comment_id=comment_id), liked_user=CustomUser.objects.get(user_id=user_id))\n# check comment dislike\n@register.filter(name='check_comment_dislike')\n@stringfilter\ndef check_comment_dislike(comment_id, user_id):\n    return CommentDislike.objects.filter(disliked_comment=Comment.objects.get(comment_id=comment_id), disliked_user=CustomUser.objects.get(user_id=user_id))\n# check reply comment like\n@register.filter(name='check_reply_comment_like')\n@stringfilter",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "check_comment_dislike",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def check_comment_dislike(comment_id, user_id):\n    return CommentDislike.objects.filter(disliked_comment=Comment.objects.get(comment_id=comment_id), disliked_user=CustomUser.objects.get(user_id=user_id))\n# check reply comment like\n@register.filter(name='check_reply_comment_like')\n@stringfilter\ndef check_reply_comment_like(reply_comment_id, user_id):\n    return ReplyCommentLike.objects.filter(liked_reply_comment=ReplyComment.objects.get(reply_comment_id=reply_comment_id), liked_user=CustomUser.objects.get(user_id=user_id))\n# check reply comment dislike\n@register.filter(name='check_reply_comment_dislike')\n@stringfilter",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "check_reply_comment_like",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def check_reply_comment_like(reply_comment_id, user_id):\n    return ReplyCommentLike.objects.filter(liked_reply_comment=ReplyComment.objects.get(reply_comment_id=reply_comment_id), liked_user=CustomUser.objects.get(user_id=user_id))\n# check reply comment dislike\n@register.filter(name='check_reply_comment_dislike')\n@stringfilter\ndef check_reply_comment_dislike(reply_comment_id, user_id):\n    return ReplyCommentDislike.objects.filter(disliked_reply_comment=ReplyComment.objects.get(reply_comment_id=reply_comment_id), disliked_user=CustomUser.objects.get(user_id=user_id))\n# check article like\n@register.filter(name='check_article_like')\n@stringfilter",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "check_reply_comment_dislike",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def check_reply_comment_dislike(reply_comment_id, user_id):\n    return ReplyCommentDislike.objects.filter(disliked_reply_comment=ReplyComment.objects.get(reply_comment_id=reply_comment_id), disliked_user=CustomUser.objects.get(user_id=user_id))\n# check article like\n@register.filter(name='check_article_like')\n@stringfilter\ndef check_article_like(article_id, user_id):\n    return ArticleLike.objects.filter(liked_article=Article.objects.get(article_id=article_id), liked_user=CustomUser.objects.get(user_id=user_id))\n# check article dislike\n@register.filter(name='check_article_dislike')\n@stringfilter",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "check_article_like",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def check_article_like(article_id, user_id):\n    return ArticleLike.objects.filter(liked_article=Article.objects.get(article_id=article_id), liked_user=CustomUser.objects.get(user_id=user_id))\n# check article dislike\n@register.filter(name='check_article_dislike')\n@stringfilter\ndef check_article_dislike(article_id, user_id):\n    return ArticleDislike.objects.filter(disliked_article=Article.objects.get(article_id=article_id), disliked_user=CustomUser.objects.get(user_id=user_id))\n@register.filter(name='html_to_text')\n@stringfilter\ndef html_to_text(html):",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "check_article_dislike",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def check_article_dislike(article_id, user_id):\n    return ArticleDislike.objects.filter(disliked_article=Article.objects.get(article_id=article_id), disliked_user=CustomUser.objects.get(user_id=user_id))\n@register.filter(name='html_to_text')\n@stringfilter\ndef html_to_text(html):\n    cleanr = re.compile('<.*?>')\n    cleantext = re.sub(cleanr, '', html)\n    return cleantext",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "html_to_text",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "def html_to_text(html):\n    cleanr = re.compile('<.*?>')\n    cleantext = re.sub(cleanr, '', html)\n    return cleantext",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "register",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "description": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "peekOfCode": "register = template.Library()\n# Time format\n@register.filter(name='time_func')\n@stringfilter\ndef time_func(arg):\n    now = datetime.utcnow()\n    time = now - datetime.strptime(arg, '%Y-%m-%d %H:%M:%S.%f+00:00')\n    if time.seconds < 86400 and time.days == 0:\n        if time.seconds == 1: \n            return \"1 second ago\"",
+        "detail": "YandexHub.apps.mainapp.templatetags.poll_extras",
+        "documentation": {}
+    },
+    {
+        "label": "VideoAdmin",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.admin",
+        "description": "YandexHub.apps.mainapp.admin",
+        "peekOfCode": "class VideoAdmin(SummernoteModelAdmin):\n    description = '__all__'\nclass FilmAdmin(SummernoteModelAdmin):\n    description = '__all__'\nclass CustomUserAdmin(SummernoteModelAdmin):\n    description = '__all__'\nclass ArticleAdmin(SummernoteModelAdmin):\n    text = '__all__'\nadmin.site.register(CustomUser, CustomUserAdmin) \n#admin.site.register(Subscribe)",
+        "detail": "YandexHub.apps.mainapp.admin",
+        "documentation": {}
+    },
+    {
+        "label": "FilmAdmin",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.admin",
+        "description": "YandexHub.apps.mainapp.admin",
+        "peekOfCode": "class FilmAdmin(SummernoteModelAdmin):\n    description = '__all__'\nclass CustomUserAdmin(SummernoteModelAdmin):\n    description = '__all__'\nclass ArticleAdmin(SummernoteModelAdmin):\n    text = '__all__'\nadmin.site.register(CustomUser, CustomUserAdmin) \n#admin.site.register(Subscribe)\n#admin.site.register(Notification)\nadmin.site.register(Article, ArticleAdmin)",
+        "detail": "YandexHub.apps.mainapp.admin",
+        "documentation": {}
+    },
+    {
+        "label": "CustomUserAdmin",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.admin",
+        "description": "YandexHub.apps.mainapp.admin",
+        "peekOfCode": "class CustomUserAdmin(SummernoteModelAdmin):\n    description = '__all__'\nclass ArticleAdmin(SummernoteModelAdmin):\n    text = '__all__'\nadmin.site.register(CustomUser, CustomUserAdmin) \n#admin.site.register(Subscribe)\n#admin.site.register(Notification)\nadmin.site.register(Article, ArticleAdmin)\n#admin.site.register(ArticleLike)\n#admin.site.register(ArticleDislike)",
+        "detail": "YandexHub.apps.mainapp.admin",
+        "documentation": {}
+    },
+    {
+        "label": "ArticleAdmin",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.admin",
+        "description": "YandexHub.apps.mainapp.admin",
+        "peekOfCode": "class ArticleAdmin(SummernoteModelAdmin):\n    text = '__all__'\nadmin.site.register(CustomUser, CustomUserAdmin) \n#admin.site.register(Subscribe)\n#admin.site.register(Notification)\nadmin.site.register(Article, ArticleAdmin)\n#admin.site.register(ArticleLike)\n#admin.site.register(ArticleDislike)\nadmin.site.register(Video, VideoAdmin)\n#admin.site.register(VideoViewModel)",
+        "detail": "YandexHub.apps.mainapp.admin",
+        "documentation": {}
+    },
+    {
+        "label": "SubscribeApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class SubscribeApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        channel = CustomUser.objects.get(user_id=request.data.get('channel_id'))\n        subscribe = Subscribe.objects.filter(subscriber=request.user, channel=channel)\n        if subscribe.count() > 0:\n            channel.all_subscribers -= 1\n            channel.save()\n            subscribe.delete()",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "NotificationsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class NotificationsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        channel = CustomUser.objects.get(user_id=request.data.get('user_id'))\n        notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)\n        if notification.count() > 0:\n            channel.all_notifications -= 1\n            channel.save()\n            notification.delete()",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DeleteVideoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DeleteVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video_id = request.data.get('video_id')\n        video = Video.objects.filter(video_id=video_id)\n        if video.count() > 0:\n            if video[0].creator == request.user:\n                title = video[0].title\n                video[0].delete()",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "SaveVideoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class SaveVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        save = SavedVideo.objects.filter(saved_video=video, saved_user=request.user)\n        if save.count() > 0:\n            save.delete()\n            return Response({'data': {'save': 0}, 'message': 'Removed from Saved videos ✂️', 'status': 'ok'})\n        elif save.count() == 0:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikeVideoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikeVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        like = Like.objects.filter(liked_video=video, liked_user=request.user)\n        dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = Like.objects.create(liked_video=video, liked_user=request.user)\n            if like:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikeVideoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikeVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        like = Like.objects.filter(liked_video=video, liked_user=request.user)\n        dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)\n            if dislike:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "AddCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class AddCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        text = request.data.get('text')\n        if len(text) < 500:\n            if text.replace(' ', '') != '' and text is not None:\n                # maximum 10 comments (one user)\n                if Comment.objects.filter(commented_video=video, creator=request.user).count() <= 10:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikeCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikeCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))\n        like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)\n        dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = CommentLike.objects.create(liked_comment=comment, liked_user=request.user)\n            if like:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikeCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikeCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))\n        like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)\n        dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = CommentDislike.objects.create(disliked_comment=comment, disliked_user=request.user)\n            if dislike:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DeleteCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DeleteCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment_id = request.data.get('comment_id')\n        comment = Comment.objects.filter(comment_id=comment_id)\n        if comment.count() > 0:\n            if comment[0].creator == request.user:\n                video = comment[0].commented_video \n                video.comments -= (1 + comment[0].replies)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "AddReplyCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class AddReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))\n        text = request.data.get('text')\n        if len(text) < 500:\n            if text.replace(' ', '') != '' and text is not None:\n                # maximum 10 replies (one user)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikeReplyCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikeReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))\n        like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)\n        dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = ReplyCommentLike.objects.create(liked_reply_comment=comment, liked_user=request.user)\n            if like:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikeReplyCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikeReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))\n        like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)\n        dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = ReplyCommentDislike.objects.create(disliked_reply_comment=comment, disliked_user=request.user)\n            if dislike:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DeleteReplyCommentApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DeleteReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        reply_comment_id = request.data.get('reply_comment_id')\n        comment = ReplyComment.objects.filter(reply_comment_id=reply_comment_id)\n        if comment.count() > 0:\n            if comment[0].creator == request.user:\n                video = comment[0].reply_commented_video \n                comment_parent = comment[0].comment_parent",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "VideoStatsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class VideoStatsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        views_stats = {}\n        comments_stats = {}\n        likes_stats = {}\n        dislikes_stats = {}\n        today = date.today()",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "ArticleStatsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class ArticleStatsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article = Article.objects.get(article_id=request.data.get('article_id'))\n        likes_stats = {}\n        dislikes_stats = {}\n        today = date.today()\n        for i in range(10):\n            day = today - timedelta(days=i)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikeFilmApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikeFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        film = Film.objects.get(film_id=request.data.get('film_id'))\n        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)\n        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = FilmLike.objects.create(liked_film=film, liked_user=request.user)\n            if like:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikeFilmApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikeFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        film = Film.objects.get(film_id=request.data.get('film_id'))\n        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)\n        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)\n            if dislike:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "BuyFilmApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class BuyFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        film = Film.objects.get(film_id=request.data.get('film_id'))\n        BuyFilm.objects.create(buy_user=request.user, buy_film=film)\n        if request.user.telegram:\n            now = datetime.now() \n            date = now.strftime('%d-%m-%Y %H:%M:%S')\n            YandexHubAlert(f'You purchased the movie: {film.title} 🥳\\nDate: {date}\\nPrice: USD {film.price}\\n\\n{DOMEN}film/{film.film_id}/', request.user.telegram)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DeleteArticleApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DeleteArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article_id = request.data.get('article_id')\n        article = Article.objects.filter(article_id=article_id)\n        if article.count() > 0:\n            if article[0].creator == request.user:\n                article[0].delete()\n                messages.success(request, f'Article successfully deleted! 🩸')",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikeArticleApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikeArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article = Article.objects.get(article_id=request.data.get('article_id'))\n        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)\n        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)\n            if like:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikeArticleApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikeArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article = Article.objects.get(article_id=request.data.get('article_id'))\n        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)\n        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)\n            if dislike:",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "CreateTokenApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class CreateTokenApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        Token.objects.get(user=request.user).delete()\n        token = Token.objects.create(user=request.user) \n        print(token.key)\n        return Response({'data': {'token': token.key}, 'message': 'Token successfully updated 🔑', 'status': 'ok'})\n# get user info\nclass UserInfoApi(APIView):",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "UserInfoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class UserInfoApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        user = request.user\n        user_data = {}\n        user_data['user_id'] = user.user_id\n        user_data['username'] = user.username\n        user_data['email'] = user.email\n        user_data['date_created'] = user.date_created\n        user_data['media'] = {'avatar': str(user.avatar), 'banner': str(user.banner)}",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "TrendingApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class TrendingApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        tranding_time = datetime.utcnow() - timedelta(days=2)\n        videos = {}\n        for i in range(100):\n            try:\n                video = Video.objects.filter(~Q(coefficient=0.0), date_created__gt=tranding_time).order_by('-coefficient')[i]\n                video_info = {}\n                video_info['title'] = video.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "SiteStatsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class SiteStatsApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        data = {}\n        data['users'] = CustomUser.objects.all().count()\n        data['subscriptions'] = Subscribe.objects.all().count()\n        data['notifications'] = Notification.objects.all().count() \n        data['videos'] = {\n            'videos': Video.objects.all().count(), \n            'views': VideoViewModel.objects.all().count(),",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "VideosApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class VideosApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        user_videos = Video.objects.filter(creator=request.user)\n        videos = {}\n        if user_videos.count() != 0:\n            message = ''\n            for video in user_videos:\n                try:\n                    video_info = {}",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikedVideosApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikedVideosApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        liked_videos = Like.objects.filter(liked_user=request.user)\n        videos = {}\n        if liked_videos.count() != 0:\n            message = ''\n            for video in liked_videos:\n                try:\n                    video_info = {}",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikedVideosApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikedVideosApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        disliked_videos = Dislike.objects.filter(disliked_user=request.user)\n        videos = {}\n        if disliked_videos.count() != 0:\n            message = ''\n            for video in disliked_videos:\n                try:\n                    video_info = {}",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "SavedVideosApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class SavedVideosApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        saved_videos = SavedVideo.objects.filter(saved_user=request.user)\n        videos = {}\n        if saved_videos.count() != 0:\n            message = ''\n            for video in saved_videos:\n                try:\n                    video_info = {}",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "VideoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class VideoApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        video = Video.objects.filter(video_id=self.kwargs['pk'])\n        video_info = {}\n        if video:\n            message = ''\n            video = video[0]\n            video_info = {}\n            video_info['title'] = video.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DownloadVideoFile",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DownloadVideoFile(generics.ListAPIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        video = Video.objects.filter(video_id=self.kwargs['pk']) \n        if video:\n            path = video[0].video.path \n            response = FileResponse(open(path, 'rb')) \n            return response \n        else:\n            return Response({'data': {}, 'message': 'Video not found', 'status': 'ok'}, status=status.HTTP_200_OK)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DownloadBannerFile",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DownloadBannerFile(generics.ListAPIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        video = Video.objects.filter(video_id=self.kwargs['pk']) \n        if video:\n            path = video[0].video_banner.path \n            response = FileResponse(open(path, 'rb')) \n            return response \n        else:\n            return Response({'data': {}, 'message': 'Video not found', 'status': 'ok'}, status=status.HTTP_200_OK)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "UploadVideoApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class UploadVideoApi(APIView): \n    permission_classes = [permissions.IsAuthenticated]\n    parser_classes = (MultiPartParser, FormParser)\n    def post(self, request):\n        video = request.data.get('video')\n        if video.size > MAX_VIDEO_SIZE:\n            return Response({'data': {}, 'message': 'The size of the video should not exceed 200 MB.', 'status': 'OK'})\n        banner = request.data.get('banner')\n        if banner.size > MAX_IMAGE_SIZE:\n            return Response({'data': {}, 'message': 'The size of the photo should not exceed 7.5 MB.', 'status': 'OK'})",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "MainappConfig",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.apps",
+        "description": "YandexHub.apps.mainapp.apps",
+        "peekOfCode": "class MainappConfig(AppConfig):\n    name = 'mainapp'",
+        "detail": "YandexHub.apps.mainapp.apps",
+        "documentation": {}
+    },
+    {
+        "label": "YandexHubAlert",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.bot",
+        "description": "YandexHub.apps.mainapp.bot",
+        "peekOfCode": "def YandexHubAlert(text, telegram_id):\n    try:\n        '''\n        Если бот не будет работать, то...\n        1) Создайте своего telegram бота по инструкции https://core.telegram.org/bots#6-botfather\n        2) Полученный token вставьте вместо старого \n        '''\n        bot = telebot.TeleBot('1785721677:AAGx0BAnxfsPStpIL2aFtgKvkiKSEx-dReQ')\n        bot.send_message(telegram_id, text)\n        return 200",
+        "detail": "YandexHub.apps.mainapp.bot",
+        "documentation": {}
+    },
+    {
+        "label": "CreateUserForm",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.forms",
+        "description": "YandexHub.apps.mainapp.forms",
+        "peekOfCode": "class CreateUserForm(UserCreationForm):\n    class Meta:\n        model = CustomUser\n        fields = ['username', 'email', 'password1', 'password2']\nclass VideoTextArea(ModelForm):\n    class Meta:\n        model = Video\n        fields = ['description']\n        widgets = {\n            'description': SummernoteWidget(),",
+        "detail": "YandexHub.apps.mainapp.forms",
+        "documentation": {}
+    },
+    {
+        "label": "VideoTextArea",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.forms",
+        "description": "YandexHub.apps.mainapp.forms",
+        "peekOfCode": "class VideoTextArea(ModelForm):\n    class Meta:\n        model = Video\n        fields = ['description']\n        widgets = {\n            'description': SummernoteWidget(),\n        }\nclass ArticleTextArea(ModelForm):\n    class Meta:\n        model = Article",
+        "detail": "YandexHub.apps.mainapp.forms",
+        "documentation": {}
+    },
+    {
+        "label": "ArticleTextArea",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.forms",
+        "description": "YandexHub.apps.mainapp.forms",
+        "peekOfCode": "class ArticleTextArea(ModelForm):\n    class Meta:\n        model = Article\n        fields = ['text']\n        widgets = {\n            'text': SummernoteWidget(),\n        }\nclass CustomUserTextArea(ModelForm):\n    class Meta:\n        model = CustomUser",
+        "detail": "YandexHub.apps.mainapp.forms",
+        "documentation": {}
+    },
+    {
+        "label": "CustomUserTextArea",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.forms",
+        "description": "YandexHub.apps.mainapp.forms",
+        "peekOfCode": "class CustomUserTextArea(ModelForm):\n    class Meta:\n        model = CustomUser\n        fields = ['description']\n        widgets = {\n            'description': SummernoteWidget(),\n        }",
+        "detail": "YandexHub.apps.mainapp.forms",
+        "documentation": {}
+    },
+    {
+        "label": "random_list",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.helpers",
+        "description": "YandexHub.apps.mainapp.helpers",
+        "peekOfCode": "def random_list(x):\n    random.shuffle(x)\n    return x\n# generate id for user, video...\ndef generate_id(num):\n    symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'\n    key = ''.join(choice(symbols) for i in range(num))\n    return key\n# get user IP\ndef get_client_ip(request):",
+        "detail": "YandexHub.apps.mainapp.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "generate_id",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.helpers",
+        "description": "YandexHub.apps.mainapp.helpers",
+        "peekOfCode": "def generate_id(num):\n    symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'\n    key = ''.join(choice(symbols) for i in range(num))\n    return key\n# get user IP\ndef get_client_ip(request):\n    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')\n    if x_forwarded_for:\n        ip = x_forwarded_for.split(',')[-1].strip()\n    else:",
+        "detail": "YandexHub.apps.mainapp.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "get_client_ip",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.helpers",
+        "description": "YandexHub.apps.mainapp.helpers",
+        "peekOfCode": "def get_client_ip(request):\n    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')\n    if x_forwarded_for:\n        ip = x_forwarded_for.split(',')[-1].strip()\n    else:\n        ip = request.META.get('REMOTE_ADDR')\n    return ip\n# get info about IP\ndef get_ip_info(ip):\n    url = 'https://ipinfo.io/' + ip + '/json'",
+        "detail": "YandexHub.apps.mainapp.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "get_ip_info",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.helpers",
+        "description": "YandexHub.apps.mainapp.helpers",
+        "peekOfCode": "def get_ip_info(ip):\n    url = 'https://ipinfo.io/' + ip + '/json'\n    res = urlopen(url)\n    data = json.load(res)\n    response = {}\n    if 'country' in data:\n        response['country'] = data['country']\n    if 'city' in data:\n        response['city'] = data['city']\n    return response",
+        "detail": "YandexHub.apps.mainapp.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "get_city_and_country_ip",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.helpers",
+        "description": "YandexHub.apps.mainapp.helpers",
+        "peekOfCode": "def get_city_and_country_ip(request):\n    ip = get_client_ip(request)\n    now = datetime.now()\n    date = now.strftime('%d-%m-%Y %H:%M:%S')\n    ip_info = get_ip_info(ip)\n    if 'country' in ip_info:\n        country = ip_info['country']\n    else:\n        country = '???'\n    if 'city' in ip_info:",
+        "detail": "YandexHub.apps.mainapp.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "CustomUser",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class CustomUser(AbstractUser):\n    # user id\n    user_id = models.CharField(blank=True, null=True, max_length=24)\n    # email\n    email = models.EmailField(null=True, unique=True)\n    # username\n    username = models.CharField(blank=True, null=True, max_length=50)\n    # user media\n    avatar = models.ImageField(blank=True, null=True, upload_to = 'avatars/', default='avatars/default/default_avatar.png')\n    banner = models.ImageField(blank=True, null=True, upload_to='users_banners/')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Subscribe",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Subscribe(models.Model):\n    subscriber = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='subscriber')\n    channel = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='subscribers')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass Notification(models.Model):\n    notification_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_user')\n    notification_channel = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_channel')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n# Video\nclass Video(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Notification",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Notification(models.Model):\n    notification_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_user')\n    notification_channel = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='notification_channel')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n# Video\nclass Video(models.Model):\n    # video id\n    video_id = models.CharField(blank=True, null=True, max_length=32)\n    # creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='video_creator')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Video",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Video(models.Model):\n    # video id\n    video_id = models.CharField(blank=True, null=True, max_length=32)\n    # creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='video_creator')\n    # files\n    video = models.FileField(upload_to='videos/')\n    video_banner = models.ImageField(upload_to='video_banners/')\n    # stats\n    views = models.BigIntegerField(default=0)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "VideoViewModel",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class VideoViewModel(models.Model):\n    watched_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='watched_user')\n    watched_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='watched_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)\nclass SavedVideo(models.Model):\n    saved_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='saved_user')\n    saved_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='saved_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass Like(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "SavedVideo",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class SavedVideo(models.Model):\n    saved_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='saved_user')\n    saved_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='saved_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass Like(models.Model):\n    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_video_user')\n    liked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='liked_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)\nclass Dislike(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Like",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Like(models.Model):\n    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_video_user')\n    liked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='liked_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)\nclass Dislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_video_user')\n    disliked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='disliked_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Dislike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Dislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_video_user')\n    disliked_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='disliked_video')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)\n# Comments for videos\nclass Comment(models.Model):\n    # comment id\n    comment_id = models.CharField(blank=True, null=True, max_length=32)\n    # comment creator",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Comment",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Comment(models.Model):\n    # comment id\n    comment_id = models.CharField(blank=True, null=True, max_length=32)\n    # comment creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='comment_creator')\n    # video\n    commented_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='commented_video')\n    # stats\n    likes = models.BigIntegerField(default=0)\n    dislikes = models.BigIntegerField(default=0)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "CommentLike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class CommentLike(models.Model):\n    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_comment_user')\n    liked_comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=False, related_name='liked_comment')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass CommentDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_comment_user')\n    disliked_comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=False, related_name='disliked_comment')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n# Reply comments for videos\nclass ReplyComment(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "CommentDislike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class CommentDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_comment_user')\n    disliked_comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=False, related_name='disliked_comment')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n# Reply comments for videos\nclass ReplyComment(models.Model):\n    # reply comment id\n    reply_comment_id = models.CharField(blank=True, null=True, max_length=32)\n    # reply comment creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='reply_comment_creator')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyComment",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class ReplyComment(models.Model):\n    # reply comment id\n    reply_comment_id = models.CharField(blank=True, null=True, max_length=32)\n    # reply comment creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='reply_comment_creator')\n    reply_commented_video = models.ForeignKey(Video, on_delete=models.CASCADE, null=False, related_name='reply_commented_video')\n    # comment parent\n    comment_parent = models.ForeignKey(Comment, on_delete=models.CASCADE, null=False, related_name='comment_parent')\n    # stats\n    likes = models.BigIntegerField(default=0)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyCommentLike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class ReplyCommentLike(models.Model):\n    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_reply_comment_user')\n    liked_reply_comment = models.ForeignKey(ReplyComment, on_delete=models.CASCADE, null=False, related_name='liked_reply_comment')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass ReplyCommentDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_reply_comment_user')\n    disliked_reply_comment = models.ForeignKey(ReplyComment, on_delete=models.CASCADE, null=False, related_name='disliked_reply_comment')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n# Article\nclass Article(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyCommentDislike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class ReplyCommentDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_reply_comment_user')\n    disliked_reply_comment = models.ForeignKey(ReplyComment, on_delete=models.CASCADE, null=False, related_name='disliked_reply_comment')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n# Article\nclass Article(models.Model):\n    # article id\n    article_id = models.CharField(blank=True, null=True, max_length=32)\n    # article creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='article_creator')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Article",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Article(models.Model):\n    # article id\n    article_id = models.CharField(blank=True, null=True, max_length=32)\n    # article creator\n    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='article_creator')\n    # stats\n    likes = models.BigIntegerField(default=0)\n    dislikes = models.BigIntegerField(default=0)\n    # text\n    text = models.TextField(blank=True, null=True, max_length=1000000)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "ArticleLike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class ArticleLike(models.Model):\n    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_article_user')\n    liked_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False, related_name='liked_article')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)\nclass ArticleDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_article_user')\n    disliked_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False, related_name='disliked_article')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "ArticleDislike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class ArticleDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_article_user')\n    disliked_article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False, related_name='disliked_article')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\n    date_created_without_time = models.DateField(auto_now_add=True, db_index=True)\n# Actor\nclass Actor(models.Model):\n    GENDER = (\n        ('Male', 'Male'),\n        ('Female', 'Female')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Actor",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Actor(models.Model):\n    GENDER = (\n        ('Male', 'Male'),\n        ('Female', 'Female')\n    )\n    # actor id\n    actor_id = models.CharField(blank=True, null=True, max_length=32, default=generate_id(32))\n    # actor info\n    name = models.CharField(max_length=100)\n    gender = models.CharField(max_length=50, null=True, choices=GENDER)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Producer",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Producer(models.Model):\n    GENDER = (\n        ('Male', 'Male'),\n        ('Female', 'Female')\n    )\n    # producer id\n    producer_id = models.CharField(blank=True, null=True, max_length=32, default=generate_id(32))\n    # producer info\n    name = models.CharField(max_length=100)\n    gender = models.CharField(max_length=50, null=True, choices=GENDER)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Writer",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Writer(models.Model):\n    GENDER = (\n        ('Male', 'Male'),\n        ('Female', 'Female')\n    )\n    # writer id\n    writer_id = models.CharField(blank=True, null=True, max_length=32, default=generate_id(32))\n    # writer info\n    name = models.CharField(max_length=100)\n    gender = models.CharField(max_length=50, null=True, choices=GENDER)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Genre",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Genre(models.Model):\n    # genre name\n    name = models.CharField(max_length=150)\n    def __str__(self):\n        return self.name\n# Film\nclass Film(models.Model):\n    RATING = (\n        ('0+', '0+'),\n        ('6+', '6+'),",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Film",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class Film(models.Model):\n    RATING = (\n        ('0+', '0+'),\n        ('6+', '6+'),\n        ('12+', '12+'),\n        ('16+', '16+'),\n        ('18+', '18+')\n    )\n    # film id\n    film_id = models.CharField(blank=True, null=True, max_length=32)",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "FilmLike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class FilmLike(models.Model):\n    liked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='liked_film_user')\n    liked_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='liked_film')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass FilmDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_film_user')\n    disliked_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='disliked_film')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass FilmProducer(models.Model):\n    producer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='producer_film')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "FilmDislike",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class FilmDislike(models.Model):\n    disliked_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='disliked_film_user')\n    disliked_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='disliked_film')\n    date_created = models.DateTimeField(auto_now_add=True, db_index=True)\nclass FilmProducer(models.Model):\n    producer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='producer_film')\n    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, null=False, related_name='producer')\nclass FilmActor(models.Model):\n    actor_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='actor_film')\n    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, null=False, related_name='actor')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "FilmProducer",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class FilmProducer(models.Model):\n    producer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='producer_film')\n    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, null=False, related_name='producer')\nclass FilmActor(models.Model):\n    actor_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='actor_film')\n    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, null=False, related_name='actor')\nclass FilmWriter(models.Model):\n    writer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='writer_film')\n    writer = models.ForeignKey(Writer, on_delete=models.CASCADE, null=False, related_name='writer')\nclass FilmGenre(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "FilmActor",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class FilmActor(models.Model):\n    actor_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='actor_film')\n    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, null=False, related_name='actor')\nclass FilmWriter(models.Model):\n    writer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='writer_film')\n    writer = models.ForeignKey(Writer, on_delete=models.CASCADE, null=False, related_name='writer')\nclass FilmGenre(models.Model):\n    genre_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='genre_film')\n    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=False, related_name='genre')\nclass BuyFilm(models.Model):",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "FilmWriter",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class FilmWriter(models.Model):\n    writer_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='writer_film')\n    writer = models.ForeignKey(Writer, on_delete=models.CASCADE, null=False, related_name='writer')\nclass FilmGenre(models.Model):\n    genre_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='genre_film')\n    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=False, related_name='genre')\nclass BuyFilm(models.Model):\n    buy_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='buy_user')\n    buy_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='buy_film')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "FilmGenre",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class FilmGenre(models.Model):\n    genre_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='genre_film')\n    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=False, related_name='genre')\nclass BuyFilm(models.Model):\n    buy_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='buy_user')\n    buy_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='buy_film')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "BuyFilm",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.models",
+        "description": "YandexHub.apps.mainapp.models",
+        "peekOfCode": "class BuyFilm(models.Model):\n    buy_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, related_name='buy_user')\n    buy_film = models.ForeignKey(Film, on_delete=models.CASCADE, null=False, related_name='buy_film')",
+        "detail": "YandexHub.apps.mainapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "VideoSerializer",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.serializers",
+        "description": "YandexHub.apps.mainapp.serializers",
+        "peekOfCode": "class VideoSerializer(serializers.ModelSerializer):\n    class Meta():\n        model = Video\n        fields = ('video_id', 'title', 'description', 'creator', 'video', 'video_banner')\n    def create(self, validated_data):\n        data = Video(\n            video_id = generate_id(32),\n            title = validated_data['title'],\n            description = validated_data['description'],\n            creator = validated_data['creator'],",
+        "detail": "YandexHub.apps.mainapp.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.urls",
+        "description": "YandexHub.apps.mainapp.urls",
+        "peekOfCode": "urlpatterns = [\n    # home\n    path('', HomeView.as_view(), name='main__page'),\n    # auth\n    path('sign/up/', SignUpView.as_view(), name='sign__up__page'),\n    path('sign/in/', SignInView.as_view(), name='signin'),\n    path('sign/out/', SignOutView.as_view(), name='sign__out__page'),\n    # channel & user\n    path('channel/<str:pk>/', ChannelView.as_view(), name='channel__page'),\n    path('channel/<str:pk>/about/', AboutView.as_view(), name='about__channel'),",
+        "detail": "YandexHub.apps.mainapp.urls",
+        "documentation": {}
+    },
+    {
+        "label": "HomeView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class HomeView(ListView):\n    template_name = 'home.html'\n    paginate_by = 20\n    model = Video\n    context_object_name = 'videos'\n    def get_queryset(self):\n        return Video.objects.all().order_by('-coefficient')\n    def get_context_data(self, **kwargs):\n        context = super(HomeView, self).get_context_data(**kwargs)\n        context['title'] = 'YandexHub'",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SearchView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SearchView(ListView):\n    template_name = 'video/search/search.html'\n    paginate_by = 10\n    queryset = Video\n    context_object_name = 'videos'\n    def get_queryset(self):\n        return Video.objects.filter(title__icontains=self.kwargs['pk']).order_by('-coefficient')\n    def get_context_data(self, **kwargs):\n        context = super(SearchView, self).get_context_data(**kwargs)\n        context['title'] = self.kwargs['pk']",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SubscribersView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SubscribersView(ListView):\n    template_name = 'user/subscribers.html'\n    paginate_by = 10\n    queryset = Subscribe\n    context_object_name = 'subscribers'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return Subscribe.objects.filter(channel=self.request.user).order_by('-date_created')\n        else:\n            return Subscribe.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ChannelView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ChannelView(ListView):\n    template_name = 'user/channel.html'\n    paginate_by = 10\n    queryset = Video\n    context_object_name = 'videos'\n    def get_queryset(self):\n        channel = CustomUser.objects.get(user_id=self.kwargs['pk'])\n        return Video.objects.filter(creator=channel).order_by('-date_created')\n    def get_context_data(self, **kwargs):\n        context = super(ChannelView, self).get_context_data(**kwargs)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "DonationView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class DonationView(TemplateView):\n    template_name = 'user/donations/donation.html'\n    def get_context_data(self, **kwargs):\n        context = super(DonationView, self).get_context_data(**kwargs)\n        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])\n        context['title'] = f'Support - {self.channel.username}'\n        context['text'] = self.channel.donat_text\n        context['wallet'] = self.channel.wallet\n        context['url'] = f'{DOMEN}channel/{self.channel.user_id}/'\n        context['channel'] = self.channel",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ConnectDonationsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ConnectDonationsView(TemplateView):\n    template_name = 'user/donations/connect.html'\n    def get_context_data(self, **kwargs):\n        context = super(ConnectDonationsView, self).get_context_data(**kwargs)\n        context['title'] = 'Connect donations 💰'\n        return context\n    @method_decorator(login_required)\n    def post(self, request):\n        wallet = request.POST['wallet']\n        title = request.POST['title']",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "DonationsManualView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class DonationsManualView(TemplateView):\n    template_name = 'user/donations/manual.html'\n    def get_context_data(self, **kwargs):\n        context = super(DonationsManualView,self).get_context_data(**kwargs)\n        context['title'] = 'YooMoney donations - Manual 📋'\n        return context\n# about channel page\nclass AboutView(TemplateView):\n    template_name = 'user/about.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "AboutView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class AboutView(TemplateView):\n    template_name = 'user/about.html'\n    def get_context_data(self, **kwargs):\n        context = super(AboutView, self).get_context_data(**kwargs)\n        self.channel = CustomUser.objects.get(user_id=self.kwargs['pk'])\n        # find subscribe model\n        if self.request.user.is_authenticated:\n            self.subscribe = Subscribe.objects.filter(\n                subscriber=self.request.user.id, channel=self.channel)\n        else:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SettingsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SettingsView(TemplateView):\n    template_name = 'user/settings/main.html'\n    def get_context_data(self, **kwargs):\n        context = super(SettingsView, self).get_context_data(**kwargs)\n        context['title'] = 'Settings ⚙️'\n        return context\n# channel settings page\nclass ChannelSettingsView(TemplateView):\n    template_name = 'user/settings/channel.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ChannelSettingsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ChannelSettingsView(TemplateView):\n    template_name = 'user/settings/channel.html'\n    def get_context_data(self, **kwargs):\n        context = super(ChannelSettingsView, self).get_context_data(**kwargs)\n        if self.request.user.is_authenticated:\n            context['title'] = 'Channel settings 👻'\n            context['CustomUserTextArea'] = CustomUserTextArea(instance=self.request.user)\n            return context\n        else:\n            context['title'] = 'Channel settings 👻'",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "AccountSettingsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class AccountSettingsView(TemplateView):\n    template_name = 'user/settings/account.html'\n    def get_context_data(self, **kwargs):\n        context = super(AccountSettingsView,self).get_context_data(**kwargs)\n        context['title'] = 'Account settings 🤡'\n        return context\n    @method_decorator(login_required)\n    def post(self, request):   \n        password = request.POST['password']\n        email = request.user.email",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ChangePasswordView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ChangePasswordView(TemplateView):\n    template_name = 'user/settings/password.html'\n    def get_context_data(self, **kwargs):\n        context = super(ChangePasswordView,self).get_context_data(**kwargs)\n        context['title'] = 'Change password 🔒'\n        return context\n    @method_decorator(login_required)\n    def post(self, request):   \n        password = request.POST['password']\n        new_password = request.POST['new_password']",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeEmailView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ChangeEmailView(TemplateView):\n    template_name = 'user/settings/email.html'\n    def get_context_data(self, **kwargs):\n        context = super(ChangeEmailView,self).get_context_data(**kwargs)\n        context['title'] = 'Change email ✉️'\n        return context\n    @method_decorator(login_required)\n    def post(self, request):    \n        password = request.POST['password']\n        new_email = request.POST['new_email']",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "VideoView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class VideoView(ListView):\n    template_name = 'video/video.html'\n    paginate_by = 10\n    queryset = Comment\n    context_object_name = 'comments'\n    def get_queryset(self, **kwargs):\n        video = Video.objects.get(video_id=self.kwargs['pk'])\n        return Comment.objects.filter(commented_video=video).order_by('-likes')\n    def get_context_data(self, **kwargs):\n        context = super(VideoView, self).get_context_data(**kwargs)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "CreateVideoView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class CreateVideoView(TemplateView):\n    template_name = 'video/create.html'\n    def get_context_data(self, **kwargs):\n        context = super(CreateVideoView, self).get_context_data(**kwargs)\n        context['title'] = 'Upload video 📲'\n        context['VideoTextArea'] = VideoTextArea()\n        return context\n    @method_decorator(login_required)\n    def post(self, request):\n        if request.POST['title'] is None or len(request.POST['title'].replace(' ', '')) == 0:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeVideoView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ChangeVideoView(TemplateView):\n    template_name = 'video/change.html'\n    def get_context_data(self, **kwargs):\n        context = super(ChangeVideoView, self).get_context_data(**kwargs)\n        video = Video.objects.get(video_id=self.kwargs['pk'])\n        context['video'] = video\n        context['title'] = f'Change - {video.title}'\n        context['VideoTextArea'] = VideoTextArea(instance=video)\n        return context\n    @method_decorator(login_required)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "AlertBotView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class AlertBotView(TemplateView):\n    template_name = 'user/bot/main.html'\n    def get_context_data(self, **kwargs):\n        context = super(AlertBotView,self).get_context_data(**kwargs)\n        context['title'] = 'YandexHub Alert Bot 🤖'\n        return context\n    @method_decorator(login_required)\n    def post(self, request):\n        telegram = request.POST['telegram']\n        if len(str(telegram)) != 0:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "AlertBotManualView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class AlertBotManualView(TemplateView):\n    template_name = 'user/bot/manual.html'\n    def get_context_data(self, **kwargs):\n        context = super(AlertBotManualView,self).get_context_data(**kwargs)\n        context['title'] = 'YandexHub Alert Bot - Manual 📋'\n        return context\n# community page\nclass CommunityView(ListView):\n    template_name = 'user/community/community.html'\n    paginate_by = 10",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "CommunityView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class CommunityView(ListView):\n    template_name = 'user/community/community.html'\n    paginate_by = 10\n    model = Article\n    context_object_name = 'articles'\n    def get_queryset(self, **kwargs):\n        channel = CustomUser.objects.get(user_id=self.kwargs['pk'])\n        return Article.objects.filter(creator=channel).order_by('-date_created')\n    def get_context_data(self, **kwargs):\n        context = super(CommunityView, self).get_context_data(**kwargs)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "CreateArticleView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class CreateArticleView(TemplateView):\n    template_name = 'user/community/create.html'\n    def get_context_data(self, **kwargs):\n        context = super(CreateArticleView, self).get_context_data(**kwargs)\n        context['title'] = 'Create article 📄'\n        context['ArticleTextArea'] = ArticleTextArea()\n        return context\n    def post(self, request):\n        if request.user.is_authenticated:\n            if request.POST['text'] is None or len(request.POST['text'].replace(' ', '')) == 0:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeArticleView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ChangeArticleView(TemplateView):\n    template_name = 'user/community/change.html'\n    def get_context_data(self, **kwargs):\n        context = super(ChangeArticleView, self).get_context_data(**kwargs)\n        article = Article.objects.get(article_id=self.kwargs['pk'])\n        context['article'] = article\n        context['title'] = 'Change article 🛠'\n        context['ArticleTextArea'] = ArticleTextArea(instance=article)\n        return context\n    def post(self, request, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SavedVideosView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SavedVideosView(ListView):\n    template_name = 'user/video/saved.html'\n    paginate_by = 10\n    queryset = SavedVideo\n    context_object_name = 'videos'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return SavedVideo.objects.filter(saved_user=self.request.user).order_by('-date_created')\n        else:\n            return SavedVideo.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "LikedVideosView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class LikedVideosView(ListView):\n    template_name = 'user/video/liked.html'\n    paginate_by = 10\n    queryset = Like\n    context_object_name = 'videos'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return Like.objects.filter(liked_user=self.request.user).order_by('-date_created')\n        else:\n            return Like.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "HistoryView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class HistoryView(ListView):\n    template_name = 'user/video/history.html'\n    paginate_by = 10\n    queryset = VideoViewModel\n    context_object_name = 'videos'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return VideoViewModel.objects.filter(watched_user=self.request.user).order_by('-date_created')\n        else:\n            return VideoViewModel.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "TrendingView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class TrendingView(ListView):\n    template_name = 'video/other/trending.html'\n    paginate_by = 100\n    queryset = Video\n    context_object_name = 'videos'\n    def get_queryset(self):\n        tranding_time = datetime.utcnow() - timedelta(days=2)\n        videos = []\n        for i in range(100):\n            try:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SubscriptionsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SubscriptionsView(TemplateView):\n    template_name = 'user/other/subscriptions.html'\n    def get_context_data(self, **kwargs):\n        context = super(SubscriptionsView, self).get_context_data(**kwargs)\n        if self.request.user.is_authenticated:\n            n = 0\n            videos = []\n            for i in Subscribe.objects.filter(subscriber=self.request.user):\n                for j in Video.objects.filter(creator=i.channel).order_by('-date_created'):\n                    videos.append(j)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "AnalyticsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class AnalyticsView(TemplateView):\n    template_name = 'user/analytics/analytics.html'\n    def get_context_data(self, **kwargs):\n        context = super(AnalyticsView, self).get_context_data(**kwargs)\n        context['title'] = 'Analytics 🧐'\n        return context\n# dashboard\nclass DashboardView(TemplateView):\n    template_name = 'user/analytics/dashboard.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "DashboardView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class DashboardView(TemplateView):\n    template_name = 'user/analytics/dashboard.html'\n    def get_context_data(self, **kwargs):\n        context = super(DashboardView, self).get_context_data(**kwargs)\n        context['title'] = 'Dashboard 📈'\n        return context\n# user videos page \nclass UserVideosView(ListView):\n    template_name = 'user/analytics/videos/videos.html'\n    paginate_by = 10",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "UserVideosView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class UserVideosView(ListView):\n    template_name = 'user/analytics/videos/videos.html'\n    paginate_by = 10\n    queryset = Video\n    context_object_name = 'videos'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return Video.objects.filter(creator=self.request.user).order_by('-date_created')\n        else:\n            return Video.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "VideoCommentsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class VideoCommentsView(ListView):\n    template_name = 'user/analytics/videos/comments.html'\n    paginate_by = 25\n    queryset = Comment\n    context_object_name = 'comments'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return Comment.objects.filter(commented_video=Video.objects.get(video_id=self.kwargs['pk'])).order_by('-date_created')\n        else:\n            return Comment.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "CommentView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class CommentView(ListView):\n    template_name = 'user/analytics/videos/comment.html'\n    paginate_by = 25\n    queryset = ReplyComment\n    context_object_name = 'comments'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return ReplyComment.objects.filter(comment_parent=Comment.objects.get(comment_id=self.kwargs['pk'])).order_by('-date_created')\n        else:\n            return ReplyComment.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "VideoStatsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class VideoStatsView(TemplateView):\n    template_name = 'user/analytics/videos/video.html'\n    def get_context_data(self, **kwargs):\n        context = super(VideoStatsView, self).get_context_data(**kwargs)\n        video = Video.objects.get(video_id=self.kwargs['pk'])\n        context['title'] = video.title\n        context['video'] = video\n        return context\n# user articles page \nclass UserArticlesView(ListView):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "UserArticlesView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class UserArticlesView(ListView):\n    template_name = 'user/analytics/articles/articles.html'\n    paginate_by = 10\n    queryset = Article\n    context_object_name = 'articles'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return Article.objects.filter(creator=self.request.user).order_by('-date_created')\n        else:\n            return Article.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ArticleStatsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ArticleStatsView(TemplateView):\n    template_name = 'user/analytics/articles/article.html'\n    def get_context_data(self, **kwargs):\n        context = super(ArticleStatsView, self).get_context_data(**kwargs)\n        article = Article.objects.get(article_id=self.kwargs['pk'])\n        context['title'] = article.text\n        context['article'] = article\n        return context\n# actor page\nclass ActorView(TemplateView):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ActorView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ActorView(TemplateView):\n    template_name = 'film/actor.html'\n    def get_context_data(self, **kwargs):\n        context = super(ActorView, self).get_context_data(**kwargs)\n        actor = Actor.objects.get(actor_id=self.kwargs['pk'])\n        context['title'] = actor.name\n        context['actor'] = actor\n        return context\n# producer page\nclass ProducerView(TemplateView):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ProducerView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ProducerView(TemplateView):\n    template_name = 'film/producer.html'\n    def get_context_data(self, **kwargs):\n        context = super(ProducerView, self).get_context_data(**kwargs)\n        producer = Producer.objects.get(producer_id=self.kwargs['pk'])\n        context['title'] = producer.name\n        context['producer'] = producer\n        return context\n# writer page\nclass WriterView(TemplateView):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "WriterView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class WriterView(TemplateView):\n    template_name = 'film/writer.html'\n    def get_context_data(self, **kwargs):\n        context = super(WriterView, self).get_context_data(**kwargs)\n        writer = Writer.objects.get(writer_id=self.kwargs['pk'])\n        context['title'] = writer.name\n        context['writer'] = writer\n        return context\n# genre page\nclass GenreView(ListView):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "GenreView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class GenreView(ListView):\n    template_name = 'film/genre.html'\n    paginate_by = 20\n    model = Film\n    context_object_name = 'films'\n    def get_queryset(self):\n        genre = Genre.objects.get(name=self.kwargs['pk'])\n        return Film.objects.filter(main_genre=genre)\n    def get_context_data(self, **kwargs):\n        context = super(GenreView, self).get_context_data(**kwargs)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "FilmsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class FilmsView(ListView):\n    template_name = 'film/films.html'\n    paginate_by = 20\n    model = Film\n    context_object_name = 'films'\n    def get_context_data(self, **kwargs):\n        context = super(FilmsView, self).get_context_data(**kwargs)\n        context['title'] = 'Films 🎥'\n        return context\n# user films page",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "UserFilmsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class UserFilmsView(TemplateView):\n    template_name = 'film/user/films.html'\n    def get_context_data(self, **kwargs):\n        context = super(UserFilmsView, self).get_context_data(**kwargs)\n        context['title'] = 'Your films 🎥'\n        return context\n# film page\nclass FilmView(TemplateView):\n    template_name = 'film/film.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "FilmView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class FilmView(TemplateView):\n    template_name = 'film/film.html'\n    def get_context_data(self, **kwargs):\n        context = super(FilmView, self).get_context_data(**kwargs)\n        film = Film.objects.get(film_id=self.kwargs['pk'])\n        # find buy model \n        if self.request.user.is_authenticated:\n            buy = BuyFilm.objects.filter(buy_film=film, buy_user=self.request.user)\n        else:\n            buy = None",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "LikedFilmsView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class LikedFilmsView(ListView):\n    template_name = 'film/user/liked.html'\n    paginate_by = 10\n    queryset = FilmLike\n    context_object_name = 'films'\n    def get_queryset(self):\n        if self.request.user.is_authenticated:\n            return FilmLike.objects.filter(liked_user=self.request.user).order_by('-date_created')\n        else:\n            return FilmLike.objects.none()",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "MoreView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class MoreView(TemplateView):\n    template_name = 'more/main.html'\n    def get_context_data(self, **kwargs):\n        context = super(MoreView, self).get_context_data(**kwargs)\n        context['title'] = 'More 🧻'\n        return context\n# about project page\nclass AboutProjectView(TemplateView):\n    template_name = 'more/about.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "AboutProjectView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class AboutProjectView(TemplateView):\n    template_name = 'more/about.html'\n    def get_context_data(self, **kwargs):\n        context = super(AboutProjectView, self).get_context_data(**kwargs)\n        context['title'] = 'About 🥴'\n        return context\n# FAQ page\nclass FAQView(TemplateView):\n    template_name = 'more/faq.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "FAQView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class FAQView(TemplateView):\n    template_name = 'more/faq.html'\n    def get_context_data(self, **kwargs):\n        context = super(FAQView, self).get_context_data(**kwargs)\n        context['title'] = 'FAQ 📃'\n        return context\n# api token connect\nclass ApiTokenView(TemplateView):\n    template_name = 'more/api/token.html'\n    def get_context_data(self, **kwargs):",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ApiTokenView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ApiTokenView(TemplateView):\n    template_name = 'more/api/token.html'\n    def get_context_data(self, **kwargs):\n        context = super(ApiTokenView, self).get_context_data(**kwargs)\n        if self.request.user.is_authenticated:\n            token = Token.objects.get(user=self.request.user)\n        else:\n            token = None\n        context['title'] = 'Api token 🔑'\n        context['token'] = token",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "ApiView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class ApiView(TemplateView):\n    template_name = 'more/api/main.html'\n    def get_context_data(self, **kwargs):\n        context = super(ApiView, self).get_context_data(**kwargs)\n        if self.request.user.is_authenticated:\n            token = Token.objects.get(user=self.request.user)\n        else:\n            token = None\n        context['title'] = 'Api 🔑'\n        context['token'] = token",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SignUpView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SignUpView(TemplateView):\n    template_name = 'user/auth/sign_up.html'\n    def dispatch(self, *args, **kwargs):\n        if self.request.user.is_authenticated:\n            return HttpResponseRedirect('/')  \n        else:\n            return super(SignUpView, self).dispatch(*args, **kwargs)\n    def post(self, request):\n        try:\n            password1 = request.POST['password1']",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SignInView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SignInView(TemplateView):\n    template_name = 'user/auth/sign_in.html'\n    def dispatch(self, *args, **kwargs):\n        if self.request.user.is_authenticated:\n            return HttpResponseRedirect('/')  \n        else:\n            return super(SignInView, self).dispatch(*args, **kwargs)\n    def post(self, request):\n        try:\n            email = request.POST['email']",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "SignOutView",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "class SignOutView(View):\n    @method_decorator(login_required)\n    def get(self, request):\n        logout(request)\n        # send alert\n        messages.success(request, 'You have successfully logged out of your account 💀')\n        return redirect('main__page')\n# 404 error\ndef error_404_view(request, exception):\n    return render(request, '404.html')",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "get_video_recommendations",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "def get_video_recommendations(channel, video):\n    video_channel_recommendations = []\n    for i in range(5):\n        try:\n            channel_video = Video.objects.filter(\n                creator=channel).order_by('-date_created')[i]\n            if channel_video == video:\n                pass\n            else:\n                video_channel_recommendations.append(channel_video)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "get_film_recommendations",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "def get_film_recommendations(film):\n    film_recommendations = []\n    for i in range(30):\n        try:\n            other_film = Film.objects.order_by('-date_created')[i]\n            if other_film == film:\n                pass\n            else:\n                film_recommendations.append(other_film)\n        except:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "coefficient_func",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "def coefficient_func(video):\n    video.coefficient = (video.comments + video.likes) / (video.dislikes + 1)\n    video.save()\n# view function\ndef view_func(video, request):\n    if request.user.is_authenticated:\n        # maximum 10 views (one user)\n        if VideoViewModel.objects.filter(watched_user=request.user, watched_video=video).count() < 10:\n            VideoViewModel.objects.create(watched_user=request.user, watched_video=video)\n            video.views += 1",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "view_func",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "def view_func(video, request):\n    if request.user.is_authenticated:\n        # maximum 10 views (one user)\n        if VideoViewModel.objects.filter(watched_user=request.user, watched_video=video).count() < 10:\n            VideoViewModel.objects.create(watched_user=request.user, watched_video=video)\n            video.views += 1\n            video.save()\n            video.creator.all_views += 1\n            video.creator.save()\n        coefficient_func(video)",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "error_404_view",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "def error_404_view(request, exception):\n    return render(request, '404.html')\n# 500 error\ndef error_500_view(request):\n    return render(request, '404.html')",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "error_500_view",
+        "kind": 2,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "def error_500_view(request):\n    return render(request, '404.html')",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "DOMEN",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "DOMEN = 'http://tpt-api.space/'\nVIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']\nIMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']\nMAX_IMAGE_SIZE = 7864320 # 7.5 MB\nMAX_VIDEO_SIZE = 209715200 # 200 MB\n# get recommendations on video page\ndef get_video_recommendations(channel, video):\n    video_channel_recommendations = []\n    for i in range(5):\n        try:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "VIDEO_EXTENSIONS",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "VIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']\nIMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']\nMAX_IMAGE_SIZE = 7864320 # 7.5 MB\nMAX_VIDEO_SIZE = 209715200 # 200 MB\n# get recommendations on video page\ndef get_video_recommendations(channel, video):\n    video_channel_recommendations = []\n    for i in range(5):\n        try:\n            channel_video = Video.objects.filter(",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "IMAGE_EXTENSIONS",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']\nMAX_IMAGE_SIZE = 7864320 # 7.5 MB\nMAX_VIDEO_SIZE = 209715200 # 200 MB\n# get recommendations on video page\ndef get_video_recommendations(channel, video):\n    video_channel_recommendations = []\n    for i in range(5):\n        try:\n            channel_video = Video.objects.filter(\n                creator=channel).order_by('-date_created')[i]",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_IMAGE_SIZE",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "MAX_IMAGE_SIZE = 7864320 # 7.5 MB\nMAX_VIDEO_SIZE = 209715200 # 200 MB\n# get recommendations on video page\ndef get_video_recommendations(channel, video):\n    video_channel_recommendations = []\n    for i in range(5):\n        try:\n            channel_video = Video.objects.filter(\n                creator=channel).order_by('-date_created')[i]\n            if channel_video == video:",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_VIDEO_SIZE",
+        "kind": 5,
+        "importPath": "YandexHub.apps.mainapp.views",
+        "description": "YandexHub.apps.mainapp.views",
+        "peekOfCode": "MAX_VIDEO_SIZE = 209715200 # 200 MB\n# get recommendations on video page\ndef get_video_recommendations(channel, video):\n    video_channel_recommendations = []\n    for i in range(5):\n        try:\n            channel_video = Video.objects.filter(\n                creator=channel).order_by('-date_created')[i]\n            if channel_video == video:\n                pass",
+        "detail": "YandexHub.apps.mainapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "YandexHub.asgi",
+        "description": "YandexHub.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "YandexHub.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\nPROJECT_ROOT = os.path.dirname(__file__)\nsys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = ['*']",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "PROJECT_ROOT",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "PROJECT_ROOT = os.path.dirname(__file__)\nsys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = ['*']\n# Application definition",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "SECRET_KEY = '1teg@une75+-)fef)=^2xy$8o2zj!&h@v1&bu)4g-qz7gkx)lz'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "ALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'rest_framework',  # DRF",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'rest_framework',  # DRF\n    'rest_framework.authtoken', # auth tokens\n    'django_summernote',  # custom input",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_USER_MODEL",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "AUTH_USER_MODEL = 'mainapp.CustomUser'\nAUTH_PROFILE_MODULE = 'mainapp.CustomUser'\nLOGIN_URL = 'signin'\nLOGIN_REDIRECT_URL = '/home/'\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PROFILE_MODULE",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "AUTH_PROFILE_MODULE = 'mainapp.CustomUser'\nLOGIN_URL = 'signin'\nLOGIN_REDIRECT_URL = '/home/'\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LOGIN_URL",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "LOGIN_URL = 'signin'\nLOGIN_REDIRECT_URL = '/home/'\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LOGIN_REDIRECT_URL",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "LOGIN_REDIRECT_URL = '/home/'\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]\nROOT_URLCONF = 'YandexHub.urls'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "ROOT_URLCONF = 'YandexHub.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'YandexHub.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/3.0/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),\n    }\n}\n# Password validation",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTHENTICATION_BACKENDS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']\n# Internationalization\n# https://docs.djangoproject.com/en/3.0/topics/i18n/\nLANGUAGE_CODE = 'en'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_L10N = True\nUSE_TZ = True\n# add email settings\nEMAIL_USE_TLS = True",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_L10N = True\nUSE_TZ = True\n# add email settings\nEMAIL_USE_TLS = True\nEMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_L10N = True\nUSE_TZ = True\n# add email settings\nEMAIL_USE_TLS = True\nEMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_L10N = True\nUSE_TZ = True\n# add email settings\nEMAIL_USE_TLS = True\nEMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_L10N",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "USE_L10N = True\nUSE_TZ = True\n# add email settings\nEMAIL_USE_TLS = True\nEMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "USE_TZ = True\n# add email settings\nEMAIL_USE_TLS = True\nEMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_USE_TLS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "EMAIL_USE_TLS = True\nEMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/\nBASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_HOST",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "EMAIL_HOST = 'smtp.gmail.com'\nEMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/\nBASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_PORT",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "EMAIL_PORT = 587\nEMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/\nBASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_HOST_USER",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "EMAIL_HOST_USER = 'yandexhubgo@gmail.com'\nEMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/\nBASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_HOST_PASSWORD",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "EMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'\nDEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/\nBASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_FROM_EMAIL",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "DEFAULT_FROM_EMAIL = 'yandexhubgo@gmail.com'\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/3.0/howto/static-files/\nBASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nMEDIA_URL = '/media/'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n#!\nX_FRAME_OPTIONS = 'SAMEORIGIN'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#TEMPLATES_DIR",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "#TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')\nSTATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n#!\nX_FRAME_OPTIONS = 'SAMEORIGIN'\nSUMMERNOTE_THEME = 'bs4'",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "STATIC_URL = \"/static/\"\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n#!\nX_FRAME_OPTIONS = 'SAMEORIGIN'\nSUMMERNOTE_THEME = 'bs4'\nSUMMERNOTE_CONFIG = {",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATICFILES_DIRS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n#!\nX_FRAME_OPTIONS = 'SAMEORIGIN'\nSUMMERNOTE_THEME = 'bs4'\nSUMMERNOTE_CONFIG = {\n    'iframe': True,",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_URL",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n#!\nX_FRAME_OPTIONS = 'SAMEORIGIN'\nSUMMERNOTE_THEME = 'bs4'\nSUMMERNOTE_CONFIG = {\n    'iframe': True,\n    'attachment_filesize_limit': 2560 * 2560,\n    'summernote': {\n        'airMode': False,",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_ROOT",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "MEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n#!\nX_FRAME_OPTIONS = 'SAMEORIGIN'\nSUMMERNOTE_THEME = 'bs4'\nSUMMERNOTE_CONFIG = {\n    'iframe': True,\n    'attachment_filesize_limit': 2560 * 2560,\n    'summernote': {\n        'airMode': False,\n        'width': '100%',",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "X_FRAME_OPTIONS",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "X_FRAME_OPTIONS = 'SAMEORIGIN'\nSUMMERNOTE_THEME = 'bs4'\nSUMMERNOTE_CONFIG = {\n    'iframe': True,\n    'attachment_filesize_limit': 2560 * 2560,\n    'summernote': {\n        'airMode': False,\n        'width': '100%',\n        'height': '500',\n        'toolbar': [",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SUMMERNOTE_THEME",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "SUMMERNOTE_THEME = 'bs4'\nSUMMERNOTE_CONFIG = {\n    'iframe': True,\n    'attachment_filesize_limit': 2560 * 2560,\n    'summernote': {\n        'airMode': False,\n        'width': '100%',\n        'height': '500',\n        'toolbar': [\n            ['style', ['style']],",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SUMMERNOTE_CONFIG",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "SUMMERNOTE_CONFIG = {\n    'iframe': True,\n    'attachment_filesize_limit': 2560 * 2560,\n    'summernote': {\n        'airMode': False,\n        'width': '100%',\n        'height': '500',\n        'toolbar': [\n            ['style', ['style']],\n            ['font', ['bold', 'underline', 'clear']],",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "REST_FRAMEWORK",
+        "kind": 5,
+        "importPath": "YandexHub.settings",
+        "description": "YandexHub.settings",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework.authentication.TokenAuthentication',\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}",
+        "detail": "YandexHub.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "YandexHub.urls",
+        "description": "YandexHub.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('mainapp.urls')),\n    path('summernote/', include('django_summernote.urls')),\n    path('api/auth/', include('djoser.urls')),\n    path('api/auth/', include('djoser.urls.authtoken')),\n]\nif settings.DEBUG:\n    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\nhandler404 = 'mainapp.views.error_404_view'",
+        "detail": "YandexHub.urls",
+        "documentation": {}
+    },
+    {
+        "label": "handler404",
+        "kind": 5,
+        "importPath": "YandexHub.urls",
+        "description": "YandexHub.urls",
+        "peekOfCode": "handler404 = 'mainapp.views.error_404_view'\nhandler500 = 'mainapp.views.error_500_view'",
+        "detail": "YandexHub.urls",
+        "documentation": {}
+    },
+    {
+        "label": "handler500",
+        "kind": 5,
+        "importPath": "YandexHub.urls",
+        "description": "YandexHub.urls",
+        "peekOfCode": "handler500 = 'mainapp.views.error_500_view'",
+        "detail": "YandexHub.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "YandexHub.wsgi",
+        "description": "YandexHub.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "YandexHub.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "manage",
+        "description": "manage",
+        "peekOfCode": "def main():\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'YandexHub.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"\n        ) from exc",
+        "detail": "manage",
+        "documentation": {}
+    }
+]

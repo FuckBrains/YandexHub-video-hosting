@@ -2,31 +2,19 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+# DRF AUTH
+from rest_framework.authtoken.models import Token
+
 # VIEWS
 from django.views.generic import View, TemplateView, ListView
 
 # HTTP 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.http import Http404
-
-# NETWORK
-#from urllib.request import urlopen
-
-# JSON
-import json 
+#from django.http import Http404
 
 # MESSAGES
 from django.contrib import messages
-
-# DRF
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import permissions
-
-# RANDOM
-import random
-from random import choice
 
 # MODELS
 from .models import *
@@ -38,22 +26,21 @@ from django.utils.decorators import method_decorator
 
 # FORMS
 from .forms import *
-from django.contrib.auth.forms import UserCreationForm
 
 # DATE/TIME
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 # OS
 from pathlib import Path
 
 # HELPERS
-from .helpers import random_list, generate_id, get_client_ip, get_ip_info, get_city_and_country_ip
+from .helpers import random_list, generate_id, get_city_and_country_ip
 
 # BOT
 from .bot import YandexHubAlert
 
 # site domen, used for telegram bot
-DOMEN = 'https://theprogersteam.ru/'
+DOMEN = 'http://tpt-api.space/'
 
 VIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']
 IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']
@@ -107,22 +94,22 @@ def get_film_recommendations(film):
 
 # add coefficient for video
 def coefficient_func(video):
-    video.coefficient = video.views / (video.dislikes + video.comments - video.likes + 10)
+    video.coefficient = (video.comments + video.likes) / (video.dislikes + 1)
     video.save()
 
 
 # view function
 def view_func(video, request):
     if request.user.is_authenticated:
-        VideoViewModel.objects.create(watched_user=request.user, watched_video=video)
-        video.views += 1
-        video.save()
-        video.creator.all_views += 1
-        video.creator.save()
+        # maximum 10 views (one user)
+        if VideoViewModel.objects.filter(watched_user=request.user, watched_video=video).count() < 10:
+            VideoViewModel.objects.create(watched_user=request.user, watched_video=video)
+            video.views += 1
+            video.save()
+            video.creator.all_views += 1
+            video.creator.save()
 
-    coefficient_func(video)
-
-
+        coefficient_func(video)
 
 #  home page
 class HomeView(ListView):
@@ -130,12 +117,14 @@ class HomeView(ListView):
     paginate_by = 20
     model = Video
     context_object_name = 'videos'
-
+    
+    def get_queryset(self):
+        return Video.objects.all().order_by('-coefficient')
+        
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['title'] = 'YandexHub'
         return context
-
 
 # search video system
 class SearchView(ListView):
@@ -152,6 +141,23 @@ class SearchView(ListView):
         context['title'] = self.kwargs['pk']
         return context
 
+# subscribers page
+class SubscribersView(ListView):
+    template_name = 'user/subscribers.html'
+    paginate_by = 10
+    queryset = Subscribe
+    context_object_name = 'subscribers'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Subscribe.objects.filter(channel=self.request.user).order_by('-date_created')
+        else:
+            return Subscribe.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super(SubscribersView, self).get_context_data(**kwargs)
+        context['title'] = 'Subscribers 👱‍♂️'
+        return context
 
 # channel page
 class ChannelView(ListView):
@@ -323,7 +329,7 @@ class ChannelSettingsView(TemplateView):
             _file = request.FILES['avatar']
             file_extension = Path(str(_file)).suffix
             if not file_extension in IMAGE_EXTENSIONS:
-                messages.error(request, 'This file extension is not supported 😑<br/>You can read more about supported extensions here.')
+                messages.error(request, 'This file extension is not supported (<b>avatar</b>) 😑<br/>You can read more about supported extensions here.')
                 return redirect('channel__settings__page')
             else:
                 if _file.size > MAX_IMAGE_SIZE:
@@ -338,7 +344,7 @@ class ChannelSettingsView(TemplateView):
             _file = request.FILES['banner']
             file_extension = Path(str(_file)).suffix
             if not file_extension in IMAGE_EXTENSIONS:
-                messages.error(request, 'This file extension is not supported 😑<br/>You can read more about supported extensions here.')
+                messages.error(request, 'This file extension is not supported (<b>banner</b>) 😑<br/>You can read more about supported extensions here.')
                 return redirect('channel__settings__page')
             else:
                 if _file.size > MAX_IMAGE_SIZE:
@@ -656,8 +662,8 @@ class CreateVideoView(TemplateView):
                     return redirect('create__video__page')
 
                 description = request.POST['description']
-                if len(str(description)) > 5000:
-                    messages.error(request, 'Maximum description length 5000 characters 🥴')
+                if len(str(description)) > 50000:
+                    messages.error(request, 'Maximum description length 50000 characters 🥴')
                     return redirect('create__video__page')
 
                 # create video model
@@ -824,8 +830,8 @@ class CreateArticleView(TemplateView):
                 return redirect('create__article__page')
             else:
                 text = request.POST['text']
-                if len(str(text)) > 5000:
-                    messages.error(request, 'Maximum text length 5000 characters 🥴')
+                if len(str(text)) > 1000000:
+                    messages.error(request, 'Maximum text length 1000000 characters 🥴')
                     return redirect('create__article__page')
 
                 # create article model
@@ -930,7 +936,7 @@ class HistoryView(ListView):
 # trending page
 class TrendingView(ListView):
     template_name = 'video/other/trending.html'
-    paginate_by = 10
+    paginate_by = 100
     queryset = Video
     context_object_name = 'videos'
 
@@ -1064,25 +1070,36 @@ class VideoStatsView(TemplateView):
         context['video'] = video
         return context
 
-# user posts page 
-'''
-class UserVideosView(ListView):
-    template_name = 'user/analytics/posts/posts.html'
+
+# user articles page 
+class UserArticlesView(ListView):
+    template_name = 'user/analytics/articles/articles.html'
     paginate_by = 10
-    queryset = Video
-    context_object_name = 'videos'
+    queryset = Article
+    context_object_name = 'articles'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Video.objects.filter(creator=self.request.user).order_by('-date_created')
+            return Article.objects.filter(creator=self.request.user).order_by('-date_created')
         else:
-            return Video.objects.none()
+            return Article.objects.none()
 
     def get_context_data(self, **kwargs):
-        context = super(UserVideosView, self).get_context_data(**kwargs)
-        context['title'] = 'Your videos 🎥'
+        context = super(UserArticlesView, self).get_context_data(**kwargs)
+        context['title'] = 'Your articles 📜'
         return context
-'''
+
+# article stats page
+class ArticleStatsView(TemplateView):
+    template_name = 'user/analytics/articles/article.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleStatsView, self).get_context_data(**kwargs)
+        article = Article.objects.get(article_id=self.kwargs['pk'])
+
+        context['title'] = article.text
+        context['article'] = article
+        return context
 
 # actor page
 class ActorView(TemplateView):
@@ -1159,12 +1176,6 @@ class UserFilmsView(TemplateView):
 # film page
 class FilmView(TemplateView):
     template_name = 'film/film.html'
-    #paginate_by = 10
-    #queryset = Comment
-    #context_object_name = 'comments'
-
-    #def get_queryset(self, **kwargs):
-    #    return Comment.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(FilmView, self).get_context_data(**kwargs)
@@ -1184,8 +1195,7 @@ class FilmView(TemplateView):
         if self.request.user.is_authenticated:
             context['liked'] = FilmLike.objects.filter(liked_user=self.request.user, liked_film=film)
             context['disliked'] = FilmDislike.objects.filter(disliked_user=self.request.user, disliked_film=film)
-            pass
-
+            
         return context
 
 # liked films page
@@ -1206,7 +1216,65 @@ class LikedFilmsView(ListView):
         context['title'] = 'Liked films ❤️'
         return context
 
+# more page
+class MoreView(TemplateView):
+    template_name = 'more/main.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(MoreView, self).get_context_data(**kwargs)
+        context['title'] = 'More 🧻'
+        return context
+
+# about project page
+class AboutProjectView(TemplateView):
+    template_name = 'more/about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AboutProjectView, self).get_context_data(**kwargs)
+        context['title'] = 'About 🥴'
+        return context
+
+# FAQ page
+class FAQView(TemplateView):
+    template_name = 'more/faq.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FAQView, self).get_context_data(**kwargs)
+        context['title'] = 'FAQ 📃'
+        return context
+
+# api token connect
+class ApiTokenView(TemplateView):
+    template_name = 'more/api/token.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ApiTokenView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            token = Token.objects.get(user=self.request.user)
+        else:
+            token = None
+            
+        context['title'] = 'Api token 🔑'
+        context['token'] = token
+        return context
+    
+# api page
+class ApiView(TemplateView):
+    template_name = 'more/api/main.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ApiView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            token = Token.objects.get(user=self.request.user)
+        else:
+            token = None
+            
+        context['title'] = 'Api 🔑'
+        context['token'] = token
+        context['domen'] = DOMEN
+        return context
+    
+    
 # sign up page
 class SignUpView(TemplateView):
     template_name = 'user/auth/sign_up.html'
@@ -1245,6 +1313,7 @@ class SignUpView(TemplateView):
                             messages.success(self.request, 'Account created successfully 😃')
                             return redirect('main__page')
                         else:
+                            messages.error(self.request, "Your password is too simple or similar to your other personal information 😿")
                             return redirect('sign__up__page')
         except:
             pass
@@ -1301,16 +1370,6 @@ class SignOutView(View):
         # send alert
         messages.success(request, 'You have successfully logged out of your account 💀')
         return redirect('main__page')
-
-
-# about project page
-class AboutProjectView(TemplateView):
-    template_name = 'about.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(AboutProjectView, self).get_context_data(**kwargs)
-        context['title'] = 'About 🥴'
-        return context
 
 # 404 error
 def error_404_view(request, exception):

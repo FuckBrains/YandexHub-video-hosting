@@ -1,25 +1,40 @@
 # DRF
+import re
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
+from rest_framework import status, generics
+from rest_framework.parsers import MultiPartParser, FormParser
+
+# DRF AUTH 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authtoken.models import Token
+
+# DJNAGO 
+from django.http import FileResponse
 
 # MODELS
+from django.db.models import Q
 from .models import *
 
 # DATE/TIME
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 
 # MESSAGES
 from django.contrib import messages
 
-# views funcs
-from .views import YandexHubAlert, get_city_and_country_ip, get_client_ip, get_ip_info, DOMEN
+# VIEWS FUNCS
+from .views import VideoView, YandexHubAlert, DOMEN, MAX_IMAGE_SIZE, MAX_VIDEO_SIZE
+
+# SERIALIZERS
+from .serializers import *
 
 # HELPERS
 from .helpers import generate_id
 
 # subscribe to user
 class SubscribeApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         channel = CustomUser.objects.get(user_id=request.data.get('channel_id'))
@@ -42,6 +57,7 @@ class SubscribeApi(APIView):
 
 # notifications
 class NotificationsApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         channel = CustomUser.objects.get(user_id=request.data.get('user_id'))
@@ -62,9 +78,9 @@ class NotificationsApi(APIView):
         else:
             return Response({'data': {}, 'status': 'err'})
 
-
 # delete video
 class DeleteVideoApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         video_id = request.data.get('video_id')
@@ -82,6 +98,7 @@ class DeleteVideoApi(APIView):
 
 # save video
 class SaveVideoApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         video = Video.objects.get(video_id=request.data.get('video_id'))
@@ -100,7 +117,9 @@ class SaveVideoApi(APIView):
 
 # like video
 class LikeVideoApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    
     def post(self, request):
         video = Video.objects.get(video_id=request.data.get('video_id'))
         like = Like.objects.filter(liked_video=video, liked_user=request.user)
@@ -141,6 +160,7 @@ class LikeVideoApi(APIView):
 
 # dislike video
 class DislikeVideoApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         video = Video.objects.get(video_id=request.data.get('video_id'))
@@ -180,21 +200,25 @@ class DislikeVideoApi(APIView):
         else:
             return Response({'data': {}, 'status': 'err'})
 
-
 # add comment
 class AddCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         video = Video.objects.get(video_id=request.data.get('video_id'))
         text = request.data.get('text')
         if len(text) < 500:
             if text.replace(' ', '') != '' and text is not None:
-                Comment.objects.create(commented_video=video, creator=request.user, comment_id=generate_id(32), comment_text=text)
-                video.comments += 1
-                video.save()
-                video.creator.all_comments += 1
-                video.creator.save()
-                return Response({'data': {}, 'message': 'Comment added 🌚', 'status': 'ok'})
+                # maximum 10 comments (one user)
+                if Comment.objects.filter(commented_video=video, creator=request.user).count() <= 10:
+                    Comment.objects.create(commented_video=video, creator=request.user, comment_id=generate_id(32), comment_text=text)
+                    video.comments += 1
+                    video.save()
+                    video.creator.all_comments += 1
+                    video.creator.save()
+                    return Response({'data': {}, 'message': 'Comment added 🌚', 'status': 'ok'})
+                else:
+                    return Response({'data': {}, 'message': 'You have exceeded the comment limit for one video today 😥', 'status': 'err'})  
             else:
                 return Response({'data': {}, 'message': 'Comment cannot contain spaces or be empty 🙉', 'status': 'err'})            
         else:
@@ -202,6 +226,7 @@ class AddCommentApi(APIView):
 
 # like comment
 class LikeCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         comment = Comment.objects.get(comment_id=request.data.get('comment_id'))
@@ -234,6 +259,7 @@ class LikeCommentApi(APIView):
 
 # dislike comment
 class DislikeCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         comment = Comment.objects.get(comment_id=request.data.get('comment_id'))
@@ -266,6 +292,8 @@ class DislikeCommentApi(APIView):
 
 # delete comment
 class DeleteCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         comment_id = request.data.get('comment_id')
         comment = Comment.objects.filter(comment_id=comment_id)
@@ -285,6 +313,7 @@ class DeleteCommentApi(APIView):
 
 # add reply comment
 class AddReplyCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         video = Video.objects.get(video_id=request.data.get('video_id'))
@@ -292,14 +321,18 @@ class AddReplyCommentApi(APIView):
         text = request.data.get('text')
         if len(text) < 500:
             if text.replace(' ', '') != '' and text is not None:
-                ReplyComment.objects.create(reply_commented_video=video, comment_parent=comment, creator=request.user, reply_comment_id=generate_id(32), comment_text=text)
-                comment.replies += 1
-                comment.save()
-                video.comments += 1
-                video.save()    
-                video.creator.all_comments += 1
-                video.creator.save()
-                return Response({'data': {}, 'message': 'Reply to comment added ⛄️', 'status': 'ok'})
+                # maximum 10 replies (one user)
+                if ReplyComment.objects.filter(reply_commented_video=video, comment_parent=comment, creator=request.user).count() <= 10:
+                    ReplyComment.objects.create(reply_commented_video=video, comment_parent=comment, creator=request.user, reply_comment_id=generate_id(32), comment_text=text)
+                    comment.replies += 1
+                    comment.save()
+                    video.comments += 1
+                    video.save()    
+                    video.creator.all_comments += 1
+                    video.creator.save()
+                    return Response({'data': {}, 'message': 'Reply to comment added ⛄️', 'status': 'ok'})
+                else:
+                    return Response({'data': {}, 'message': 'You have exceeded the replies limit for one video today 😥', 'status': 'err'})  
             else:
                 return Response({'data': {}, 'message': 'Comment cannot contain spaces or be empty 🙉', 'status': 'err'})            
         else:
@@ -307,6 +340,7 @@ class AddReplyCommentApi(APIView):
 
 # like reply comment
 class LikeReplyCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))
@@ -339,6 +373,7 @@ class LikeReplyCommentApi(APIView):
 
 # dislike comment
 class DislikeReplyCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))
@@ -371,6 +406,8 @@ class DislikeReplyCommentApi(APIView):
 
 # delete comment
 class DeleteReplyCommentApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         reply_comment_id = request.data.get('reply_comment_id')
         comment = ReplyComment.objects.filter(reply_comment_id=reply_comment_id)
@@ -391,9 +428,9 @@ class DeleteReplyCommentApi(APIView):
         else:
             return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'})
 
-
 # get video stats
 class VideoStatsApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         video = Video.objects.get(video_id=request.data.get('video_id'))
@@ -403,11 +440,6 @@ class VideoStatsApi(APIView):
         likes_stats = {}
         dislikes_stats = {}
 
-        from django.utils import timezone
-        import pytz
-        from datetime import date
-
-        #today = datetime.utcnow()
         today = date.today()
         for i in range(10):
             day = today - timedelta(days=i)
@@ -418,16 +450,37 @@ class VideoStatsApi(APIView):
             dislikes = Dislike.objects.filter(disliked_video=video, date_created_without_time__gt=(day))
 
             if day >= video.date_created_without_time:
-                views_stats[str(day)] = video.views - len(views)
-                comments_stats[str(day)] = video.comments - (len(comments) + len(reply_comments))
-                likes_stats[str(day)] = video.likes - len(likes)
-                dislikes_stats[str(day)] = video.dislikes - len(dislikes)
+                views_stats[str(day)] = video.views - views.count()
+                comments_stats[str(day)] = video.comments - (comments.count() + reply_comments.count())
+                likes_stats[str(day)] = video.likes - likes.count()
+                dislikes_stats[str(day)] = video.dislikes - dislikes.count()
 
         return Response({'data': {'views': views_stats, 'comments': comments_stats, 'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'})     
 
+# get article stats
+class ArticleStatsApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        article = Article.objects.get(article_id=request.data.get('article_id'))
+        likes_stats = {}
+        dislikes_stats = {}
+
+        today = date.today()
+        for i in range(10):
+            day = today - timedelta(days=i)
+            likes = ArticleLike.objects.filter(liked_article=article, date_created_without_time__gt=(day))
+            dislikes = ArticleDislike.objects.filter(disliked_article=article, date_created_without_time__gt=(day))
+
+            if day >= article.date_created_without_time:
+                likes_stats[str(day)] = article.likes - likes.count()
+                dislikes_stats[str(day)] = article.dislikes - dislikes.count()
+        
+        return Response({'data': {'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'})     
 
 # like film
 class LikeFilmApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         film = Film.objects.get(film_id=request.data.get('film_id'))
@@ -460,6 +513,7 @@ class LikeFilmApi(APIView):
 
 # dislike film
 class DislikeFilmApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         film = Film.objects.get(film_id=request.data.get('film_id'))
@@ -492,6 +546,7 @@ class DislikeFilmApi(APIView):
 
 # buy film
 class BuyFilmApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         film = Film.objects.get(film_id=request.data.get('film_id'))
@@ -508,6 +563,7 @@ class BuyFilmApi(APIView):
 
 # delete article
 class DeleteArticleApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         article_id = request.data.get('article_id')
@@ -524,6 +580,7 @@ class DeleteArticleApi(APIView):
 
 # like article
 class LikeArticleApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         article = Article.objects.get(article_id=request.data.get('article_id'))
@@ -565,6 +622,7 @@ class LikeArticleApi(APIView):
 
 # dislike article
 class DislikeArticleApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         article = Article.objects.get(article_id=request.data.get('article_id'))
@@ -603,3 +661,359 @@ class DislikeArticleApi(APIView):
 
         else:
             return Response({'data': {}, 'status': 'err'})
+
+
+
+# create api token
+class CreateTokenApi(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        Token.objects.get(user=request.user).delete()
+        token = Token.objects.create(user=request.user) 
+        print(token.key)
+        return Response({'data': {'token': token.key}, 'message': 'Token successfully updated 🔑', 'status': 'ok'})
+    
+# get user info
+class UserInfoApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        user = request.user
+        user_data = {}
+        user_data['user_id'] = user.user_id
+        user_data['username'] = user.username
+        user_data['email'] = user.email
+        user_data['date_created'] = user.date_created
+            
+        user_data['media'] = {'avatar': str(user.avatar), 'banner': str(user.banner)}
+        
+        details = {}
+        details['description'] = user.description
+        details['contact_email'] = user.contact_email
+        details['location'] = user.location
+        user_data['details'] = details
+
+        links = {}
+        links['vk_link'] = user.vk_link
+        links['instagram_link'] = user.instagram_link
+        links['facebook_link'] = user.facebook_link
+        links['reddit_link'] = user.reddit_link
+        links['telegram_link'] = user.telegram_link
+        links['twitter_link'] = user.twitter_link
+        links['website_link'] = user.website_link
+        user_data['links'] = links
+        
+        user_data['telegram'] = {'telegram': user.telegram}
+        
+        user_data['yoomoney'] = {'wallet': user.wallet, 'donat_text': user.donat_text}
+
+        stats = {}
+        stats['videos'] = {
+            'videos': Video.objects.filter(creator=user).count(),
+            'views': user.all_views,
+            'comments': user.all_comments,
+            'likes': user.all_likes,
+            'dislikes': user.all_dislikes
+        }
+        
+        stats['posts'] = {
+            'posts': Article.objects.filter(creator=user).count(),
+            'likes': user.all_posts_likes,
+            'dislikes': user.all_posts_dislikes
+        }
+        
+        stats['subscribers'] = user.all_subscribers
+        stats['notifications'] = user.all_notifications
+        user_data['stats'] = stats
+        
+        return Response({'data': {'user': user_data}, 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# get tranding videos
+class TrendingApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        tranding_time = datetime.utcnow() - timedelta(days=2)
+        videos = {}
+        for i in range(100):
+            try:
+                video = Video.objects.filter(~Q(coefficient=0.0), date_created__gt=tranding_time).order_by('-coefficient')[i]
+                video_info = {}
+                video_info['title'] = video.title
+                video_info['description'] = video.description
+                video_info['date_created'] = video.date_created
+                video_info['date_created_without_time'] = video.date_created_without_time
+                video_info['creator'] = {'user_id': video.creator.user_id, 'username': video.creator.username}
+                video_info['media'] = {'video': str(video.video), 'banner': str(video.video_banner)}
+                video_info['stats'] = {
+                    'coefficient': video.coefficient,
+                    'views': video.views,
+                    'comments': video.comments,
+                    'likes': video.likes,
+                    'dislikes': video.dislikes
+                }
+                videos[video.video_id] = video_info
+            except:
+                break
+            
+        return Response({'data': {'videos': videos}, 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+
+# get site stats
+class SiteStatsApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        data = {}
+        data['users'] = CustomUser.objects.all().count()
+        data['subscriptions'] = Subscribe.objects.all().count()
+        data['notifications'] = Notification.objects.all().count() 
+        data['videos'] = {
+            'videos': Video.objects.all().count(), 
+            'views': VideoViewModel.objects.all().count(),
+            'likes': Like.objects.all().count(), 
+            'dislikes': Dislike.objects.all().count(),
+            'comments': {
+                'total': Comment.objects.all().count() + ReplyComment.objects.all().count(),
+                'comments': {
+                    'comments': Comment.objects.all().count(),
+                    'likes': CommentLike.objects.all().count(),
+                    'dislikes': CommentDislike.objects.all().count(),
+                },
+                'replies': {
+                    'comments': ReplyComment.objects.all().count(),
+                    'likes': ReplyCommentLike.objects.all().count(),
+                    'dislikes': ReplyCommentDislike.objects.all().count(),
+                }
+            },
+            'saves': SavedVideo.objects.all().count()
+        }
+        data['posts'] = {
+            'posts': Article.objects.all().count(),
+            'likes': ArticleLike.objects.all().count(),
+            'dislikes': ArticleDislike.objects.all().count()    
+        }
+        data['films'] = {
+            'films': Film.objects.all().count(),
+            'purchases': BuyFilm.objects.all().count(),
+            'likes': FilmLike.objects.all().count(),
+            'dislikes': FilmDislike.objects.all().count(),
+            'actors': Actor.objects.all().count(),
+            'producers': Producer.objects.all().count(),
+            'writers': Writer.objects.all().count(),
+            'genres': Genre.objects.all().count(),
+        }
+        
+        return Response({'data': data, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
+     
+# get user videos
+class VideosApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        user_videos = Video.objects.filter(creator=request.user)
+        videos = {}
+        if user_videos.count() != 0:
+            message = ''
+            for video in user_videos:
+                try:
+                    video_info = {}
+                    video_info['title'] = video.title
+                    video_info['description'] = video.description
+                    video_info['date_created'] = video.date_created
+                    video_info['date_created_without_time'] = video.date_created_without_time
+                    video_info['media'] = {'video': str(video.video), 'banner': str(video.video_banner)}
+                    video_info['stats'] = {
+                        'coefficient': video.coefficient,
+                        'views': video.views,
+                        'comments': video.comments,
+                        'likes': video.likes,
+                        'dislikes': video.dislikes
+                    }
+                    videos[video.video_id] = video_info
+                except:
+                    break
+        else:
+            return Response({'data': {'videos': ''}, 'message': 'Videos not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'videos': videos}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
+
+# get user liked videos
+class LikedVideosApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        liked_videos = Like.objects.filter(liked_user=request.user)
+        videos = {}
+        if liked_videos.count() != 0:
+            message = ''
+            for video in liked_videos:
+                try:
+                    video_info = {}
+                    video_info['title'] = video.liked_video.title
+                    video_info['description'] = video.liked_video.description
+                    video_info['date_created'] = video.liked_video.date_created
+                    video_info['date_created_without_time'] = video.liked_video.date_created_without_time
+                    video_info['creator'] = {'user_id': video.liked_user.user_id, 'username': video.liked_user.username}
+                    video_info['media'] = {'video': str(video.liked_video.video), 'banner': str(video.liked_video.video_banner)}
+                    video_info['stats'] = {
+                        'coefficient': video.liked_video.coefficient,
+                        'views': video.liked_video.views,
+                        'comments': video.liked_video.comments,
+                        'likes': video.liked_video.likes,
+                        'dislikes': video.liked_video.dislikes
+                    }
+                    videos[video.liked_video.video_id] = video_info
+                except:
+                    break
+        else:
+            return Response({'data': {'videos': ''}, 'message': 'Liked videos not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'videos': videos}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# get user disliked videos
+class DislikedVideosApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        disliked_videos = Dislike.objects.filter(disliked_user=request.user)
+        videos = {}
+        if disliked_videos.count() != 0:
+            message = ''
+            for video in disliked_videos:
+                try:
+                    video_info = {}
+                    video_info['title'] = video.disliked_video.title
+                    video_info['description'] = video.disliked_video.description
+                    video_info['date_created'] = video.disliked_video.date_created
+                    video_info['date_created_without_time'] = video.disliked_video.date_created_without_time
+                    video_info['creator'] = {'user_id': video.disliked_user.user_id, 'username': video.disliked_user.username}
+                    video_info['media'] = {'video': str(video.disliked_video.video), 'banner': str(video.disliked_video.video_banner)}
+                    video_info['stats'] = {
+                        'coefficient': video.disliked_video.coefficient,
+                        'views': video.disliked_video.views,
+                        'comments': video.disliked_video.comments,
+                        'likes': video.disliked_video.likes,
+                        'dislikes': video.disliked_video.dislikes
+                    }
+                    videos[video.disliked_video.video_id] = video_info
+                except:
+                    break
+        else:
+            return Response({'data': {'videos': ''}, 'message': 'Disliked videos not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'videos': videos}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
+
+# get user saved videos
+class SavedVideosApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        saved_videos = SavedVideo.objects.filter(saved_user=request.user)
+        videos = {}
+        if saved_videos.count() != 0:
+            message = ''
+            for video in saved_videos:
+                try:
+                    video_info = {}
+                    video_info['title'] = video.saved_video.title
+                    video_info['description'] = video.saved_video.description
+                    video_info['date_created'] = video.saved_video.date_created
+                    video_info['date_created_without_time'] = video.saved_video.date_created_without_time
+                    video_info['creator'] = {'user_id': video.saved_user.user_id, 'username': video.saved_user.username}
+                    video_info['media'] = {'video': str(video.saved_video.video), 'banner': str(video.saved_video.video_banner)}
+                    video_info['stats'] = {
+                        'coefficient': video.saved_video.coefficient,
+                        'views': video.saved_video.views,
+                        'comments': video.saved_video.comments,
+                        'likes': video.saved_video.likes,
+                        'dislikes': video.saved_video.dislikes
+                    }
+                    videos[video.saved_video.video_id] = video_info
+                except:
+                    break
+        else:
+            return Response({'data': {'videos': ''}, 'message': 'Saved videos not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'videos': videos}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
+
+# video api
+class VideoApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        video = Video.objects.filter(video_id=self.kwargs['pk'])
+        video_info = {}
+        if video:
+            message = ''
+            video = video[0]
+            video_info = {}
+            video_info['title'] = video.title
+            video_info['description'] = video.description
+            video_info['date_created'] = video.date_created
+            video_info['date_created_without_time'] = video.date_created_without_time
+            video_info['creator'] = {'user_id': video.creator.user_id, 'username': video.creator.username}
+            video_info['media'] = {'video': str(video.video), 'banner': str(video.video_banner)}
+            video_info['stats'] = {
+                'coefficient': video.coefficient,
+                'views': video.views,
+                'comments': video.comments,
+                'likes': video.likes,
+                'dislikes': video.dislikes
+            }
+        else:
+            message = 'Video not found'
+            
+        return Response({'data': {'video': video_info}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# download video
+class DownloadVideoFile(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        video = Video.objects.filter(video_id=self.kwargs['pk']) 
+        if video:
+            path = video[0].video.path 
+            response = FileResponse(open(path, 'rb')) 
+            return response 
+        else:
+            return Response({'data': {}, 'message': 'Video not found', 'status': 'ok'}, status=status.HTTP_200_OK)
+
+# download video banner
+class DownloadBannerFile(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        video = Video.objects.filter(video_id=self.kwargs['pk']) 
+        if video:
+            path = video[0].video_banner.path 
+            response = FileResponse(open(path, 'rb')) 
+            return response 
+        else:
+            return Response({'data': {}, 'message': 'Video not found', 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# upload video
+class UploadVideoApi(APIView): 
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
+    
+    def post(self, request):
+        video = request.data.get('video')
+        if video.size > MAX_VIDEO_SIZE:
+            return Response({'data': {}, 'message': 'The size of the video should not exceed 200 MB.', 'status': 'OK'})
+
+        banner = request.data.get('banner')
+        if banner.size > MAX_IMAGE_SIZE:
+            return Response({'data': {}, 'message': 'The size of the photo should not exceed 7.5 MB.', 'status': 'OK'})
+                
+        data = {'creator': self.request.user.id, 'title': request.data.get('title'), 'description': request.data.get('description'), 'video': video, 'video_banner': banner}
+        file_serializer = VideoSerializer(data=data)
+        if file_serializer.is_valid(raise_exception=True):
+            queryset = file_serializer.save()
+            message = 'Videos uploaded successfully'
+        else:
+            message = 'An error occured while uploading video' 
+      
+        return Response({'data': {'id': queryset.video_id}, 'message': message, 'status': 'OK'}, status=status.HTTP_200_OK)

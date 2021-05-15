@@ -11,7 +11,6 @@ from .api import *
 urlpatterns = [
     # home
     path('', HomeView.as_view(), name='main__page'),
-    path('about/', AboutProjectView.as_view(), name='about__page'),
     
     # auth
     path('sign/up/', SignUpView.as_view(), name='sign__up__page'),
@@ -23,6 +22,7 @@ urlpatterns = [
     path('channel/<str:pk>/about/', AboutView.as_view(), name='about__channel'),
     path('channel/<str:pk>/community/', CommunityView.as_view(), name='community__page'),
     path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions__page'),
+    path('subscribers/', SubscribersView.as_view(), name='subscribers__page'),
 
     # donations
     path('connect/donations/', ConnectDonationsView.as_view(), name='connect__donations__page'),
@@ -36,6 +36,27 @@ urlpatterns = [
     path('settings/password/change/', ChangePasswordView.as_view(), name='change__password__page'),
     path('settings/email/change/', ChangeEmailView.as_view(), name='change__email__page'),
 
+    # more
+    path('more/', MoreView.as_view(), name="more__page"),
+    path('about/', AboutProjectView.as_view(), name='about__page'),
+    path('faq/', FAQView.as_view(), name='faq__page'),
+    
+    # api
+    path('token/', ApiTokenView.as_view(), name="token__page"),
+    path('api/', ApiView.as_view(), name="api_page"),
+    path('api/token/create/', CreateTokenApi.as_view()),
+    path('api/site/', SiteStatsApi.as_view()),
+    path('api/user/', UserInfoApi.as_view()),
+    path('api/trending/', TrendingApi.as_view()),
+    path('api/videos/', VideosApi.as_view()),
+    path('api/videos/liked/', LikedVideosApi.as_view()),
+    path('api/videos/disliked/', DislikedVideosApi.as_view()),
+    path('api/videos/saved/', SavedVideosApi.as_view()),
+    path('api/video/<str:pk>/info/', VideoApi.as_view()),
+    path('api/video/<str:pk>/download/', DownloadVideoFile.as_view()),
+    path('api/video/<str:pk>/banner/download/', DownloadBannerFile.as_view()),
+    path('api/video/upload/', UploadVideoApi.as_view()),
+    
     # bot
     path('bot/', AlertBotView.as_view(), name='bot__page'),
     path('bot/manual/', AlertBotManualView.as_view(), name='bot__manual__page'),
@@ -55,6 +76,9 @@ urlpatterns = [
     path('analytics/video/<str:pk>/info/', VideoStatsView.as_view(), name='video__stats__page'),
     path('analytics/video/<str:pk>/comments/', VideoCommentsView.as_view(), name='video__comments__page'),
     path('analytics/comment/<str:pk>/info/', CommentView.as_view(), name='comment__page'),
+    path('analytics/articles/', UserArticlesView.as_view(), name='my__articles__page'),
+    path('analytics/article/<str:pk>/info/', ArticleStatsView.as_view(), name='article__stats__page'),
+    path('api/article/stats/', ArticleStatsApi.as_view()),
 
     # video
     path('create/video/', CreateVideoView.as_view(), name='create__video__page'),
@@ -109,5 +133,5 @@ urlpatterns = [
     path('reset/password/', auth_views.PasswordResetView.as_view(template_name='password/reset_password.html'), name='reset_password'),
     path('reset/password/sent/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password/password_reset_confirm.html'), name='password_reset_confirm'),
-    path('reset/password/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete')
+    path('reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete')
 ]
