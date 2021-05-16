@@ -217,6 +217,22 @@
         "documentation": {}
     },
     {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "models",
         "importPath": "django.db",
         "description": "django.db",
@@ -469,6 +485,14 @@
     },
     {
         "label": "BasicAuthentication",
+        "importPath": "rest_framework.authentication",
+        "description": "rest_framework.authentication",
+        "isExtraImport": true,
+        "detail": "rest_framework.authentication",
+        "documentation": {}
+    },
+    {
+        "label": "TokenAuthentication",
         "importPath": "rest_framework.authentication",
         "description": "rest_framework.authentication",
         "isExtraImport": true,
@@ -893,6 +917,15 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.migrations.0012_auto_20210516_2313",
+        "description": "YandexHub.apps.mainapp.migrations.0012_auto_20210516_2313",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mainapp', '0011_auto_20210514_0116'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='actor',\n            name='actor_id',\n            field=models.CharField(blank=True, default='znJkZTpp6BrcAfbTG5CULnNHwFD6jXdn', max_length=32, null=True),\n        ),",
+        "detail": "YandexHub.apps.mainapp.migrations.0012_auto_20210516_2313",
+        "documentation": {}
+    },
+    {
         "label": "time_func",
         "kind": 2,
         "importPath": "YandexHub.apps.mainapp.templatetags.poll_extras",
@@ -1086,7 +1119,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class SubscribeApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        channel = CustomUser.objects.get(user_id=request.data.get('channel_id'))\n        subscribe = Subscribe.objects.filter(subscriber=request.user, channel=channel)\n        if subscribe.count() > 0:\n            channel.all_subscribers -= 1\n            channel.save()\n            subscribe.delete()",
+        "peekOfCode": "class SubscribeApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'channel_id' in request.data:\n            channel = CustomUser.objects.filter(user_id=request.data.get('channel_id'))\n            if channel.count() != 0:\n                channel = channel[0]\n                if request.user != channel:\n                    subscribe = Subscribe.objects.filter(subscriber=request.user, channel=channel)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1095,7 +1128,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class NotificationsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        channel = CustomUser.objects.get(user_id=request.data.get('user_id'))\n        notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)\n        if notification.count() > 0:\n            channel.all_notifications -= 1\n            channel.save()\n            notification.delete()",
+        "peekOfCode": "class NotificationsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'user_id' in request.data:\n            channel = CustomUser.objects.filter(user_id=request.data.get('user_id'))\n            if channel.count() != 0:\n                channel = channel[0]\n                notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)\n                if notification.count() > 0:",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1104,7 +1137,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DeleteVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video_id = request.data.get('video_id')\n        video = Video.objects.filter(video_id=video_id)\n        if video.count() > 0:\n            if video[0].creator == request.user:\n                title = video[0].title\n                video[0].delete()",
+        "peekOfCode": "class DeleteVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                if video[0].creator == request.user:\n                    title = video[0].title\n                    video[0].delete()",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1113,7 +1146,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class SaveVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        save = SavedVideo.objects.filter(saved_video=video, saved_user=request.user)\n        if save.count() > 0:\n            save.delete()\n            return Response({'data': {'save': 0}, 'message': 'Removed from Saved videos ✂️', 'status': 'ok'})\n        elif save.count() == 0:",
+        "peekOfCode": "class SaveVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                video = video[0]\n                save = SavedVideo.objects.filter(saved_video=video, saved_user=request.user)\n                if save.count() > 0:",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1122,7 +1155,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class LikeVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        like = Like.objects.filter(liked_video=video, liked_user=request.user)\n        dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = Like.objects.create(liked_video=video, liked_user=request.user)\n            if like:",
+        "peekOfCode": "class LikeVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                video = video[0]\n                like = Like.objects.filter(liked_video=video, liked_user=request.user)\n                dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1131,7 +1164,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DislikeVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        like = Like.objects.filter(liked_video=video, liked_user=request.user)\n        dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)\n            if dislike:",
+        "peekOfCode": "class DislikeVideoApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                video = video[0]\n                like = Like.objects.filter(liked_video=video, liked_user=request.user)\n                dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1140,7 +1173,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class AddCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        text = request.data.get('text')\n        if len(text) < 500:\n            if text.replace(' ', '') != '' and text is not None:\n                # maximum 10 comments (one user)\n                if Comment.objects.filter(commented_video=video, creator=request.user).count() <= 10:",
+        "peekOfCode": "class AddCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data and 'text' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                video = video[0]\n                text = request.data.get('text')\n                if len(text) < 500:",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1149,7 +1182,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class LikeCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))\n        like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)\n        dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = CommentLike.objects.create(liked_comment=comment, liked_user=request.user)\n            if like:",
+        "peekOfCode": "class LikeCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'comment_id' in request.data:\n            comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))\n            if comment.count() > 0:\n                comment = comment[0]\n                like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)\n                dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1158,7 +1191,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DislikeCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))\n        like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)\n        dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = CommentDislike.objects.create(disliked_comment=comment, disliked_user=request.user)\n            if dislike:",
+        "peekOfCode": "class DislikeCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'comment_id' in request.data:\n            comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))\n            if comment.count() > 0:\n                comment = comment[0]\n                like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)\n                dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1167,7 +1200,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DeleteCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment_id = request.data.get('comment_id')\n        comment = Comment.objects.filter(comment_id=comment_id)\n        if comment.count() > 0:\n            if comment[0].creator == request.user:\n                video = comment[0].commented_video \n                video.comments -= (1 + comment[0].replies)",
+        "peekOfCode": "class DeleteCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'comment_id' in request.data:\n            comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))\n            if comment.count() > 0:\n                if comment[0].creator == request.user:\n                    video = comment[0].commented_video \n                    video.comments -= (1 + comment[0].replies)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1176,7 +1209,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class AddReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))\n        text = request.data.get('text')\n        if len(text) < 500:\n            if text.replace(' ', '') != '' and text is not None:\n                # maximum 10 replies (one user)",
+        "peekOfCode": "class AddReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data and 'comment_id' in request.data and 'text' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                video = video[0]\n                comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))\n                if comment.count() > 0:",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1185,7 +1218,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class LikeReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))\n        like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)\n        dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = ReplyCommentLike.objects.create(liked_reply_comment=comment, liked_user=request.user)\n            if like:",
+        "peekOfCode": "class LikeReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'reply_comment_id' in request.data:\n            comment = ReplyComment.objects.filter(reply_comment_id=request.data.get('reply_comment_id'))\n            if comment.count() > 0:\n                comment = comment[0]\n                like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)\n                dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1194,7 +1227,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DislikeReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))\n        like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)\n        dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = ReplyCommentDislike.objects.create(disliked_reply_comment=comment, disliked_user=request.user)\n            if dislike:",
+        "peekOfCode": "class DislikeReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'reply_comment_id' in request.data:\n            comment = ReplyComment.objects.filter(reply_comment_id=request.data.get('reply_comment_id'))\n            if comment.count() > 0:\n                comment = comment[0]\n                like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)\n                dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1203,7 +1236,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DeleteReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        reply_comment_id = request.data.get('reply_comment_id')\n        comment = ReplyComment.objects.filter(reply_comment_id=reply_comment_id)\n        if comment.count() > 0:\n            if comment[0].creator == request.user:\n                video = comment[0].reply_commented_video \n                comment_parent = comment[0].comment_parent",
+        "peekOfCode": "class DeleteReplyCommentApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'reply_comment_id' in request.data:\n            comment = ReplyComment.objects.filter(reply_comment_id=request.data.get('reply_comment_id'))\n            if comment.count() > 0:\n                if comment[0].creator == request.user:\n                    video = comment[0].reply_commented_video \n                    comment_parent = comment[0].comment_parent",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1212,7 +1245,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class VideoStatsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        video = Video.objects.get(video_id=request.data.get('video_id'))\n        views_stats = {}\n        comments_stats = {}\n        likes_stats = {}\n        dislikes_stats = {}\n        today = date.today()",
+        "peekOfCode": "class VideoStatsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'video_id' in request.data:\n            video = Video.objects.filter(video_id=request.data.get('video_id'))\n            if video.count() > 0:\n                video = video[0]\n                if request.user == video.creator:\n                    views_stats = {}",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1221,7 +1254,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class ArticleStatsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article = Article.objects.get(article_id=request.data.get('article_id'))\n        likes_stats = {}\n        dislikes_stats = {}\n        today = date.today()\n        for i in range(10):\n            day = today - timedelta(days=i)",
+        "peekOfCode": "class ArticleStatsApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'article_id' in request.data:\n            article = Article.objects.filter(article_id=request.data.get('article_id'))\n            if article.count() > 0:\n                article = article[0]\n                if request.user == article.creator:\n                    likes_stats = {}",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1230,7 +1263,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class LikeFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        film = Film.objects.get(film_id=request.data.get('film_id'))\n        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)\n        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = FilmLike.objects.create(liked_film=film, liked_user=request.user)\n            if like:",
+        "peekOfCode": "class LikeFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'film_id' in request.data:\n            film = Film.objects.filter(film_id=request.data.get('film_id'))\n            if film.count() > 0:\n                film = film[0]\n                like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)\n                dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1239,7 +1272,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DislikeFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        film = Film.objects.get(film_id=request.data.get('film_id'))\n        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)\n        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)\n            if dislike:",
+        "peekOfCode": "class DislikeFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'film_id' in request.data:\n            film = Film.objects.filter(film_id=request.data.get('film_id'))\n            if film.count() > 0:\n                film = film[0]\n                like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)\n                dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1248,7 +1281,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class BuyFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        film = Film.objects.get(film_id=request.data.get('film_id'))\n        BuyFilm.objects.create(buy_user=request.user, buy_film=film)\n        if request.user.telegram:\n            now = datetime.now() \n            date = now.strftime('%d-%m-%Y %H:%M:%S')\n            YandexHubAlert(f'You purchased the movie: {film.title} 🥳\\nDate: {date}\\nPrice: USD {film.price}\\n\\n{DOMEN}film/{film.film_id}/', request.user.telegram)",
+        "peekOfCode": "class BuyFilmApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'film_id' in request.data:\n            film = Film.objects.filter(film_id=request.data.get('film_id'))\n            if film.count() > 0:\n                film = film[0]\n                if BuyFilm.objects.filter(buy_user=request.user, buy_film=film).count() == 0:\n                    BuyFilm.objects.create(buy_user=request.user, buy_film=film)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1257,7 +1290,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DeleteArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article_id = request.data.get('article_id')\n        article = Article.objects.filter(article_id=article_id)\n        if article.count() > 0:\n            if article[0].creator == request.user:\n                article[0].delete()\n                messages.success(request, f'Article successfully deleted! 🩸')",
+        "peekOfCode": "class DeleteArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'article_id' in request.data:\n            article_id = request.data.get('article_id')\n            article = Article.objects.filter(article_id=article_id)\n            if article.count() > 0:\n                if article[0].creator == request.user:\n                    article[0].delete()",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1266,7 +1299,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class LikeArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article = Article.objects.get(article_id=request.data.get('article_id'))\n        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)\n        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)\n            if like:",
+        "peekOfCode": "class LikeArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'article_id' in request.data:\n            article = Article.objects.filter(article_id=request.data.get('article_id'))\n            if article.count() > 0:\n                article = article[0]\n                like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)\n                dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1275,7 +1308,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class DislikeArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        article = Article.objects.get(article_id=request.data.get('article_id'))\n        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)\n        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)\n        if like.count() == 0 and dislike.count() == 0:\n            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)\n            if dislike:",
+        "peekOfCode": "class DislikeArticleApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request):\n        if 'article_id' in request.data:\n            article = Article.objects.filter(article_id=request.data.get('article_id'))\n            if article.count() > 0:\n                article = article[0]\n                like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)\n                dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1284,7 +1317,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class CreateTokenApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        Token.objects.get(user=request.user).delete()\n        token = Token.objects.create(user=request.user) \n        print(token.key)\n        return Response({'data': {'token': token.key}, 'message': 'Token successfully updated 🔑', 'status': 'ok'})\n# get user info\nclass UserInfoApi(APIView):",
+        "peekOfCode": "class CreateTokenApi(APIView):\n    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        Token.objects.get(user=request.user).delete()\n        token = Token.objects.create(user=request.user) \n        print(token.key)\n        return Response({'data': {'token': token.key}, 'message': 'Token successfully updated 🔑', 'status': 'ok'}, status=status.HTTP_200_OK)\n# get user info\nclass UserInfoApi(APIView):",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1356,7 +1389,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
-        "peekOfCode": "class VideoApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        video = Video.objects.filter(video_id=self.kwargs['pk'])\n        video_info = {}\n        if video:\n            message = ''\n            video = video[0]\n            video_info = {}\n            video_info['title'] = video.title",
+        "peekOfCode": "class VideoApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        video = Video.objects.filter(video_id=self.kwargs['pk'])\n        video_info = {}\n        if video:\n            message = ''\n            video = video[0]\n            video_info = {}\n            video_info['id'] = video.video_id",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1384,6 +1417,87 @@
         "importPath": "YandexHub.apps.mainapp.api",
         "description": "YandexHub.apps.mainapp.api",
         "peekOfCode": "class UploadVideoApi(APIView): \n    permission_classes = [permissions.IsAuthenticated]\n    parser_classes = (MultiPartParser, FormParser)\n    def post(self, request):\n        video = request.data.get('video')\n        if video.size > MAX_VIDEO_SIZE:\n            return Response({'data': {}, 'message': 'The size of the video should not exceed 200 MB.', 'status': 'OK'})\n        banner = request.data.get('banner')\n        if banner.size > MAX_IMAGE_SIZE:\n            return Response({'data': {}, 'message': 'The size of the photo should not exceed 7.5 MB.', 'status': 'OK'})",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "FilmsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class FilmsApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        site_films = Film.objects.all()\n        films = {}\n        if site_films.count() != 0:\n            for film in site_films:\n                try:\n                    film_info = {}\n                    film_info['title'] = film.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "FilmApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class FilmApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        film = Film.objects.filter(film_id=self.kwargs['pk'])\n        film_info = {}\n        if film:\n            film = film[0]\n            film_info = {}\n            film_info['id'] = film.film_id\n            film_info['title'] = film.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "LikedFilmsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class LikedFilmsApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        liked_films = FilmLike.objects.filter(liked_user=request.user)\n        films = {}\n        if liked_films.count() != 0:\n            for film in liked_films:\n                film = film.liked_film\n                film_info = {}\n                film_info['title'] = film.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DislikedFilmsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DislikedFilmsApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        disliked_films = FilmDislike.objects.filter(disliked_user=request.user)\n        films = {}\n        if disliked_films.count() != 0:\n            for film in disliked_films:\n                film = film.disliked_film\n                film_info = {}\n                film_info['title'] = film.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "PurchasedFilmsApi",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class PurchasedFilmsApi(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request):\n        durchased_films = BuyFilm.objects.filter(buy_user=request.user)\n        films = {}\n        if durchased_films.count() != 0:\n            for film in durchased_films:\n                film = film.buy_film\n                film_info = {}\n                film_info['title'] = film.title",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DownloadFilmBannerFile",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DownloadFilmBannerFile(generics.ListAPIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        film = Film.objects.filter(film_id=self.kwargs['pk']) \n        if film:\n            path = film[0].film_banner.path \n            response = FileResponse(open(path, 'rb')) \n            return response \n        else:\n            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DownloadFilmPosterFile",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DownloadFilmPosterFile(generics.ListAPIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        film = Film.objects.filter(film_id=self.kwargs['pk']) \n        if film:\n            path = film[0].film_poster.path \n            response = FileResponse(open(path, 'rb')) \n            return response \n        else:\n            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DownloadFilmTrailerFile",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DownloadFilmTrailerFile(generics.ListAPIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        film = Film.objects.filter(film_id=self.kwargs['pk']) \n        if film:\n            path = film[0].trailer.path \n            response = FileResponse(open(path, 'rb')) \n            return response \n        else:\n            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)",
+        "detail": "YandexHub.apps.mainapp.api",
+        "documentation": {}
+    },
+    {
+        "label": "DownloadFilmFile",
+        "kind": 6,
+        "importPath": "YandexHub.apps.mainapp.api",
+        "description": "YandexHub.apps.mainapp.api",
+        "peekOfCode": "class DownloadFilmFile(generics.ListAPIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def get(self, request, *args, **kwargs):\n        film = Film.objects.filter(film_id=self.kwargs['pk']) \n        if film:\n            if BuyFilm.objects.filter(buy_user=request.user, buy_film=film[0]):\n                path = film[0].film.path \n                response = FileResponse(open(path, 'rb')) \n                return response \n            else:",
         "detail": "YandexHub.apps.mainapp.api",
         "documentation": {}
     },
@@ -1752,7 +1866,7 @@
         "kind": 6,
         "importPath": "YandexHub.apps.mainapp.serializers",
         "description": "YandexHub.apps.mainapp.serializers",
-        "peekOfCode": "class VideoSerializer(serializers.ModelSerializer):\n    class Meta():\n        model = Video\n        fields = ('video_id', 'title', 'description', 'creator', 'video', 'video_banner')\n    def create(self, validated_data):\n        data = Video(\n            video_id = generate_id(32),\n            title = validated_data['title'],\n            description = validated_data['description'],\n            creator = validated_data['creator'],",
+        "peekOfCode": "class VideoSerializer(serializers.ModelSerializer):\n    class Meta():\n        model = Video\n        fields = ('video_id', 'title', 'description',\n                  'creator', 'video', 'video_banner')\n    def create(self, validated_data):\n        data = Video(\n            video_id=generate_id(32),\n            title=validated_data['title'],\n            description=validated_data['description'],",
         "detail": "YandexHub.apps.mainapp.serializers",
         "documentation": {}
     },

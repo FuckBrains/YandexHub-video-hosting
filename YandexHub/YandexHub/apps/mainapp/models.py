@@ -323,7 +323,6 @@ class Film(models.Model):
     # stats
     likes = models.BigIntegerField(default=0)
     dislikes = models.BigIntegerField(default=0)
-    #comments = models.BigIntegerField(default=0)
 
     # film info
     title = models.CharField(max_length=150)

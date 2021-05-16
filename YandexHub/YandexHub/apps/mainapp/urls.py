@@ -48,6 +48,7 @@ urlpatterns = [
     path('api/site/', SiteStatsApi.as_view()),
     path('api/user/', UserInfoApi.as_view()),
     path('api/trending/', TrendingApi.as_view()),
+    
     path('api/videos/', VideosApi.as_view()),
     path('api/videos/liked/', LikedVideosApi.as_view()),
     path('api/videos/disliked/', DislikedVideosApi.as_view()),
@@ -56,6 +57,22 @@ urlpatterns = [
     path('api/video/<str:pk>/download/', DownloadVideoFile.as_view()),
     path('api/video/<str:pk>/banner/download/', DownloadBannerFile.as_view()),
     path('api/video/upload/', UploadVideoApi.as_view()),
+    
+    path('api/films/', FilmsApi.as_view()),
+    path('api/film/<str:pk>/info/', FilmApi.as_view()),
+    path('api/films/liked/', LikedFilmsApi.as_view()),
+    path('api/films/disliked/', DislikedFilmsApi.as_view()),
+    path('api/films/purchased/', PurchasedFilmsApi.as_view()),
+    path('api/film/<str:pk>/banner/download/', DownloadFilmBannerFile.as_view()),
+    path('api/film/<str:pk>/poster/download/', DownloadFilmPosterFile.as_view()),
+    path('api/film/<str:pk>/trailer/download/', DownloadFilmTrailerFile.as_view()),
+    path('api/film/<str:pk>/download/', DownloadFilmFile.as_view()),
+    
+    # subscribe
+    path('api/channel/subscribe/', SubscribeApi.as_view()),
+    
+    # notifications
+    path('api/channel/notifications/', NotificationsApi.as_view()),
     
     # bot
     path('bot/', AlertBotView.as_view(), name='bot__page'),
@@ -101,12 +118,6 @@ urlpatterns = [
     path('producer/<str:pk>/', ProducerView.as_view(), name='producer__page'),
     path('writer/<str:pk>/', WriterView.as_view(), name='writer__page'),
     path('genre/<str:pk>/', GenreView.as_view(), name='genre__page'),
-
-    # subscribe
-    path('api/channel/subscribe/', SubscribeApi.as_view()),
-    
-    # notifications
-    path('api/channel/notifications/', NotificationsApi.as_view()),
 
     # comments
     path('api/comment/add/', AddCommentApi.as_view()),

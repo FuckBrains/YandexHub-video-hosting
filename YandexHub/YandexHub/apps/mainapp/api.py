@@ -7,7 +7,7 @@ from rest_framework import status, generics
 from rest_framework.parsers import MultiPartParser, FormParser
 
 # DRF AUTH 
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.authtoken.models import Token
 
 # DJNAGO 
@@ -34,646 +34,794 @@ from .helpers import generate_id
 
 # subscribe to user
 class SubscribeApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        channel = CustomUser.objects.get(user_id=request.data.get('channel_id'))
-        subscribe = Subscribe.objects.filter(subscriber=request.user, channel=channel)
+        if 'channel_id' in request.data:
+            channel = CustomUser.objects.filter(user_id=request.data.get('channel_id'))
+            if channel.count() != 0:
+                channel = channel[0]
+                if request.user != channel:
+                    subscribe = Subscribe.objects.filter(subscriber=request.user, channel=channel)
 
-        if subscribe.count() > 0:
-            channel.all_subscribers -= 1
-            channel.save()
-            subscribe.delete()
-            return Response({'data': {'subscribe': 0}, 'message': 'Subscription removed 🤡', 'status': 'ok'})
+                    if subscribe.count() > 0:
+                        channel.all_subscribers -= 1
+                        channel.save()
+                        subscribe.delete()
+                        return Response({'data': {'subscribe': 0}, 'message': 'Subscription removed 🤡', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif subscribe.count() == 0:
-            channel.all_subscribers += 1
-            channel.save()
-            Subscribe.objects.create(subscriber=request.user, channel=channel)
-            return Response({'data': {'subscribe': 1}, 'message': 'Subscription added 🤗', 'status': 'ok'})
+                    elif subscribe.count() == 0:
+                        channel.all_subscribers += 1
+                        channel.save()
+                        Subscribe.objects.create(subscriber=request.user, channel=channel)
+                        return Response({'data': {'subscribe': 1}, 'message': 'Subscription added 🤗', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                    else:
+                        return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'data': {}, 'message': 'Unable to subscribe to yourself 😬', 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'User nor found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # notifications
 class NotificationsApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        channel = CustomUser.objects.get(user_id=request.data.get('user_id'))
-        notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)
+        if 'user_id' in request.data:
+            channel = CustomUser.objects.filter(user_id=request.data.get('user_id'))
+            if channel.count() != 0:
+                channel = channel[0]
+                notification = Notification.objects.filter(notification_user=request.user, notification_channel=channel)
 
-        if notification.count() > 0:
-            channel.all_notifications -= 1
-            channel.save()
-            notification.delete()
-            return Response({'data': {'notification': 0}, 'message': 'Notifications turned off for this channel 😬', 'status': 'ok'})
+                if notification.count() > 0:
+                    channel.all_notifications -= 1
+                    channel.save()
+                    notification.delete()
+                    return Response({'data': {'notification': 0}, 'message': 'Notifications turned off for this channel 😬', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif notification.count() == 0:
-            channel.all_notifications += 1
-            channel.save()
-            Notification.objects.create(notification_channel=channel, notification_user=request.user)
-            return Response({'data': {'notification': 1}, 'message': 'You’ll get all notifications 😃', 'status': 'ok'})
+                elif notification.count() == 0:
+                    channel.all_notifications += 1
+                    channel.save()
+                    Notification.objects.create(notification_channel=channel, notification_user=request.user)
+                    return Response({'data': {'notification': 1}, 'message': 'You’ll get all notifications 😃', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'User nor found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # delete video
 class DeleteVideoApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        video_id = request.data.get('video_id')
-        video = Video.objects.filter(video_id=video_id)
-        if video.count() > 0:
-            if video[0].creator == request.user:
-                title = video[0].title
-                video[0].delete()
-                messages.success(request, f'<b>{title}</b>, successfully deleted! 🎃')
-                return Response({'data': {}, 'status': 'ok'})
+        if 'video_id' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                if video[0].creator == request.user:
+                    title = video[0].title
+                    video[0].delete()
+                    messages.success(request, f'<b>{title}</b>, successfully deleted! 🎃')
+                    return Response({'data': {}, 'status': 'ok'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'data': {}, 'message': 'You are not authorized to delete this video because you are not its creator', 'status': 'err'})
             else:
-                return Response({'data': {}, 'message': 'You are not authorized to delete this video because you are not its creator', 'status': 'err'})
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'message': 'Video not found', 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # save video
 class SaveVideoApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        video = Video.objects.get(video_id=request.data.get('video_id'))
-        save = SavedVideo.objects.filter(saved_video=video, saved_user=request.user)
+        if 'video_id' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                video = video[0]
+                save = SavedVideo.objects.filter(saved_video=video, saved_user=request.user)
 
-        if save.count() > 0:
-            save.delete()
-            return Response({'data': {'save': 0}, 'message': 'Removed from Saved videos ✂️', 'status': 'ok'})
+                if save.count() > 0:
+                    save.delete()
+                    return Response({'data': {'save': 0}, 'message': 'Removed from Saved videos ✂️', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif save.count() == 0:
-            SavedVideo.objects.create(saved_video=video, saved_user=request.user)
-            return Response({'data': {'save': 1}, 'message': 'Added to Saved videos 📌', 'status': 'ok'})
+                elif save.count() == 0:
+                    SavedVideo.objects.create(saved_video=video, saved_user=request.user)
+                    return Response({'data': {'save': 1}, 'message': 'Added to Saved videos 📌', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # like video
 class LikeVideoApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request):
-        video = Video.objects.get(video_id=request.data.get('video_id'))
-        like = Like.objects.filter(liked_video=video, liked_user=request.user)
-        dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)
+        if 'video_id' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                video = video[0]
+                like = Like.objects.filter(liked_video=video, liked_user=request.user)
+                dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            like = Like.objects.create(liked_video=video, liked_user=request.user)
-            if like:
-                video.likes += 1
-                video.save()
-                video.creator.all_likes += 1
-                video.creator.save()
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Added to Liked videos 👍', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    like = Like.objects.create(liked_video=video, liked_user=request.user)
+                    if like:
+                        video.likes += 1
+                        video.save()
+                        video.creator.all_likes += 1
+                        video.creator.save()
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Added to Liked videos 👍', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 1 and dislike.count() == 0:
-            like[0].delete()
-            video.likes -= 1
-            video.save()
-            video.creator.all_likes -= 1
-            video.creator.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Removed from Liked videos 👀', 'status': 'ok'})
+                elif like.count() == 1 and dislike.count() == 0:
+                    like[0].delete()
+                    video.likes -= 1
+                    video.save()
+                    video.creator.all_likes -= 1
+                    video.creator.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Removed from Liked videos 👀', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 0 and dislike.count() == 1:
-            video.dislikes -= 1
-            video.likes += 1
-            video.save()
+                elif like.count() == 0 and dislike.count() == 1:
+                    video.dislikes -= 1
+                    video.likes += 1
+                    video.save()
 
-            video.creator.all_dislikes -= 1
-            video.creator.all_likes += 1
-            video.creator.save()
+                    video.creator.all_dislikes -= 1
+                    video.creator.all_likes += 1
+                    video.creator.save()
 
-            dislike[0].delete()
-            like = Like.objects.create(liked_video=video, liked_user=request.user)
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Added to Liked videos 👍', 'status': 'ok'})
+                    dislike[0].delete()
+                    like = Like.objects.create(liked_video=video, liked_user=request.user)
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Added to Liked videos 👍', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # dislike video
 class DislikeVideoApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        video = Video.objects.get(video_id=request.data.get('video_id'))
-        like = Like.objects.filter(liked_video=video, liked_user=request.user)
-        dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)
+        if 'video_id' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                video = video[0]
+                like = Like.objects.filter(liked_video=video, liked_user=request.user)
+                dislike = Dislike.objects.filter(disliked_video=video, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)
-            if dislike:
-                video.dislikes += 1
-                video.save()
-                video.creator.all_dislikes += 1
-                video.creator.save()
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'You dislike this video 👎', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)
+                    if dislike:
+                        video.dislikes += 1
+                        video.save()
+                        video.creator.all_dislikes += 1
+                        video.creator.save()
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'You dislike this video 👎', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 1 and like.count() == 0:
-            dislike[0].delete()
-            video.dislikes -= 1
-            video.save()
-            video.creator.all_dislikes -= 1
-            video.creator.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Dislike removed 😎', 'status': 'ok'})
+                elif dislike.count() == 1 and like.count() == 0:
+                    dislike[0].delete()
+                    video.dislikes -= 1
+                    video.save()
+                    video.creator.all_dislikes -= 1
+                    video.creator.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'Dislike removed 😎', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 0 and like.count() == 1:
-            video.likes -= 1
-            video.dislikes += 1
-            video.save()
+                elif dislike.count() == 0 and like.count() == 1:
+                    video.likes -= 1
+                    video.dislikes += 1
+                    video.save()
 
-            video.creator.all_likes -= 1
-            video.creator.all_dislikes += 1
-            video.creator.save()
+                    video.creator.all_likes -= 1
+                    video.creator.all_dislikes += 1
+                    video.creator.save()
 
-            like[0].delete()
-            dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'You dislike this video 👎', 'status': 'ok'})
+                    like[0].delete()
+                    dislike = Dislike.objects.create(disliked_video=video, disliked_user=request.user)
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': video.likes, 'dislikes': video.dislikes}}, 'message': 'You dislike this video 👎', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # add comment
 class AddCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        video = Video.objects.get(video_id=request.data.get('video_id'))
-        text = request.data.get('text')
-        if len(text) < 500:
-            if text.replace(' ', '') != '' and text is not None:
-                # maximum 10 comments (one user)
-                if Comment.objects.filter(commented_video=video, creator=request.user).count() <= 10:
-                    Comment.objects.create(commented_video=video, creator=request.user, comment_id=generate_id(32), comment_text=text)
-                    video.comments += 1
-                    video.save()
-                    video.creator.all_comments += 1
-                    video.creator.save()
-                    return Response({'data': {}, 'message': 'Comment added 🌚', 'status': 'ok'})
+        if 'video_id' in request.data and 'text' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                video = video[0]
+                text = request.data.get('text')
+                if len(text) < 500:
+                    if text.replace(' ', '') != '' and text is not None:
+                        # maximum 10 comments (one user)
+                        if Comment.objects.filter(commented_video=video, creator=request.user).count() <= 10:
+                            Comment.objects.create(commented_video=video, creator=request.user, comment_id=generate_id(32), comment_text=text)
+                            video.comments += 1
+                            video.save()
+                            video.creator.all_comments += 1
+                            video.creator.save()
+                            return Response({'data': {}, 'message': 'Comment added 🌚', 'status': 'ok'})
+                        else:
+                            return Response({'data': {}, 'message': 'You have exceeded the comment limit for one video today 😥', 'status': 'err'}, status=status.HTTP_200_OK)  
+                    else:
+                        return Response({'data': {}, 'message': 'Comment cannot contain spaces or be empty 🙉', 'status': 'err'}, status=status.HTTP_200_OK)            
                 else:
-                    return Response({'data': {}, 'message': 'You have exceeded the comment limit for one video today 😥', 'status': 'err'})  
+                    return Response({'data': {}, 'message': 'Maximum text length 500 characters 🥴', 'status': 'err'}, status=status.HTTP_200_OK)
             else:
-                return Response({'data': {}, 'message': 'Comment cannot contain spaces or be empty 🙉', 'status': 'err'})            
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'message': 'Maximum text length 500 characters 🥴', 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # like comment
 class LikeCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))
-        like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)
-        dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)
+        if 'comment_id' in request.data:
+            comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))
+            if comment.count() > 0:
+                comment = comment[0]
+                like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)
+                dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            like = CommentLike.objects.create(liked_comment=comment, liked_user=request.user)
-            if like:
-                comment.likes += 1
-                comment.save()
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    like = CommentLike.objects.create(liked_comment=comment, liked_user=request.user)
+                    if like:
+                        comment.likes += 1
+                        comment.save()
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 1 and dislike.count() == 0:
-            like[0].delete()
-            comment.likes -= 1
-            comment.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif like.count() == 1 and dislike.count() == 0:
+                    like[0].delete()
+                    comment.likes -= 1
+                    comment.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 0 and dislike.count() == 1:
-            comment.dislikes -= 1
-            comment.likes += 1
-            comment.save()
-            dislike[0].delete()
-            like = CommentLike.objects.create(liked_comment=comment, liked_user=request.user)
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif like.count() == 0 and dislike.count() == 1:
+                    comment.dislikes -= 1
+                    comment.likes += 1
+                    comment.save()
+                    dislike[0].delete()
+                    like = CommentLike.objects.create(liked_comment=comment, liked_user=request.user)
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # dislike comment
 class DislikeCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))
-        like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)
-        dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)
+        if 'comment_id' in request.data:
+            comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))
+            if comment.count() > 0:
+                comment = comment[0]
+                like = CommentLike.objects.filter(liked_comment=comment, liked_user=request.user)
+                dislike = CommentDislike.objects.filter(disliked_comment=comment, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            dislike = CommentDislike.objects.create(disliked_comment=comment, disliked_user=request.user)
-            if dislike:
-                comment.dislikes += 1
-                comment.save()
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    dislike = CommentDislike.objects.create(disliked_comment=comment, disliked_user=request.user)
+                    if dislike:
+                        comment.dislikes += 1
+                        comment.save()
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 1 and like.count() == 0:
-            dislike[0].delete()
-            comment.dislikes -= 1
-            comment.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif dislike.count() == 1 and like.count() == 0:
+                    dislike[0].delete()
+                    comment.dislikes -= 1
+                    comment.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 0 and like.count() == 1:
-            comment.likes -= 1
-            comment.dislikes += 1
-            comment.save()
-            like[0].delete()
-            dislike = CommentDislike.objects.create(disliked_comment=comment, disliked_user=request.user)
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif dislike.count() == 0 and like.count() == 1:
+                    comment.likes -= 1
+                    comment.dislikes += 1
+                    comment.save()
+                    like[0].delete()
+                    dislike = CommentDislike.objects.create(disliked_comment=comment, disliked_user=request.user)
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # delete comment
 class DeleteCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        comment_id = request.data.get('comment_id')
-        comment = Comment.objects.filter(comment_id=comment_id)
-        if comment.count() > 0:
-            if comment[0].creator == request.user:
-                video = comment[0].commented_video 
-                video.comments -= (1 + comment[0].replies)
-                video.save()
-                video.creator.all_comments -= 1
-                video.creator.save()
-                comment[0].delete()
-                return Response({'data': {}, 'message': 'Comment has been deleted 🧸', 'status': 'ok'})
+        if 'comment_id' in request.data:
+            comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))
+            if comment.count() > 0:
+                if comment[0].creator == request.user:
+                    video = comment[0].commented_video 
+                    video.comments -= (1 + comment[0].replies)
+                    video.save()
+                    video.creator.all_comments -= 1
+                    video.creator.save()
+                    comment[0].delete()
+                    return Response({'data': {}, 'message': 'Comment has been deleted 🧸', 'status': 'ok'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'data': {}, 'message': 'You are not authorized to delete this comment because you are not its creator', 'status': 'err'}, status=status.HTTP_200_OK)
             else:
-                return Response({'data': {}, 'message': 'You are not authorized to delete this comment because you are not its creator', 'status': 'err'})
+                return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # add reply comment
 class AddReplyCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        video = Video.objects.get(video_id=request.data.get('video_id'))
-        comment = Comment.objects.get(comment_id=request.data.get('comment_id'))
-        text = request.data.get('text')
-        if len(text) < 500:
-            if text.replace(' ', '') != '' and text is not None:
-                # maximum 10 replies (one user)
-                if ReplyComment.objects.filter(reply_commented_video=video, comment_parent=comment, creator=request.user).count() <= 10:
-                    ReplyComment.objects.create(reply_commented_video=video, comment_parent=comment, creator=request.user, reply_comment_id=generate_id(32), comment_text=text)
-                    comment.replies += 1
-                    comment.save()
-                    video.comments += 1
-                    video.save()    
-                    video.creator.all_comments += 1
-                    video.creator.save()
-                    return Response({'data': {}, 'message': 'Reply to comment added ⛄️', 'status': 'ok'})
+        if 'video_id' in request.data and 'comment_id' in request.data and 'text' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                video = video[0]
+                comment = Comment.objects.filter(comment_id=request.data.get('comment_id'))
+                if comment.count() > 0:
+                    comment = comment[0]
+                    text = request.data.get('text')
+                    if len(text) < 500:
+                        if text.replace(' ', '') != '' and text is not None:
+                            # maximum 10 replies (one user)
+                            if ReplyComment.objects.filter(reply_commented_video=video, comment_parent=comment, creator=request.user).count() <= 10:
+                                ReplyComment.objects.create(reply_commented_video=video, comment_parent=comment, creator=request.user, reply_comment_id=generate_id(32), comment_text=text)
+                                comment.replies += 1
+                                comment.save()
+                                video.comments += 1
+                                video.save()    
+                                video.creator.all_comments += 1
+                                video.creator.save()
+                                return Response({'data': {}, 'message': 'Reply to comment added ⛄️', 'status': 'ok'}, status=status.HTTP_200_OK)
+                            else:
+                                return Response({'data': {}, 'message': 'You have exceeded the replies limit for one video today 😥', 'status': 'err'}, status=status.HTTP_200_OK)  
+                        else:
+                            return Response({'data': {}, 'message': 'Comment cannot contain spaces or be empty 🙉', 'status': 'err'}, status=status.HTTP_200_OK)            
+                    else:
+                        return Response({'data': {}, 'message': 'Maximum text length 500 characters 🥴', 'status': 'err'}, status=status.HTTP_200_OK)
                 else:
-                    return Response({'data': {}, 'message': 'You have exceeded the replies limit for one video today 😥', 'status': 'err'})  
+                    return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
             else:
-                return Response({'data': {}, 'message': 'Comment cannot contain spaces or be empty 🙉', 'status': 'err'})            
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'message': 'Maximum text length 500 characters 🥴', 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # like reply comment
 class LikeReplyCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))
-        like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)
-        dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)
+        if 'reply_comment_id' in request.data:
+            comment = ReplyComment.objects.filter(reply_comment_id=request.data.get('reply_comment_id'))
+            if comment.count() > 0:
+                comment = comment[0]
+                like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)
+                dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            like = ReplyCommentLike.objects.create(liked_reply_comment=comment, liked_user=request.user)
-            if like:
-                comment.likes += 1
-                comment.save()
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    like = ReplyCommentLike.objects.create(liked_reply_comment=comment, liked_user=request.user)
+                    if like:
+                        comment.likes += 1
+                        comment.save()
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 1 and dislike.count() == 0:
-            like[0].delete()
-            comment.likes -= 1
-            comment.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif like.count() == 1 and dislike.count() == 0:
+                    like[0].delete()
+                    comment.likes -= 1
+                    comment.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 0 and dislike.count() == 1:
-            comment.dislikes -= 1
-            comment.likes += 1
-            comment.save()
-            dislike[0].delete()
-            like = ReplyCommentLike.objects.create(liked_reply_comment=comment, liked_user=request.user)
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif like.count() == 0 and dislike.count() == 1:
+                    comment.dislikes -= 1
+                    comment.likes += 1
+                    comment.save()
+                    dislike[0].delete()
+                    like = ReplyCommentLike.objects.create(liked_reply_comment=comment, liked_user=request.user)
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Reply comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # dislike comment
 class DislikeReplyCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        comment = ReplyComment.objects.get(reply_comment_id=request.data.get('reply_comment_id'))
-        like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)
-        dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)
+        if 'reply_comment_id' in request.data:
+            comment = ReplyComment.objects.filter(reply_comment_id=request.data.get('reply_comment_id'))
+            if comment.count() > 0:
+                comment = comment[0]
+                like = ReplyCommentLike.objects.filter(liked_reply_comment=comment, liked_user=request.user)
+                dislike = ReplyCommentDislike.objects.filter(disliked_reply_comment=comment, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            dislike = ReplyCommentDislike.objects.create(disliked_reply_comment=comment, disliked_user=request.user)
-            if dislike:
-                comment.dislikes += 1
-                comment.save()
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    dislike = ReplyCommentDislike.objects.create(disliked_reply_comment=comment, disliked_user=request.user)
+                    if dislike:
+                        comment.dislikes += 1
+                        comment.save()
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 1 and like.count() == 0:
-            dislike[0].delete()
-            comment.dislikes -= 1
-            comment.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif dislike.count() == 1 and like.count() == 0:
+                    dislike[0].delete()
+                    comment.dislikes -= 1
+                    comment.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 0 and like.count() == 1:
-            comment.likes -= 1
-            comment.dislikes += 1
-            comment.save()
-            like[0].delete()
-            dislike = ReplyCommentDislike.objects.create(disliked_reply_comment=comment, disliked_user=request.user)
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'})
+                elif dislike.count() == 0 and like.count() == 1:
+                    comment.likes -= 1
+                    comment.dislikes += 1
+                    comment.save()
+                    like[0].delete()
+                    dislike = ReplyCommentDislike.objects.create(disliked_reply_comment=comment, disliked_user=request.user)
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': comment.likes, 'dislikes': comment.dislikes}}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Reply comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # delete comment
 class DeleteReplyCommentApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        reply_comment_id = request.data.get('reply_comment_id')
-        comment = ReplyComment.objects.filter(reply_comment_id=reply_comment_id)
-        if comment.count() > 0:
-            if comment[0].creator == request.user:
-                video = comment[0].reply_commented_video 
-                comment_parent = comment[0].comment_parent
-                comment_parent.replies -= 1
-                comment_parent.save()
-                video.comments -= 1 
-                video.save()
-                video.creator.all_comments -= 1
-                video.creator.save()
-                comment[0].delete()
-                return Response({'data': {}, 'message': 'Comment has been deleted 🧸', 'status': 'ok'})
+        if 'reply_comment_id' in request.data:
+            comment = ReplyComment.objects.filter(reply_comment_id=request.data.get('reply_comment_id'))
+            if comment.count() > 0:
+                if comment[0].creator == request.user:
+                    video = comment[0].reply_commented_video 
+                    comment_parent = comment[0].comment_parent
+                    comment_parent.replies -= 1
+                    comment_parent.save()
+                    video.comments -= 1 
+                    video.save()
+                    video.creator.all_comments -= 1
+                    video.creator.save()
+                    comment[0].delete()
+                    return Response({'data': {}, 'message': 'Comment has been deleted 🧸', 'status': 'ok'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'data': {}, 'message': 'You are not authorized to delete this comment because you are not its creator', 'status': 'err'}, status=status.HTTP_200_OK)
             else:
-                return Response({'data': {}, 'message': 'You are not authorized to delete this comment because you are not its creator', 'status': 'err'})
+                return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'message': 'Comment not found', 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # get video stats
 class VideoStatsApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        video = Video.objects.get(video_id=request.data.get('video_id'))
- 
-        views_stats = {}
-        comments_stats = {}
-        likes_stats = {}
-        dislikes_stats = {}
+        if 'video_id' in request.data:
+            video = Video.objects.filter(video_id=request.data.get('video_id'))
+            if video.count() > 0:
+                video = video[0]
+                if request.user == video.creator:
+                    views_stats = {}
+                    comments_stats = {}
+                    likes_stats = {}
+                    dislikes_stats = {}
 
-        today = date.today()
-        for i in range(10):
-            day = today - timedelta(days=i)
-            views = VideoViewModel.objects.filter(watched_video=video, date_created_without_time__gt=day)
-            comments = Comment.objects.filter(commented_video=video, date_created_without_time__gt=(day))
-            reply_comments = ReplyComment.objects.filter(reply_commented_video=video, date_created_without_time__gt=(day))
-            likes = Like.objects.filter(liked_video=video, date_created_without_time__gt=(day))
-            dislikes = Dislike.objects.filter(disliked_video=video, date_created_without_time__gt=(day))
+                    today = date.today()
+                    for i in range(10):
+                        day = today - timedelta(days=i)
+                        views = VideoViewModel.objects.filter(watched_video=video, date_created_without_time__gt=day)
+                        comments = Comment.objects.filter(commented_video=video, date_created_without_time__gt=(day))
+                        reply_comments = ReplyComment.objects.filter(reply_commented_video=video, date_created_without_time__gt=(day))
+                        likes = Like.objects.filter(liked_video=video, date_created_without_time__gt=(day))
+                        dislikes = Dislike.objects.filter(disliked_video=video, date_created_without_time__gt=(day))
 
-            if day >= video.date_created_without_time:
-                views_stats[str(day)] = video.views - views.count()
-                comments_stats[str(day)] = video.comments - (comments.count() + reply_comments.count())
-                likes_stats[str(day)] = video.likes - likes.count()
-                dislikes_stats[str(day)] = video.dislikes - dislikes.count()
+                        if day >= video.date_created_without_time:
+                            views_stats[str(day)] = video.views - views.count()
+                            comments_stats[str(day)] = video.comments - (comments.count() + reply_comments.count())
+                            likes_stats[str(day)] = video.likes - likes.count()
+                            dislikes_stats[str(day)] = video.dislikes - dislikes.count()
 
-        return Response({'data': {'views': views_stats, 'comments': comments_stats, 'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'})     
-
+                    return Response({'data': {'views': views_stats, 'comments': comments_stats, 'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)   
+                else:
+                    return Response({'data': {}, 'message': 'You do not have permission to view statistics because you are not its author', 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)  
+        else:
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # get article stats
 class ArticleStatsApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        article = Article.objects.get(article_id=request.data.get('article_id'))
-        likes_stats = {}
-        dislikes_stats = {}
+        if 'article_id' in request.data:
+            article = Article.objects.filter(article_id=request.data.get('article_id'))
+            if article.count() > 0:
+                article = article[0]
+                if request.user == article.creator:
+                    likes_stats = {}
+                    dislikes_stats = {}
 
-        today = date.today()
-        for i in range(10):
-            day = today - timedelta(days=i)
-            likes = ArticleLike.objects.filter(liked_article=article, date_created_without_time__gt=(day))
-            dislikes = ArticleDislike.objects.filter(disliked_article=article, date_created_without_time__gt=(day))
+                    today = date.today()
+                    for i in range(10):
+                        day = today - timedelta(days=i)
+                        likes = ArticleLike.objects.filter(liked_article=article, date_created_without_time__gt=(day))
+                        dislikes = ArticleDislike.objects.filter(disliked_article=article, date_created_without_time__gt=(day))
 
-            if day >= article.date_created_without_time:
-                likes_stats[str(day)] = article.likes - likes.count()
-                dislikes_stats[str(day)] = article.dislikes - dislikes.count()
+                        if day >= article.date_created_without_time:
+                            likes_stats[str(day)] = article.likes - likes.count()
+                            dislikes_stats[str(day)] = article.dislikes - dislikes.count()
+                    
+                    return Response({'data': {'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)     
+                else:
+                    return Response({'data': {}, 'message': 'You do not have permission to view statistics because you are not its author', 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_200_OK)  
+        else:
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response({'data': {'likes': likes_stats, 'dislikes': dislikes_stats}, 'message': '', 'status': 'ok'})     
-
 # like film
 class LikeFilmApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        film = Film.objects.get(film_id=request.data.get('film_id'))
-        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)
-        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)
+        if 'film_id' in request.data:
+            film = Film.objects.filter(film_id=request.data.get('film_id'))
+            if film.count() > 0:
+                film = film[0]
+                like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)
+                dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            like = FilmLike.objects.create(liked_film=film, liked_user=request.user)
-            if like:
-                film.likes += 1
-                film.save()
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your liked this film 🧡', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    like = FilmLike.objects.create(liked_film=film, liked_user=request.user)
+                    if like:
+                        film.likes += 1
+                        film.save()
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your liked this film 🧡', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 1 and dislike.count() == 0:
-            like[0].delete()
-            film.likes -= 1
-            film.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Like removed 🧸', 'status': 'ok'})
+                elif like.count() == 1 and dislike.count() == 0:
+                    like[0].delete()
+                    film.likes -= 1
+                    film.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Like removed 🧸', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 0 and dislike.count() == 1:
-            film.dislikes -= 1
-            film.likes += 1
-            film.save()
-            dislike[0].delete()
-            like = FilmLike.objects.create(liked_film=film, liked_user=request.user)
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your liked this film 🧡', 'status': 'ok'})
+                elif like.count() == 0 and dislike.count() == 1:
+                    film.dislikes -= 1
+                    film.likes += 1
+                    film.save()
+                    dislike[0].delete()
+                    like = FilmLike.objects.create(liked_film=film, liked_user=request.user)
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your liked this film 🧡', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # dislike film
 class DislikeFilmApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        film = Film.objects.get(film_id=request.data.get('film_id'))
-        like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)
-        dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)
+        if 'film_id' in request.data:
+            film = Film.objects.filter(film_id=request.data.get('film_id'))
+            if film.count() > 0:
+                film = film[0]
+                like = FilmLike.objects.filter(liked_film=film, liked_user=request.user)
+                dislike = FilmDislike.objects.filter(disliked_film=film, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)
-            if dislike:
-                film.dislikes += 1
-                film.save()
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your disliked this film 💔', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)
+                    if dislike:
+                        film.dislikes += 1
+                        film.save()
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your disliked this film 💔', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 1 and like.count() == 0:
-            dislike[0].delete()
-            film.dislikes -= 1
-            film.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Dislike removed 🥶', 'status': 'ok'})
+                elif dislike.count() == 1 and like.count() == 0:
+                    dislike[0].delete()
+                    film.dislikes -= 1
+                    film.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Dislike removed 🥶', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 0 and like.count() == 1:
-            film.likes -= 1
-            film.dislikes += 1
-            film.save()
-            like[0].delete()
-            dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your disliked this film 💔', 'status': 'ok'})
+                elif dislike.count() == 0 and like.count() == 1:
+                    film.likes -= 1
+                    film.dislikes += 1
+                    film.save()
+                    like[0].delete()
+                    dislike = FilmDislike.objects.create(disliked_film=film, disliked_user=request.user)
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': film.likes, 'dislikes': film.dislikes}}, 'message': 'Your disliked this film 💔', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # buy film
 class BuyFilmApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        film = Film.objects.get(film_id=request.data.get('film_id'))
-        BuyFilm.objects.create(buy_user=request.user, buy_film=film)
+        if 'film_id' in request.data:
+            film = Film.objects.filter(film_id=request.data.get('film_id'))
+            if film.count() > 0:
+                film = film[0]
+                if BuyFilm.objects.filter(buy_user=request.user, buy_film=film).count() == 0:
+                    BuyFilm.objects.create(buy_user=request.user, buy_film=film)
 
-        if request.user.telegram:
-            now = datetime.now() 
-            date = now.strftime('%d-%m-%Y %H:%M:%S')
-            YandexHubAlert(f'You purchased the movie: {film.title} 🥳\nDate: {date}\nPrice: USD {film.price}\n\n{DOMEN}film/{film.film_id}/', request.user.telegram)
+                    if request.user.telegram:
+                        now = datetime.now() 
+                        date = now.strftime('%d-%m-%Y %H:%M:%S')
+                        YandexHubAlert(f'You purchased the movie: {film.title} 🥳\nDate: {date}\nPrice: USD {film.price}\n\n{DOMEN}film/{film.film_id}/', request.user.telegram)
 
 
-        messages.success(self.request, f'You purchased the movie: <b>{film.title}</b> 🥳')
-        return Response({'data': {}, 'status': 'ok'})
+                    messages.success(self.request, f'You purchased the movie: <b>{film.title}</b> 🥳')
+                    return Response({'data': {}, 'status': 'ok'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'data': {}, 'message': 'You have already bought this film', 'status': 'ok'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # delete article
 class DeleteArticleApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        article_id = request.data.get('article_id')
-        article = Article.objects.filter(article_id=article_id)
-        if article.count() > 0:
-            if article[0].creator == request.user:
-                article[0].delete()
-                messages.success(request, f'Article successfully deleted! 🩸')
-                return Response({'data': {'user_id': request.user.user_id}, 'status': 'ok'})
+        if 'article_id' in request.data:
+            article_id = request.data.get('article_id')
+            article = Article.objects.filter(article_id=article_id)
+            if article.count() > 0:
+                if article[0].creator == request.user:
+                    article[0].delete()
+                    messages.success(request, f'Article successfully deleted! 🩸')
+                    return Response({'data': {'user_id': request.user.user_id}, 'status': 'ok'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'data': {}, 'message': 'You are not authorized to delete this article because you are not its creator', 'status': 'err'}, status=status.HTTP_200_OK)
             else:
-                return Response({'data': {}, 'message': 'You are not authorized to delete this article because you are not its creator', 'status': 'err'})
+                return Response({'data': {}, 'message': 'Article not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'message': 'Article not found', 'status': 'err'})
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # like article
 class LikeArticleApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        article = Article.objects.get(article_id=request.data.get('article_id'))
-        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
-        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
+        if 'article_id' in request.data:
+            article = Article.objects.filter(article_id=request.data.get('article_id'))
+            if article.count() > 0:
+                article = article[0]
+                like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
+                dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
-            if like:
-                article.likes += 1
-                article.save()
-                article.creator.all_posts_likes += 1
-                article.creator.save()
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You like this article 👍', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
+                    if like:
+                        article.likes += 1
+                        article.save()
+                        article.creator.all_posts_likes += 1
+                        article.creator.save()
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You like this article 👍', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 1 and dislike.count() == 0:
-            like[0].delete()
-            article.likes -= 1
-            article.save()
-            article.creator.all_posts_likes -= 1
-            article.creator.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'Like removed 👀', 'status': 'ok'})
+                elif like.count() == 1 and dislike.count() == 0:
+                    like[0].delete()
+                    article.likes -= 1
+                    article.save()
+                    article.creator.all_posts_likes -= 1
+                    article.creator.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'Like removed 👀', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif like.count() == 0 and dislike.count() == 1:
-            article.dislikes -= 1
-            article.likes += 1
-            article.save()
+                elif like.count() == 0 and dislike.count() == 1:
+                    article.dislikes -= 1
+                    article.likes += 1
+                    article.save()
 
-            article.creator.all_posts_dislikes -= 1
-            article.creator.all_posts_likes += 1
-            article.creator.save()
+                    article.creator.all_posts_dislikes -= 1
+                    article.creator.all_posts_likes += 1
+                    article.creator.save()
 
-            dislike[0].delete()
-            like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
-            return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You like this article 👍', 'status': 'ok'})
+                    dislike[0].delete()
+                    like = ArticleLike.objects.create(liked_article=article, liked_user=request.user)
+                    return Response({'data': {'like': 1, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You like this article 👍', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Article not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
 # dislike article
 class DislikeArticleApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
-        article = Article.objects.get(article_id=request.data.get('article_id'))
-        like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
-        dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
+        if 'article_id' in request.data:
+            article = Article.objects.filter(article_id=request.data.get('article_id'))
+            if article.count() > 0:
+                article = article[0]
+                like = ArticleLike.objects.filter(liked_article=article, liked_user=request.user)
+                dislike = ArticleDislike.objects.filter(disliked_article=article, disliked_user=request.user)
 
-        if like.count() == 0 and dislike.count() == 0:
-            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
-            if dislike:
-                article.dislikes += 1
-                article.save()
-                article.creator.all_posts_dislikes += 1
-                article.creator.save()
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You dislike this article 👎', 'status': 'ok'})
+                if like.count() == 0 and dislike.count() == 0:
+                    dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
+                    if dislike:
+                        article.dislikes += 1
+                        article.save()
+                        article.creator.all_posts_dislikes += 1
+                        article.creator.save()
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You dislike this article 👎', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 1 and like.count() == 0:
-            dislike[0].delete()
-            article.dislikes -= 1
-            article.save()
-            article.creator.all_posts_dislikes -= 1
-            article.creator.save()
-            return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'Dislike removed 😎', 'status': 'ok'})
+                elif dislike.count() == 1 and like.count() == 0:
+                    dislike[0].delete()
+                    article.dislikes -= 1
+                    article.save()
+                    article.creator.all_posts_dislikes -= 1
+                    article.creator.save()
+                    return Response({'data': {'like': 0, 'dislike': 0, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'Dislike removed 😎', 'status': 'ok'}, status=status.HTTP_200_OK)
 
-        elif dislike.count() == 0 and like.count() == 1:
-            article.likes -= 1
-            article.dislikes += 1
-            article.save()
+                elif dislike.count() == 0 and like.count() == 1:
+                    article.likes -= 1
+                    article.dislikes += 1
+                    article.save()
 
-            article.creator.all_posts_likes -= 1
-            article.creator.all_posts_dislikes += 1
-            article.creator.save()
-            
-            like[0].delete()
-            dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
-            return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You dislike this article 👎', 'status': 'ok'})
+                    article.creator.all_posts_likes -= 1
+                    article.creator.all_posts_dislikes += 1
+                    article.creator.save()
+                    
+                    like[0].delete()
+                    dislike = ArticleDislike.objects.create(disliked_article=article, disliked_user=request.user)
+                    return Response({'data': {'like': 0, 'dislike': 1, 'stats': {'likes': article.likes, 'dislikes': article.dislikes}}, 'message': 'You dislike this article 👎', 'status': 'ok'}, status=status.HTTP_200_OK)
 
+                else:
+                    return Response({'data': {}, 'status': 'err'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'data': {}, 'message': 'Article not found', 'status': 'err'}, status=status.HTTP_200_OK)
         else:
-            return Response({'data': {}, 'status': 'err'})
-
-
+            return Response({'data': {}, 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
 
 # create api token
 class CreateTokenApi(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request):
         Token.objects.get(user=request.user).delete()
         token = Token.objects.create(user=request.user) 
         print(token.key)
-        return Response({'data': {'token': token.key}, 'message': 'Token successfully updated 🔑', 'status': 'ok'})
+        return Response({'data': {'token': token.key}, 'message': 'Token successfully updated 🔑', 'status': 'ok'}, status=status.HTTP_200_OK)
     
 # get user info
 class UserInfoApi(APIView):
@@ -760,7 +908,6 @@ class TrendingApi(APIView):
             
         return Response({'data': {'videos': videos}, 'status': 'ok'}, status=status.HTTP_200_OK)
     
-
 # get site stats
 class SiteStatsApi(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -836,7 +983,7 @@ class VideosApi(APIView):
                 except:
                     break
         else:
-            return Response({'data': {'videos': ''}, 'message': 'Videos not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'data': {}, 'message': 'Videos not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
             
         return Response({'data': {'videos': videos}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
 
@@ -950,6 +1097,7 @@ class VideoApi(APIView):
             message = ''
             video = video[0]
             video_info = {}
+            video_info['id'] = video.video_id
             video_info['title'] = video.title
             video_info['description'] = video.description
             video_info['date_created'] = video.date_created
@@ -964,7 +1112,7 @@ class VideoApi(APIView):
                 'dislikes': video.dislikes
             }
         else:
-            message = 'Video not found'
+            return Response({'data': {}, 'message': 'Video not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
             
         return Response({'data': {'video': video_info}, 'message': message, 'status': 'ok'}, status=status.HTTP_200_OK)
     
@@ -1017,3 +1165,422 @@ class UploadVideoApi(APIView):
             message = 'An error occured while uploading video' 
       
         return Response({'data': {'id': queryset.video_id}, 'message': message, 'status': 'OK'}, status=status.HTTP_200_OK)
+
+# get films
+class FilmsApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        site_films = Film.objects.all()
+        films = {}
+        if site_films.count() != 0:
+            for film in site_films:
+                try:
+                    film_info = {}
+                    film_info['title'] = film.title
+                    film_info['price'] = film.price
+                    film_info['running_time'] = film.running_time
+                    film_info['rating'] = film.rating
+                    film_info['release_date'] = film.release_date
+                    film_info['release_year'] = film.release_year
+                    film_info['main_genre'] = str(film.main_genre)
+                    film_info['date_created'] = film.date_created
+                    film_info['media'] = {
+                        'trailer': str(film.trailer),
+                        'poster': str(film.film_poster), 
+                        'banner': str(film.film_banner)
+                    }
+                    film_info['stats'] = {
+                        'likes': film.likes,
+                        'dislikes': film.dislikes,
+                        'purchases': BuyFilm.objects.filter(buy_film=film).count()
+                    }
+                    
+                    details = {}
+                    
+                    actors = {}
+                    for i in FilmActor.objects.filter(actor_film=film):
+                        actors[i.actor_id] = {
+                            'name': i.actor.name,
+                            'gender': i.actor.gender,
+                            'photo': str(i.actor.photo)
+                        }
+                    
+                    producers = {}
+                    for i in FilmProducer.objects.filter(producer_film=film):
+                        producers[i.producer_id] = {
+                            'name': i.producer.name,
+                            'gender': i.producer.gender,
+                            'photo': str(i.producer.photo)
+                        }
+                    
+                    writers = {}
+                    for i in FilmWriter.objects.filter(writer_film=film):
+                        writers[i.writer_id] = {
+                            'name': i.writer.name,
+                            'gender': i.writer.gender,
+                            'photo': str(i.writer.photo)
+                        }
+                    
+                    genres = []
+                    for i in FilmGenre.objects.filter(genre_film=film):
+                        genres.append(i.genre.name)
+                        
+                    details['actors'] = actors
+                    details['producers'] = producers
+                    details['writers'] = writers
+                    details['genres'] = genres
+                    
+                    film_info['details'] = details
+                    films[film.film_id] = film_info
+                except:
+                    break
+        else:
+            return Response({'data': {}, 'message': 'Films not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'films': films}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# films api
+class FilmApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        film = Film.objects.filter(film_id=self.kwargs['pk'])
+        film_info = {}
+        if film:
+            film = film[0]
+            film_info = {}
+            film_info['id'] = film.film_id
+            film_info['title'] = film.title
+            film_info['price'] = film.price
+            film_info['running_time'] = film.running_time
+            film_info['rating'] = film.rating
+            film_info['release_date'] = film.release_date
+            film_info['release_year'] = film.release_year
+            film_info['main_genre'] = str(film.main_genre)
+            film_info['date_created'] = film.date_created
+            film_info['media'] = {
+                'trailer': str(film.trailer),
+                'poster': str(film.film_poster), 
+                'banner': str(film.film_banner)
+            }
+            film_info['stats'] = {
+                'likes': film.likes,
+                'dislikes': film.dislikes,
+                'purchases': BuyFilm.objects.filter(buy_film=film).count()
+            }
+            
+            details = {}
+            
+            actors = {}
+            for i in FilmActor.objects.filter(actor_film=film):
+                actors[i.actor_id] = {
+                    'name': i.actor.name,
+                    'gender': i.actor.gender,
+                    'photo': str(i.actor.photo)
+                }
+            
+            producers = {}
+            for i in FilmProducer.objects.filter(producer_film=film):
+                producers[i.producer_id] = {
+                    'name': i.producer.name,
+                    'gender': i.producer.gender,
+                    'photo': str(i.producer.photo)
+                }
+            
+            writers = {}
+            for i in FilmWriter.objects.filter(writer_film=film):
+                writers[i.writer_id] = {
+                    'name': i.writer.name,
+                    'gender': i.writer.gender,
+                    'photo': str(i.writer.photo)
+                }
+            
+            genres = []
+            for i in FilmGenre.objects.filter(genre_film=film):
+                genres.append(i.genre.name)
+                
+            details['actors'] = actors
+            details['producers'] = producers
+            details['writers'] = writers
+            details['genres'] = genres
+            
+            film_info['details'] = details
+        else:
+            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'film': film_info}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# liked films
+class LikedFilmsApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        liked_films = FilmLike.objects.filter(liked_user=request.user)
+        films = {}
+        if liked_films.count() != 0:
+            for film in liked_films:
+                film = film.liked_film
+                
+                film_info = {}
+                film_info['title'] = film.title
+                film_info['price'] = film.price
+                film_info['running_time'] = film.running_time
+                film_info['rating'] = film.rating
+                film_info['release_date'] = film.release_date
+                film_info['release_year'] = film.release_year
+                film_info['main_genre'] = str(film.main_genre)
+                film_info['date_created'] = film.date_created
+                film_info['media'] = {
+                    'trailer': str(film.trailer),
+                    'poster': str(film.film_poster), 
+                    'banner': str(film.film_banner)
+                }
+                film_info['stats'] = {
+                    'likes': film.likes,
+                    'dislikes': film.dislikes,
+                    'purchases': BuyFilm.objects.filter(buy_film=film).count()
+                }
+                
+                details = {}
+                
+                actors = {}
+                for i in FilmActor.objects.filter(actor_film=film):
+                    actors[i.actor_id] = {
+                        'name': i.actor.name,
+                        'gender': i.actor.gender,
+                        'photo': str(i.actor.photo)
+                    }
+                
+                producers = {}
+                for i in FilmProducer.objects.filter(producer_film=film):
+                    producers[i.producer_id] = {
+                        'name': i.producer.name,
+                        'gender': i.producer.gender,
+                        'photo': str(i.producer.photo)
+                    }
+                
+                writers = {}
+                for i in FilmWriter.objects.filter(writer_film=film):
+                    writers[i.writer_id] = {
+                        'name': i.writer.name,
+                        'gender': i.writer.gender,
+                        'photo': str(i.writer.photo)
+                    }
+                
+                genres = []
+                for i in FilmGenre.objects.filter(genre_film=film):
+                    genres.append(i.genre.name)
+                    
+                details['actors'] = actors
+                details['producers'] = producers
+                details['writers'] = writers
+                details['genres'] = genres
+                
+                film_info['details'] = details
+                films[film.film_id] = film_info
+        else:
+            return Response({'data': {}, 'message': 'Liked films not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'films': films}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# disliked films
+class DislikedFilmsApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        disliked_films = FilmDislike.objects.filter(disliked_user=request.user)
+        films = {}
+        if disliked_films.count() != 0:
+            for film in disliked_films:
+                film = film.disliked_film
+                
+                film_info = {}
+                film_info['title'] = film.title
+                film_info['price'] = film.price
+                film_info['running_time'] = film.running_time
+                film_info['rating'] = film.rating
+                film_info['release_date'] = film.release_date
+                film_info['release_year'] = film.release_year
+                film_info['main_genre'] = str(film.main_genre)
+                film_info['date_created'] = film.date_created
+                film_info['media'] = {
+                    'trailer': str(film.trailer),
+                    'poster': str(film.film_poster), 
+                    'banner': str(film.film_banner)
+                }
+                film_info['stats'] = {
+                    'likes': film.likes,
+                    'dislikes': film.dislikes,
+                    'purchases': BuyFilm.objects.filter(buy_film=film).count()
+                }
+                
+                details = {}
+                
+                actors = {}
+                for i in FilmActor.objects.filter(actor_film=film):
+                    actors[i.actor_id] = {
+                        'name': i.actor.name,
+                        'gender': i.actor.gender,
+                        'photo': str(i.actor.photo)
+                    }
+                
+                producers = {}
+                for i in FilmProducer.objects.filter(producer_film=film):
+                    producers[i.producer_id] = {
+                        'name': i.producer.name,
+                        'gender': i.producer.gender,
+                        'photo': str(i.producer.photo)
+                    }
+                
+                writers = {}
+                for i in FilmWriter.objects.filter(writer_film=film):
+                    writers[i.writer_id] = {
+                        'name': i.writer.name,
+                        'gender': i.writer.gender,
+                        'photo': str(i.writer.photo)
+                    }
+                
+                genres = []
+                for i in FilmGenre.objects.filter(genre_film=film):
+                    genres.append(i.genre.name)
+                    
+                details['actors'] = actors
+                details['producers'] = producers
+                details['writers'] = writers
+                details['genres'] = genres
+                
+                film_info['details'] = details
+                films[film.film_id] = film_info
+        else:
+            return Response({'data': {}, 'message': 'Disliked films not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'films': films}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# durchased films
+class PurchasedFilmsApi(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        durchased_films = BuyFilm.objects.filter(buy_user=request.user)
+        films = {}
+        if durchased_films.count() != 0:
+            for film in durchased_films:
+                film = film.buy_film
+                
+                film_info = {}
+                film_info['title'] = film.title
+                film_info['price'] = film.price
+                film_info['running_time'] = film.running_time
+                film_info['rating'] = film.rating
+                film_info['release_date'] = film.release_date
+                film_info['release_year'] = film.release_year
+                film_info['main_genre'] = str(film.main_genre)
+                film_info['date_created'] = film.date_created
+                film_info['media'] = {
+                    'trailer': str(film.trailer),
+                    'poster': str(film.film_poster), 
+                    'banner': str(film.film_banner)
+                }
+                film_info['stats'] = {
+                    'likes': film.likes,
+                    'dislikes': film.dislikes,
+                    'purchases': BuyFilm.objects.filter(buy_film=film).count()
+                }
+                
+                details = {}
+                
+                actors = {}
+                for i in FilmActor.objects.filter(actor_film=film):
+                    actors[i.actor_id] = {
+                        'name': i.actor.name,
+                        'gender': i.actor.gender,
+                        'photo': str(i.actor.photo)
+                    }
+                
+                producers = {}
+                for i in FilmProducer.objects.filter(producer_film=film):
+                    producers[i.producer_id] = {
+                        'name': i.producer.name,
+                        'gender': i.producer.gender,
+                        'photo': str(i.producer.photo)
+                    }
+                
+                writers = {}
+                for i in FilmWriter.objects.filter(writer_film=film):
+                    writers[i.writer_id] = {
+                        'name': i.writer.name,
+                        'gender': i.writer.gender,
+                        'photo': str(i.writer.photo)
+                    }
+                
+                genres = []
+                for i in FilmGenre.objects.filter(genre_film=film):
+                    genres.append(i.genre.name)
+                    
+                details['actors'] = actors
+                details['producers'] = producers
+                details['writers'] = writers
+                details['genres'] = genres
+                
+                film_info['details'] = details
+                films[film.film_id] = film_info
+        else:
+            return Response({'data': {}, 'message': 'Purchased films not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        return Response({'data': {'films': films}, 'message': '', 'status': 'ok'}, status=status.HTTP_200_OK)
+    
+# download film banner
+class DownloadFilmBannerFile(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        film = Film.objects.filter(film_id=self.kwargs['pk']) 
+        if film:
+            path = film[0].film_banner.path 
+            response = FileResponse(open(path, 'rb')) 
+            return response 
+        else:
+            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
+# download film poster
+class DownloadFilmPosterFile(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        film = Film.objects.filter(film_id=self.kwargs['pk']) 
+        if film:
+            path = film[0].film_poster.path 
+            response = FileResponse(open(path, 'rb')) 
+            return response 
+        else:
+            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
+# download film trailer
+class DownloadFilmTrailerFile(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        film = Film.objects.filter(film_id=self.kwargs['pk']) 
+        if film:
+            path = film[0].trailer.path 
+            response = FileResponse(open(path, 'rb')) 
+            return response 
+        else:
+            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
+        
+# download film
+class DownloadFilmFile(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        film = Film.objects.filter(film_id=self.kwargs['pk']) 
+        if film:
+            if BuyFilm.objects.filter(buy_user=request.user, buy_film=film[0]):
+                path = film[0].film.path 
+                response = FileResponse(open(path, 'rb')) 
+                return response 
+            else:
+                return Response({'data': {}, 'message': 'You did not buy this film', 'status': 'err'}, status=status.HTTP_403_FORBIDDEN)
+        else:
+            return Response({'data': {}, 'message': 'Film not found', 'status': 'err'}, status=status.HTTP_400_BAD_REQUEST)
