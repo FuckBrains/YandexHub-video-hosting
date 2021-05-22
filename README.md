@@ -16,4 +16,4 @@ YandexHub is a video hosting service that allows users to upload, view, rate, co
 
 ## How to run?
 In order to run this project you need:
-* Python 3.7+ 
+* Python 3.7+
