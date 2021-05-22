@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main" style="margin-top: 0px !important;">
+    {% if not error %}
+    {% include "components/channel/header.html" %}
+    <div style="position: relative; height: 140px; width: 100%;">
+        <div class="user-video-block row"
+            style="width: 46%; position: relative; margin-left: auto; margin-right: auto; height: auto;">
+            {% for i in videos %}
+            <div class="infinite-item col" style="flex: 0 0 0%;">
+                <a style="cursor: pointer;" onclick="transition_link(`{% url 'video__page' i.video_id %}`)">
+                    <div class="card mb-2" style="height: 200px;">
+                        <img class="bd-placeholder-img img" width="210" height="120" style="border-radius: 1.25rem;"
+                            src="{{i.video_banner.url}}">
+                        <div class="card-body" style="padding: 0.3rem 0rem;">
+                            <div style="display: inline-block;">
+                                <p class="card-text" style="font-size: 1rem; color: #000;">
+                                    {{i.title|truncatechars:26}}
+                                </p>
+                                <div class="card-bottom" style="font-size: 12px;">{{i.views|brief_views_format}} ·
+                                    {{i.date_created|time_func}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="block-content" style="margin-top: 35px;">
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align: center;">Channel not found ⛄️</h3>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">Home page</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</main>
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.user-video-block')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

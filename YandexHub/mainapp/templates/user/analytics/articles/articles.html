@@ -1,0 +1,78 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 1rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/scroll.png' %}">
+                    <h1 style="margin-bottom: 25px;">Your articles</h1>
+                </div>
+            </div>
+        </section>
+        {% if articles %}
+        <div class="infinite-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Article</th>
+                        <th scope="col">Date created</th>
+                        <th scope="col">Likes</th>
+                        <th scope="col">Dislikes</th>
+                        <th scope="col">View stats</th>
+                        <th scope="col">Edit video</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in articles %}
+                    <tr class="infinite-item">
+                        <td style="width: 65%;"><a>{{ i.text|html_to_text }}</a></td>
+                        <td>{{i.date_created|date_func}}</td>
+                        <td>{{i.likes}}</td>
+                        <td>{{i.dislikes}}</td>
+                        <td><a style="cursor: pointer;"
+                                onclick="transition_link(`{% url 'article__stats__page' i.article_id %}`)">View stats</a>
+                        </td>
+                        <td><a style="cursor: pointer;"
+                                onclick="transition_link(`{% url 'edit__article__page' i.article_id %}`)">Edit video</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+        {% else %}
+        <h2 style="text-align: center; margin-bottom: 40px;">You haven't uploaded any articles. You can do it <a class="a"
+                onclick="transition_link(`{% url 'create__article__page' %}`)">here</a>.</h2>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.table')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

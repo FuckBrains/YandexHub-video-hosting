@@ -1,0 +1,65 @@
+{% extends "main.html" %}
+{% block content %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        {% if not error %}
+        <h1 style="text-align: center;">Change article 🛠</h1>
+        <div class="card shadow-sm chart" style="margin-top: 35px;">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ArticleTextArea}}
+                <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Save">
+                {% if article.creator == request.user %}
+                <button style="margin-top: 15px;" type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#DeleteModel">
+                    Delete
+                </button>
+                <div class="modal fade" id="DeleteModel" tabindex="-1" aria-labelledby="DeleteModelLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="DeleteModelLabel">Are you absolutely sure?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete the article?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger"
+                                    onclick="delete_article('{{ article.article_id }}');">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align: center;">Article not found 🌶</h3>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'main__page' %}`)">Home page</a>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

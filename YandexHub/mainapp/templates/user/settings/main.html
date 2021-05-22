@@ -1,0 +1,77 @@
+{% extends "main.html" %}
+{% block content %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <h1 style="text-align: center; margin-bottom: 40px;">Settings ⚙️</h1>
+        <div class="container py-2" id="featured-3" style="text-align: center;">
+            <div class="row g-5 py-5">
+                <div class="feature col-md-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        👻
+                    </div>
+                    <h2>Channel</h2>
+                    <p>Channel settings here you can change the name of the channel, add a description of the channel,
+                        change the avatar or add a banner, add links for feedback.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'channel__settings__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+                <div class="feature col-md-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        🤡
+                    </div>
+                    <h2>Account</h2>
+                    <p>In your profile settings, you can change your password or remind your password, change your email
+                        address, or delete your channel.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'account__settings__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+                <div class="feature col-md-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        🤖
+                    </div>
+                    <h2>YandexHub Alert</h2>
+                    <p>YandexHub Alerts is a bot that will notify you when new videos are released, as well as all the
+                        news associated with your account.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'bot__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+                <div class="feature col-md-4" style="margin-left: auto;">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        💰
+                    </div>
+                    <h2>Donat</h2>
+                    <p>This feature allows you to collect donations from your subscribers through the YooMoney service.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'connect__donations__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+                <div class="feature col-md-4" style="margin-right: auto;">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        🔑
+                    </div>
+                    <h2>API token</h2>
+                    <p>YandexHub's Application programming interface allows you to get different information about yourself and much more.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'token__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

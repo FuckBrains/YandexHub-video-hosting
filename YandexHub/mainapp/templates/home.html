@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main">
+    <div class="block-content">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+            {% for video in videos %}
+            <div class="infinite-item col" style="cursor: pointer;">
+                <div class="card mb-2">
+                    <a onclick="transition_link(`{% url 'video__page' video.video_id %}`)">
+                        <img style="object-fit: cover;" class="bd-placeholder-img card-img-top video-img" width="360"
+                            height="225" src="{{ video.video_banner.url }}">
+                    </a>
+                    <div class="card-body">
+                        <div class="avatar-video-block"
+                            onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)">
+                            <div class="avatar-video-img img"
+                                style="background-image: url({{video.creator.avatar.url}});"></div>
+                        </div>
+                        <div style="display: inline-block;"
+                            onclick="transition_link(`{% url 'video__page' video.video_id %}`)">
+                            <p class="card-text card-text-video" style="color: #000; word-wrap: break-word; width: 310px;">
+                                {{video.title|truncatechars:45}}</p>
+                            <div class="card-bottom">{{video.views|brief_views_format}} ·
+                                {{video.date_created|time_func}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+    </div>
+</main>
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.row')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

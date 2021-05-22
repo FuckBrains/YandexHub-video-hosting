@@ -1,0 +1,120 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        <h1 style="text-align: center; margin-bottom: 40px;">FAQ 📃</h1>
+        <div style="width: 60%; margin-left: auto; margin-right: auto;">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseFour" aria-expanded="false"
+                            aria-controls="flush-collapseFour">
+                            Why can't I register on YandexHub?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseFour" class="accordion-collapse collapse"
+                        aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">When registering, there are several criteria:
+                            <li>The username must consist of at least one character and can not consist of spaces</li>
+                            <li>The password must be at least 8 characters long, and consist of lowercase and uppercase letters of the Latin alphabet</li>
+                            <li>The password cannot be the same as the username or email address</li>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            What file extensions does YandexHub support?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">When uploading photos and videos, there are restrictions on the file
+                            size and file extension.
+                            <p style="margin-top: 5px;">
+                                <b>Images</b>
+                                <br />Max size: <code>7.5 MB</code>
+                                <br />Extensions: <code>.jpeg .jpg .gif .png .pict .ico .tiff .ai .webp .eps .cdr</code>
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Videos</b>
+                                <br />Max size: <code>200 MB</code>
+                                <br />Extensions: <code>.mp4 .avi .wmv .mov .3gp .flv .webm</code>
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Posts images</b>
+                                <br />Max resolution: <code>2560x2560px</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            What are the user limits on YandexHub?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">Yandex Hub has a large number of restrictions on the number of
+                            videos, articles, and articles published per day.
+                            <p style="margin-top: 5px;">
+                                <b>Videos</b>
+                                <br />Maximum of <code>5</code> videos per day.
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Tracks</b>
+                                <br />Maximum of <code>5</code> tracks per day.
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Articles</b>
+                                <br />Maximum of <code>10</code> articles per day.
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Comments</b>
+                                <br />Maximum of <code>10</code> comments under one video per day.
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Reply comments</b>
+                                <br />Maximum of <code>10</code> replies under one comment per day.
+                            </p>
+                            <p style="margin-top: 5px;">
+                                <b>Views</b>
+                                <br />Maximum of <code>10</code> views per video per day.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                            aria-controls="flush-collapseThree">
+                            How to use the YandexHub API?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse"
+                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">YandexHub Public API can be accessed via the following base URI
+                            <code>{{domen}}api/</code>
+                            <h5 style="margin-top: 10px;">Authentication</h5>
+                            <p>YandexHub Public API uses HTTP Basic Access Authentication to ensure only correctly
+                                permissioned users are given access to the feeds they are allowed to read. </p>
+                            <p>Each API call made to YandexHub Public API is authenticated with a key generated on a
+                                per-user basis.
+                                YandexHub
+                                will provide you with an <a href="{% url 'token__page' %}">API key</a>. </p>
+                            <p>This key is included in the HTTP header in the call made as follows: </p>
+                            <p><code>Authorization: Token [INSERT API KEY]</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

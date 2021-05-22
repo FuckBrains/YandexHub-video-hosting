@@ -1,0 +1,96 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+<main role="main" style="margin-top: 0px !important;">
+    {% if not error %}
+    {% include "components/channel/header.html" %}
+    <div style="position: relative; height: 140px; width: 100%;">
+        <div style="width: 45%; position: relative; margin-left: auto; margin-right: auto;"
+            class="user-video-block row row-cols-5" data-masonry='{"percentPosition": true }'>
+            <div style="margin-top: 35px; width: 100%;">
+                <div>
+                    <div class="col-md-9" style="display: inline-block; top: 0;">
+                        <div style="width: 85%;">
+                            {% if channel.description != '' and channel.description is not None %}
+                            <p style="font-size: 18px; margin-bottom: 25px;">Description</p>
+                            {{channel.description|safe}}
+                            {% endif %}
+                            {% if channel.contact_email != '' and channel.contact_email is not None or channel.location != '' and channel.location is not None %}
+                            <hr style="margin-top: 25px; margin-bottom: 25px;">
+                            <p style="font-size: 18px; margin-bottom: 25px;">Details</p>
+                            {% endif %}
+                            {% if channel.contact_email != '' and channel.contact_email is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;">For business
+                                inquiries: <a style="color: #065FD4; margin-left: 10px;">{{channel.contact_email}}</a>
+                            </p>
+                            {% endif %}
+                            {% if channel.location != '' and channel.location is not None %}
+                            <p style="font-size: 15px; margin-bottom: 25px;">Location: <a
+                                    style="color: #065FD4; margin-left: 10px;">{{channel.location}}</a>
+                            </p>
+                            {% endif %}
+                            {% if channel.vk_link != '' and channel.vk_link is not None or channel.instagram_link != '' and channel.instagram_link is not None or channel.facebook_link != '' and channel.facebook_link is not None or channel.reddit_link != '' and channel.reddit_link is not None or channel.telegram_link != '' and channel.telegram_link is not None or channel.twitter_link != '' and channel.twitter_link is not None or channel.website_link != '' and channel.website_link is not None%}
+                            <hr>
+                            <p style="font-size: 18px; margin-top: 25px; margin-bottom: 25px;">
+                                Links</p>
+                            {% endif %}
+                            {% if channel.vk_link != '' and channel.vk_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.vk_link}}"
+                                    style="color: #065FD4;" target="_blank">VK</a>
+                            </p>
+                            {% endif %}
+                            {% if channel.instagram_link != '' and channel.instagram_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.instagram_link}}"
+                                    style="color: #065FD4;" target="_blank">Instagram</a></p>
+                            {% endif %}
+                            {% if channel.facebook_link != '' and channel.facebook_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.facebook_link}}"
+                                    style="color: #065FD4;" target="_blank">Facebook</a></p>
+                            {% endif %}
+                            {% if channel.reddit_link != '' and channel.reddit_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.reddit_link}}"
+                                    style="color: #065FD4;" target="_blank">Reddit</a></p>
+                            {% endif %}
+                            {% if channel.telegram_link != '' and channel.telegram_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.telegram_link}}"
+                                    style="color: #065FD4;" target="_blank">Telegram</a></p>
+                            {% endif %}
+                            {% if channel.twitter_link != '' and channel.twitter_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.twitter_link}}"
+                                    style="color: #065FD4;" target="_blank">Twitter</a></p>
+                            {% endif %}
+                            {% if channel.website_link != '' and channel.website_link is not None %}
+                            <p style="font-size: 15px; margin-bottom: 20px;"><a href="{{channel.website_link}}"
+                                    style="color: #065FD4;" target="_blank">Website</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- stats -->
+                    <div class="col-md-3" style="display: inline-block; top: 0; position: absolute;">
+                        <p style="font-size: 18px;">Stats</p>
+                        <hr style="margin-bottom: 15px; margin-top: 10px;">
+                        <p style="font-size: 15px;">Joined {{channel.date_created|date_func}}
+                        </p>
+                        <hr style="margin-bottom: 15px; margin-top: 10px;">
+                        <p style="font-size: 15px;">{{channel.all_views|integer_format}} views
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="block-content" style="margin-top: 35px;">
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align: center;">Channel not found ⛄️</h3>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'main__page' %}`)">Home page</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

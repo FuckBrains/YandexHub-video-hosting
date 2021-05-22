@@ -1,0 +1,1971 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<style>
+    pre {
+        padding: 20px;
+        background-color: #F5F5F5;
+        border: 2px solid #d7d7d7;
+        border-radius: 15px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: bold;
+        margin: 3% 0%;
+    }
+
+    * {
+        font-family: "Comic sans", sans-serif;
+    }
+</style>
+<main role="main" style="margin-top: 35px;">
+    <div class="container">
+        <h1 id="curation-dashboard-public-api">YandexHub Public API</h1>
+        <hr>
+        <h1 id="requirements">Requirements</h1>
+
+        <h2 id="administration">Administration</h2>
+        <p>API keys are administered by YandexHub Token System. If you would like to get an API key, go to the <a
+                href="/token/" target="_blank">link</a>.
+        </p>
+
+
+        <h2 id="format">Format</h2>
+        <p>YandexHub Public API can be accessed via the following base URI</p>
+        <p><code>{{domen}}api</code></p>
+        <p>All routes given in this documentation are relative to this base route. Note that unlike the Dashboard
+            itself, the Public API only accepts connections over <code>https://</code> or <code>http://</code>. </p>
+        <p>All responses are given in <code>JSON</code>. </p>
+
+
+        <h2 id="authentication">Authentication</h2>
+        <p>YandexHub Public API uses HTTP Basic Access Authentication to ensure only correctly
+            permissioned users are given access to the feeds they are allowed to read. </p>
+        <p>Each API call made to YandexHub Public API is authenticated with a key generated on a per-user basis.
+            YandexHub
+            will provide you with an <a href="{% url 'token__page' %}">API key</a>. </p>
+        <p>This key is included in the HTTP header in the call made as follows: </p>
+        <p><code>Authorization: Token [INSERT API KEY]</code></p>
+
+        <h2 id="content">Content</h2>
+        <pre style="font-size: 1.15em;">├── <a href="#site">Site stats</a>
+├── <a href="#trends">Trends videos</a>
+├── <a href="#user">User</a>
+│ └── Videos
+│ │   └── <a href="#videos">User videos</a>
+│ │   └── <a href="#liked-videos">Liked videos</a>
+│ │   └── <a href="#disliked-videos">Disliked videos</a>
+│ │   └── <a href="#saved-videos">Saved videos</a>
+│ └── <a href="#subscribe">Subscribe</a>
+│ └── <a href="#notifications">Notifications</a>
+├── <a href="#video">Video</a>
+│ └── <a href="#download-video">Download video</a>
+│ └── <a href="#download-video-banner">Download video banner</a>
+│ └── <a href="#upload-video">Upload video</a>
+│ └── <a href="#delete-video">Delete video</a>
+│ └── <a href="#save-video">Save video</a>
+│ └── <a href="#like-video">Like video</a>
+│ └── <a href="#dislike-video">Dislike video</a>
+│ └── Comments
+│ │   └── <a href="#add-comment">Add comment</a>
+│ │   └── <a href="#like-comment">Like comment</a>
+│ │   └── <a href="#dislike-comment">Dislike comment</a>
+│ │   └── <a href="#delete-comment">Delete comment</a>
+│ │   └── <a href="#add-reply-comment">Add reply comment</a>
+│ │   └── <a href="#like-reply-comment">Like reply comment</a>
+│ │   └── <a href="#dislike-reply-comment">Dislike reply comment</a>
+│ │   └── <a href="#delete-reply-comment">Delete reply comment</a>
+│ └── <a href="#video-stats">Video stats</a>
+├── <a href="#article">Article</a>
+│ └── <a href="#create-article">Create article</a>
+│ └── <a href="#like-article">Like article</a>
+│ └── <a href="#dislike-article">Dislike article</a>
+│ └── <a href="#delete-stats">Delete article</a>
+│ └── <a href="#article-stats">Article stats</a>
+├── Tracks
+│ └── <a href="#tracks">User tracks</a>
+│ └── <a href="#track-stats">Track stats</a>
+├── <a href="#films">Films</a>
+│ └── <a href="#film">Film</a>
+│ └── <a href="#liked-films">Liked films</a>
+│ └── <a href="#disliked-films">Disliked films</a>
+│ └── <a href="#purchased-films">Purchased films</a>
+│ └── <a href="#download-film">Download film</a>
+│ └── <a href="#download-film-trailer">Download film trailer</a>
+│ └── <a href="#download-film-banner">Download film banner</a>
+│ └── <a href="#download-film-poster">Download film poster</a>
+│ └── <a href="#like-film">Like film</a>
+│ └── <a href="#dislike-film">Dislike film</a>
+│ └── <a href="#buy-film">Buy film</a>
+├── <a href="#sockets">Socket server</a></pre>
+
+        <h1 id="endpoints">Endpoints</h1>
+
+        <h2 id="site">Site stats</h2>
+        <h4><code>/site</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get site stats by sending a GET request
+            to <code>/user</code>. A <code>200</code> response will be returned along
+            with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "users": 1,
+        "subscriptions": 0,
+        "notifications": 0,
+        "videos": {
+            "videos": 0,
+            "views": 0,
+            "likes": 0,
+            "dislikes": 0,
+            "comments": {
+                "total": 0,
+                "comments": {
+                    "comments": 0,
+                    "likes": 0,
+                    "dislikes": 0
+                },
+                "replies": {
+                    "comments": 0,
+                    "likes": 0,
+                    "dislikes": 0
+                }
+            },
+            "saves": 0
+        },
+        "posts": {
+            "posts": 1,
+            "likes": 1,
+            "dislikes": 0
+        },
+        "tracks": {
+            "tracks": 7,
+            "auditions": 39
+        },
+        "films": {
+            "films": 2,
+            "purchases": 2,
+            "likes": 2,
+            "dislikes": 0,
+            "actors": 13,
+            "producers": 3,
+            "writers": 4,
+            "genres": 5
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="trends">Get a trends videos</h2>
+        <h4><code>/trending</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get the trend list by sending a GET
+            request to <code>/trending</code>. A <code>200</code> response will be returned along with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "VBQJ91UnwPXV1dCZp4zFwPdBCpUGxk7E": {
+                "title": "Feder feat. Alex Aiono - Lordly (Official Video)",
+                "description": "Description 🥳",
+                "date_created": "2021-05-15T09:40:10.648501Z",
+                "date_created_without_time": "2021-05-15",  
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Feder_feat._Alex_Aiono_-_Lordly_Official_Video.mp4",
+                    "banner": "video_banners/maxresdefault_8.jpg"
+                },
+                "stats": {
+                    "coefficient": 2.0,
+                    "views": 2,
+                    "comments": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                }
+            }
+        }
+    },
+    "status": "ok"
+}
+            </code></pre>
+
+        <h2 id="user">Retrieving User Information</h2>
+        <h4><code>/user</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can obtain complete information about their
+            profile by sending a GET request to <code>/user</code>. A <code>200</code> response will be returned along
+            with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "user": {
+            "user_id": "admin",
+            "username": "Admin",
+            "email": "valeryparkhomenkomain@gmail.com",
+            "date_created": "2021-05-18T17:44:13.660661Z",
+            "media": {
+                "avatar": "avatars/admin.gif",
+                "banner": "users_banners/tenor_4.gif"
+            },
+            "details": {
+                "description": "Description 🥳",
+                "contact_email": "example@example.com",
+                "location": "Orsk"
+            },
+            "links": {
+                "vk_link": "#",
+                "instagram_link": null,
+                "facebook_link": null,
+                "reddit_link": null,
+                "telegram_link": "#",
+                "twitter_link": null,
+                "website_link": "https://yandexhub.ru/"
+            },
+            "telegram": {
+                "telegram": "957503564"
+            },
+            "yoomoney": {
+                "wallet": null,
+                "donat_text": "Support the author ❤️🤑👻"
+            },
+            "stats": {
+                "videos": {
+                    "videos": 0,
+                    "views": 0,
+                    "comments": 0,
+                    "likes": 0,
+                    "dislikes": 0
+                },
+                "tracks": {
+                    "tracks": 7,
+                    "auditions": 43
+                },
+                "posts": {
+                    "posts": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                },
+                "subscribers": 0,
+                "notifications": 0
+            }
+        }
+    },
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="videos">Get user videos</h2>
+        <h4><code>/videos</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get his videos by sending a GET
+            request to <code>/videos</code>. A <code>200</code> response will be returned along with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "VBQJ91UnwPXV1dCZp4zFwPdBCpUGxk7E": {
+                "title": "Feder feat. Alex Aiono - Lordly (Official Video)",
+                "description": "Description 🥳",
+                "date_created": "2021-05-15T09:40:10.648501Z",
+                "date_created_without_time": "2021-05-15",
+                "media": {
+                    "video": "videos/Feder_feat._Alex_Aiono_-_Lordly_Official_Video.mp4",
+                    "banner": "video_banners/maxresdefault_8.jpg"
+                },
+                "stats": {
+                    "coefficient": 2.0,
+                    "views": 2,
+                    "comments": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                }
+            },
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="liked-videos">Get liked videos</h2>
+        <h4><code>/videos/liked</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get liked videos by sending a GET
+            request to <code>/video/liked</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "VBQJ91UnwPXV1dCZp4zFwPdBCpUGxk7E": {
+                "title": "Feder feat. Alex Aiono - Lordly (Official Video)",
+                "description": "Description 🥳",
+                "date_created": "2021-05-15T09:40:10.648501Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Feder_feat._Alex_Aiono_-_Lordly_Official_Video.mp4",
+                    "banner": "video_banners/maxresdefault_8.jpg"
+                },
+                "stats": {
+                    "coefficient": 2.0,
+                    "views": 3,
+                    "comments": 1,
+                    "likes": 1,
+                    "dislikes": 0
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="disliked-videos">Get disliked videos</h2>
+        <h4><code>/videos/disliked</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get disliked videos by sending a GET
+            request to <code>/video/disliked</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="saved-videos">Get saved videos</h2>
+        <h4><code>/videos/saved</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get saved videos by sending a GET
+            request to <code>/video/saved</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "videos": {
+            "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi": {
+                "title": "Lil Peep - Save That Shit (Official Video)",
+                "description": "Description 😎",
+                "date_created": "2021-05-15T11:23:51.115692Z",
+                "date_created_without_time": "2021-05-15",
+                "creator": {
+                    "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                    "username": "Valery Parkhomenko"
+                },
+                "media": {
+                    "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                    "banner": "video_banners/8652.jpg"
+                },
+                "stats": {
+                    "coefficient": 1.0,
+                    "views": 5,
+                    "comments": 2,
+                    "likes": 0,
+                    "dislikes": 1
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="subscribe">Subscribe to user</h2>
+        <h4><code>/channel/subscribe</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can subscribe to user by sending a POST
+            request to <code>/channel/subscribe</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>channel_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID of the channel you need to subscribe to.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "subscribe": 1
+    },
+    "message": "Subscription added 🤗",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="notifications">Notifications</h2>
+        <h4><code>/channel/notifications</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can enable notifications from other
+            users by sending a POST
+            request to <code>/channel/notifications</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>user_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID of the channel for which you want to enable notifications.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "notification": 1
+    },
+    "message": "You’ll get all notifications 😃",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="video">Video</h2>
+        <h4><code>/video/{"video id"}/info</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get info about video by sending a GET
+            request to <code>/video/{"video id"}/info</code>. A <code>200</code> response will be returned along with an
+            array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "video": {
+            "id": "KuxYaFdVuQrEcighzpg6sCPgN74iMYLi",
+            "title": "Lil Peep - Save That Shit (Official Video)",
+            "description": "Description 😎",
+            "date_created": "2021-05-15T11:23:51.115692Z",
+            "date_created_without_time": "2021-05-15",
+            "creator": {
+                "user_id": "N9hBMThu7rzaDYzu8uTHgYkI",
+                "username": "Valery Parkhomenko"
+            },
+            "media": {
+                "video": "videos/Lil_Peep_-_Save_That_Shit_Official_Video_1.mp4",
+                "banner": "video_banners/8652.jpg"
+            },
+            "stats": {
+                "coefficient": 1.0,
+                "views": 10,
+                "comments": 2,
+                "likes": 0,
+                "dislikes": 1
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="download-video">Download video</h2>
+        <h4><code>/video/{"video id"}/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get video file by sending a GET
+            request to <code>/video/{"video id"}/download</code>. A <code>200</code> response will be returned along
+            with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/1.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="download-video-banner">Download video banner</h2>
+        <h4><code>/video/{"video id"}/banner/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get video banner file by sending a GET
+            request to <code>/video/{"video id"}/banner/download</code>. A <code>200</code> response will be returned
+            along with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/2.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="upload-video">Upload video</h2>
+        <h4><code>/video/upload</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can upload video by sending a POST
+            request to <code>/video/upload</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>title</code></td>
+                    <td><em>string</em></td>
+                    <td>The title text of a video.</td>
+                </tr>
+                <tr>
+                    <td><code>description</code></td>
+                    <td><em>string</em></td>
+                    <td>A description of the video.</td>
+                </tr>
+                <tr>
+                    <td><code>video</code></td>
+                    <td><em>file</em></td>
+                    <td>Video file.</td>
+                </tr>
+                <tr>
+                    <td><code>banner</code></td>
+                    <td><em>file</em></td>
+                    <td>Banner file.</td>
+                </tr>
+            </tbody>
+        </table>
+        <pre><img src="{% static 'media/site/api/3.jpg' %}" width="100%" height="auto"></pre>
+        <hr>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "id": "zsByLdm1qFc3mQXdUa86KbxXRXXpsskC"
+    },
+    "message": "Videos uploaded successfully",
+    "status": "OK"
+}
+        </code></pre>
+
+        <h2 id="delete-video">Delete video</h2>
+        <h4><code>/video/delete</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can delete video by sending a POST
+            request to <code>/video/delete</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the video to be deleted.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {},
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="save-video">Save video</h2>
+        <h4><code>/video/save</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can save video by sending a POST
+            request to <code>/video/save</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the video to be saved.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "save": 1
+    },
+    "message": "Added to Saved videos 📌",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="like-video">Like video</h2>
+        <h4><code>/video/like</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can like the video by sending a POST
+            request to <code>/video/like</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the video you want to like.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 1,
+        "dislike": 0,
+        "stats": {
+            "likes": 3,
+            "dislikes": 0
+        }
+    },
+    "message": "Added to Liked videos 👍",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="dislike-video">Dislike video</h2>
+        <h4><code>/video/dislike</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can dislike the video by sending a POST
+            request to <code>/video/dislike</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the video you want to dislike.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 0,
+        "dislike": 1,
+        "stats": {
+            "likes": 2,
+            "dislikes": 1
+        }
+    },
+    "message": "You dislike this video 👎",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="add-comment">Add comment</h2>
+        <h4><code>/comment/add</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can commented the video by sending a
+            POST
+            request to <code>/comment/add</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the video you want to commented.</td>
+                </tr>
+                <tr>
+                    <td><code>text</code></td>
+                    <td><em>string</em></td>
+                    <td>Comment text.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {},
+    "message": "Comment added 🌚",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="like-comment">Like comment</h2>
+        <h4><code>/comment/like</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can liked the comment by sending a POST
+            request to <code>/comment/like</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the comment you want to like.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 0,
+        "dislike": 1,
+        "stats": {
+            "likes": 1,
+            "dislikes": 0
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="dislike-comment">Dislike comment</h2>
+        <h4><code>/comment/dislike</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can dislike the comment by sending a
+            POST
+            request to <code>/comment/dislike</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the comment you want to dislike.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 0,
+        "dislike": 1,
+        "stats": {
+            "likes": 0,
+            "dislikes": 1
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="delete-comment">Delete comment</h2>
+        <h4><code>/comment/delete</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can delete the comment by sending a
+            POST
+            request to <code>/comment/delete</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the comment you want to delete.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {},
+    "message": "Comment has been deleted 🧸",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="add-reply-comment">Add reply comment</h2>
+        <h4><code>/comment/reply/add</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can commented the comment by sending a
+            POST
+            request to <code>/comment/reply/add</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>Video ID.</td>
+                </tr>
+                <tr>
+                    <td><code>comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the comment you want to commented.</td>
+                </tr>
+                <tr>
+                    <td><code>text</code></td>
+                    <td><em>string</em></td>
+                    <td>Reply comment text.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {},
+    "message": "Reply to comment added ⛄️",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="like-reply-comment">Like reply comment</h2>
+        <h4><code>/comment/reply/like</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can liked the reply comment by sending
+            a POST
+            request to <code>/comment/reply/like</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>reply_comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the reply comment you want to like.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 1,
+        "dislike": 0,
+        "stats": {
+            "likes": 1,
+            "dislikes": 0
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="dislike-reply-comment">Dislike reply comment</h2>
+        <h4><code>/comment/reply/dislike</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can dislike the reply comment by
+            sending a POST
+            request to <code>/comment/reply/dislike</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>reply_comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the reply comment you want to dislike.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 0,
+        "dislike": 1,
+        "stats": {
+            "likes": 0,
+            "dislikes": 1
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="delete-reply-comment">Delete reply comment</h2>
+        <h4><code>/comment/reply/delete</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can delete the reply comment by sending
+            a POST
+            request to <code>/comment/reply/delete</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>reply_comment_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the reply comment you want to delete.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {},
+    "message": "Comment has been deleted 🧸",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="video-stats">Video stats</h2>
+        <h4><code>/video/stats</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can get video stats by sending a POST
+            request to <code>/video/stats</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>video_id</code></td>
+                    <td><em>string</em></td>
+                    <td>Video ID.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "views": {
+            "2021-05-17": 27,
+            "2021-05-16": 27,
+            "2021-05-15": 27,
+            "2021-05-14": 27,
+            "2021-05-13": 27,
+            "2021-05-12": 27
+        },
+        "comments": {
+            "2021-05-17": 6,
+            "2021-05-16": 5,
+            "2021-05-15": 5,
+            "2021-05-14": 5,
+            "2021-05-13": 5,
+            "2021-05-12": 5
+        },
+        "likes": {
+            "2021-05-17": 2,
+            "2021-05-16": 2,
+            "2021-05-15": 2,
+            "2021-05-14": 2,
+            "2021-05-13": 2,
+            "2021-05-12": 2
+        },
+        "dislikes": {
+            "2021-05-17": 1,
+            "2021-05-16": 0,
+            "2021-05-15": 0,
+            "2021-05-14": 0,
+            "2021-05-13": 0,
+            "2021-05-12": 0
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="tracks">Get user tracks</h2>
+        <h4><code>/tracks</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get his tracks by sending a GET
+            request to <code>/tracks</code>. A <code>200</code> response will be returned along with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "tracks": {
+            "zK8e1SBWvBvuP4xt236Zfn9NpwzAK5mk": {
+                "title": "Lil Peep - Star Shopping",
+                "date_created": "2021-05-19T20:51:10.101998Z",
+                "date_created_without_time": "2021-05-19",
+                "media": {
+                    "poster": "track_posters/scale_1200_4.jpg"
+                },
+                "stats": {
+                    "auditions": 0
+                }
+            },
+            "QwLayJudziPzfi6LqAzgJ9e7sEWENJ8x": {
+                "title": "Syml - Mr. Sandman",
+                "date_created": "2021-05-19T21:47:13.510838Z",
+                "date_created_without_time": "2021-05-20",
+                "media": {
+                    "poster": "track_posters/b186c8ff8ea882e7105ce6687306c43f.jpg"
+                },
+                "stats": {
+                    "auditions": 0
+                }
+            },
+            "6b3hxPVT87eXqzqnbdjDHEM9daP31Dwq": {
+                "title": "Internet Money, Gunna, Don Toliver, NAV - Lemonade",
+                "date_created": "2021-05-19T22:05:11.709903Z",
+                "date_created_without_time": "2021-05-20",
+                "media": {
+                    "poster": "track_posters/m1000x1000_i7XNMP8.jpg"
+                },
+                "stats": {
+                    "auditions": 14
+                }
+            },
+            "K3KCsrqEJ7KW8tAPcLVUsUEnR8bkPCXF": {
+                "title": "XXXTENTACION - Save Me",
+                "date_created": "2021-05-20T20:15:33.285264Z",
+                "date_created_without_time": "2021-05-20",
+                "media": {
+                    "poster": "track_posters/scale_1200.jpg"
+                },
+                "stats": {
+                    "auditions": 1
+                }
+            },
+            "4HF7J7YYLGykfddHMdmgjMsSAJgAp8na": {
+                "title": "XXXTENTACION - MOONLIGHT",
+                "date_created": "2021-05-20T20:16:50.366546Z",
+                "date_created_without_time": "2021-05-20",
+                "media": {
+                    "poster": "track_posters/_57.jpg"
+                },
+                "stats": {
+                    "auditions": 0
+                }
+            },
+            "Ga5bp2KtpNNWwY9yKir7RVT4n9Jy787r": {
+                "title": "Brennan Savage - Look At Me Now",
+                "date_created": "2021-05-20T20:18:34.177577Z",
+                "date_created_without_time": "2021-05-20",
+                "media": {
+                    "poster": "track_posters/m1000x1000_1.jpg"
+                },
+                "stats": {
+                    "auditions": 1
+                }
+            },
+            "5V6pWrCtikzLU1uFKhierFh484Wd2wyt": {
+                "title": "Travis Scott - SICKO MODE ft. Drake",
+                "date_created": "2021-05-20T20:24:56.508457Z",
+                "date_created_without_time": "2021-05-20",
+                "media": {
+                    "poster": "track_posters/DjdQ5pBU8AAdonH.jpg"
+                },
+                "stats": {
+                    "auditions": 27
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="video-stats">Video stats</h2>
+        <h4><code>/track/stats</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can get track stats by sending a POST
+            request to <code>/track/stats</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>track_id</code></td>
+                    <td><em>string</em></td>
+                    <td>Track ID.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "auditions": {
+            "2021-05-23": 28,
+            "2021-05-22": 22,
+            "2021-05-21": 12,
+            "2021-05-20": 2
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="article">Article</h2>
+        <h4><code>/article/{"article id"}/info</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get info about article by sending a GET
+            request to <code>/article/{"article id"}/info</code>. A <code>200</code> response will be returned along
+            with an
+            array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "article": {
+            "id": "LF5qZCw61H5dGs9vUc6M5knTmAzFUCPn",
+            "title": "Some text...",
+            "date_created": "2021-05-17T20:58:37.583461Z",
+            "date_created_without_time": "2021-05-17",
+            "creator": {
+                "user_id": "zsByLda1qFc3mQXdUa86KbxXRXXpsskC",
+                "username": "admin"
+            },
+            "stats": {
+                "likes": 1000,
+                "dislikes": 0
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="create-article">Create article</h2>
+        <h4><code>/article/create</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can create article by sending a POST
+            request to <code>/article/create</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>text</code></td>
+                    <td><em>string</em></td>
+                    <td>The text text of a article.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "id": "HxHFe88V1wNLVVYBSuC5vfp1NVLriTpk"
+    },
+    "message": "Article created successfully",
+    "status": "OK"
+}
+        </code></pre>
+
+        <h2 id="like-article">Like article</h2>
+        <h4><code>/article/like</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can liked the article by sending a POST
+            request to <code>/article/like</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>article_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the article you want to like.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 1,
+        "dislike": 0,
+        "stats": {
+            "likes": 1,
+            "dislikes": 0
+        }
+    },
+    "message": "You like this article 👍",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="dislike-article">Dislike article</h2>
+        <h4><code>/article/dislike</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can dislike the article by sending a
+            POST
+            request to <code>/article/dislike</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>article_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the article you want to dislike.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 0,
+        "dislike": 1,
+        "stats": {
+            "likes": 0,
+            "dislikes": 1
+        }
+    },
+    "message": "You dislike this article 👎",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="delete-article">Delete article</h2>
+        <h4><code>/article/delete</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can delete the article by sending a
+            POST
+            request to <code>/article/delete</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>article_id</code></td>
+                    <td><em>string</em></td>
+                    <td>Article ID.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "user_id": "bJStDPRtdH4ByArmH6EauiV5"
+    },
+    "status": "ok"
+}
+        </code></pre>
+
+
+        <h2 id="article-stats">Article stats</h2>
+        <h4><code>/article/stats</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can get article stats by sending a POST
+            request to <code>/article/stats</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>article_id</code></td>
+                    <td><em>string</em></td>
+                    <td>Article ID.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "likes": {
+            "2021-05-17": 0
+        },
+        "dislikes": {
+            "2021-05-17": 1
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+
+
+
+
+
+
+
+        <h2 id="films">Films</h2>
+        <h4><code>/films</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get all films list by sending a GET
+            request to <code>/films</code>. A <code>200</code> response will be returned along with an array of data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "films": {
+            "vasvaiEIAxr34N205f3Zg8Hi6j6uL": {
+                "title": "Interstellar",
+                "price": 2.49,
+                "running_time": "2:49:00",
+                "rating": "12+",
+                "release_date": "2014-10-26",
+                "release_year": "2014",
+                "main_genre": "Science Fiction",
+                "date_created": "2021-05-16T06:27:46.731898Z",
+                "media": {
+                    "trailer": "trailers/Interstellar_-_Trailer_-_Official_Warner_Bros._UK.mp4",
+                    "poster": "film_posters/scale_1200.jfif",
+                    "banner": "film_banners/9pVYI4.jpg"
+                },
+                "stats": {
+                    "likes": 1,
+                    "dislikes": 0,
+                    "purchases": 1
+                },
+                "details": {
+                    "actors": {
+                        "1": {
+                            "name": "Matthew Mcconaughey",
+                            "gender": "Male",
+                            "photo": "avatars/1596080981_41-p-mettyu-makkonakhi-instagramm-61.jpg"
+                        },
+                        "2": {
+                            "name": "Anne Hathaway",
+                            "gender": "Female",
+                            "photo": "avatars/scale_1200.jpg"
+                        },
+                        "3": {
+                            "name": "Michael Caine",
+                            "gender": "Male",
+                            "photo": "avatars/3HcB5wTCLbc2J.jpeg"
+                        }
+                    },
+                    "producers": {
+                        "1": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image.jfif"
+                        }
+                    },
+                    "writers": {
+                        "1": {
+                            "name": "Jonathan Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/Jonathan_Nolan_2_cropped-e1521057381325_1.jpg"
+                        },
+                        "2": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image_x5qRVjN.jfif"
+                        }
+                    },
+                    "genres": [
+                        "Drama",
+                        "Action & Adventure",
+                        "Science Fiction"
+                    ]
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="film">Film</h2>
+        <h4><code>/film/{"film id"}/info</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get info about film by sending a GET
+            request to <code>/film/{"film id"}/info</code>. A <code>200</code> response will be returned along with an
+            array of data as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "film": {
+            "id": "vasvaiEIAxr34N205f3Zg8Hi6j6uL",
+            "title": "Interstellar",
+            "price": 2.49,
+            "running_time": "2:49:00",
+            "rating": "12+",
+            "release_date": "2014-10-26",
+            "release_year": "2014",
+            "main_genre": "Science Fiction",
+            "date_created": "2021-05-16T06:27:46.731898Z",
+            "media": {
+                "trailer": "trailers/Interstellar_-_Trailer_-_Official_Warner_Bros._UK.mp4",
+                "poster": "film_posters/scale_1200.jfif",
+                "banner": "film_banners/9pVYI4.jpg"
+            },
+            "stats": {
+                "likes": 1,
+                "dislikes": 0,
+                "purchases": 1
+            },
+            "details": {
+                "actors": {
+                    "1": {
+                        "name": "Matthew Mcconaughey",
+                        "gender": "Male",
+                        "photo": "avatars/1596080981_41-p-mettyu-makkonakhi-instagramm-61.jpg"
+                    },
+                    "2": {
+                        "name": "Anne Hathaway",
+                        "gender": "Female",
+                        "photo": "avatars/scale_1200.jpg"
+                    },
+                    "3": {
+                        "name": "Michael Caine",
+                        "gender": "Male",
+                        "photo": "avatars/3HcB5wTCLbc2J.jpeg"
+                    }
+                },
+                "producers": {
+                    "1": {
+                        "name": "Christopher Nolan",
+                        "gender": "Male",
+                        "photo": "avatars/image.jfif"
+                    }
+                },
+                "writers": {
+                    "1": {
+                        "name": "Jonathan Nolan",
+                        "gender": "Male",
+                        "photo": "avatars/Jonathan_Nolan_2_cropped-e1521057381325_1.jpg"
+                    },
+                    "2": {
+                        "name": "Christopher Nolan",
+                        "gender": "Male",
+                        "photo": "avatars/image_x5qRVjN.jfif"
+                    }
+                },
+                "genres": [
+                    "Drama",
+                    "Action & Adventure",
+                    "Science Fiction"
+                ]
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="liked-films">Get liked films</h2>
+        <h4><code>/films/liked</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get liked films by sending a GET
+            request to <code>/films/liked</code>. A <code>200</code> response will be returned along with an array of
+            data as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "films": {
+            "vasvaiEIAxr34N205f3Zg8Hi6j6uL": {
+                "title": "Interstellar",
+                "price": 2.49,
+                "running_time": "2:49:00",
+                "rating": "12+",
+                "release_date": "2014-10-26",
+                "release_year": "2014",
+                "main_genre": "Science Fiction",
+                "date_created": "2021-05-16T06:27:46.731898Z",
+                "media": {
+                    "trailer": "trailers/Interstellar_-_Trailer_-_Official_Warner_Bros._UK.mp4",
+                    "poster": "film_posters/scale_1200.jfif",
+                    "banner": "film_banners/9pVYI4.jpg"
+                },
+                "stats": {
+                    "likes": 1,
+                    "dislikes": 0,
+                    "purchases": 1
+                },
+                "details": {
+                    "actors": {
+                        "1": {
+                            "name": "Matthew Mcconaughey",
+                            "gender": "Male",
+                            "photo": "avatars/1596080981_41-p-mettyu-makkonakhi-instagramm-61.jpg"
+                        },
+                        "2": {
+                            "name": "Anne Hathaway",
+                            "gender": "Female",
+                            "photo": "avatars/scale_1200.jpg"
+                        },
+                        "3": {
+                            "name": "Michael Caine",
+                            "gender": "Male",
+                            "photo": "avatars/3HcB5wTCLbc2J.jpeg"
+                        }
+                    },
+                    "producers": {
+                        "1": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image.jfif"
+                        }
+                    },
+                    "writers": {
+                        "1": {
+                            "name": "Jonathan Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/Jonathan_Nolan_2_cropped-e1521057381325_1.jpg"
+                        },
+                        "2": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image_x5qRVjN.jfif"
+                        }
+                    },
+                    "genres": [
+                        "Drama",
+                        "Action & Adventure",
+                        "Science Fiction"
+                    ]
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="disliked-films">Get disliked films</h2>
+        <h4><code>/films/disliked</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get disliked films by sending a GET
+            request to <code>/films/disliked</code>. A <code>200</code> response will be returned along with an array of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "films": {
+            "vasvaiEIAxr34N205f3Zg8Hi6j6uL": {
+                "title": "Interstellar",
+                "price": 2.49,
+                "running_time": "2:49:00",
+                "rating": "12+",
+                "release_date": "2014-10-26",
+                "release_year": "2014",
+                "main_genre": "Science Fiction",
+                "date_created": "2021-05-16T06:27:46.731898Z",
+                "media": {
+                    "trailer": "trailers/Interstellar_-_Trailer_-_Official_Warner_Bros._UK.mp4",
+                    "poster": "film_posters/scale_1200.jfif",
+                    "banner": "film_banners/9pVYI4.jpg"
+                },
+                "stats": {
+                    "likes": 0,
+                    "dislikes": 1,
+                    "purchases": 1
+                },
+                "details": {
+                    "actors": {
+                        "1": {
+                            "name": "Matthew Mcconaughey",
+                            "gender": "Male",
+                            "photo": "avatars/1596080981_41-p-mettyu-makkonakhi-instagramm-61.jpg"
+                        },
+                        "2": {
+                            "name": "Anne Hathaway",
+                            "gender": "Female",
+                            "photo": "avatars/scale_1200.jpg"
+                        },
+                        "3": {
+                            "name": "Michael Caine",
+                            "gender": "Male",
+                            "photo": "avatars/3HcB5wTCLbc2J.jpeg"
+                        }
+                    },
+                    "producers": {
+                        "1": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image.jfif"
+                        }
+                    },
+                    "writers": {
+                        "1": {
+                            "name": "Jonathan Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/Jonathan_Nolan_2_cropped-e1521057381325_1.jpg"
+                        },
+                        "2": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image_x5qRVjN.jfif"
+                        }
+                    },
+                    "genres": [
+                        "Drama",
+                        "Action & Adventure",
+                        "Science Fiction"
+                    ]
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="purchased-films">Get purchased films</h2>
+        <h4><code>/films/purchased</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get purchased films by sending a GET
+            request to <code>/films/purchased</code>. A <code>200</code> response will be returned along with an array
+            of
+            data
+            as shown below:</p>
+        <pre><code>
+{
+    "data": {
+        "films": {
+            "vasvaiEIAxr34N205f3Zg8Hi6j6uL": {
+                "title": "Interstellar",
+                "price": 2.49,
+                "running_time": "2:49:00",
+                "rating": "12+",
+                "release_date": "2014-10-26",
+                "release_year": "2014",
+                "main_genre": "Science Fiction",
+                "date_created": "2021-05-16T06:27:46.731898Z",
+                "media": {
+                    "trailer": "trailers/Interstellar_-_Trailer_-_Official_Warner_Bros._UK.mp4",
+                    "poster": "film_posters/scale_1200.jfif",
+                    "banner": "film_banners/9pVYI4.jpg"
+                },
+                "stats": {
+                    "likes": 0,
+                    "dislikes": 1,
+                    "purchases": 1
+                },
+                "details": {
+                    "actors": {
+                        "1": {
+                            "name": "Matthew Mcconaughey",
+                            "gender": "Male",
+                            "photo": "avatars/1596080981_41-p-mettyu-makkonakhi-instagramm-61.jpg"
+                        },
+                        "2": {
+                            "name": "Anne Hathaway",
+                            "gender": "Female",
+                            "photo": "avatars/scale_1200.jpg"
+                        },
+                        "3": {
+                            "name": "Michael Caine",
+                            "gender": "Male",
+                            "photo": "avatars/3HcB5wTCLbc2J.jpeg"
+                        }
+                    },
+                    "producers": {
+                        "1": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image.jfif"
+                        }
+                    },
+                    "writers": {
+                        "1": {
+                            "name": "Jonathan Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/Jonathan_Nolan_2_cropped-e1521057381325_1.jpg"
+                        },
+                        "2": {
+                            "name": "Christopher Nolan",
+                            "gender": "Male",
+                            "photo": "avatars/image_x5qRVjN.jfif"
+                        }
+                    },
+                    "genres": [
+                        "Drama",
+                        "Action & Adventure",
+                        "Science Fiction"
+                    ]
+                }
+            }
+        }
+    },
+    "message": "",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="like-film">Like film</h2>
+        <h4><code>/film/like</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can liked the film by sending a POST
+            request to <code>/film/like</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>film_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the film you want to like.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 1,
+        "dislike": 0,
+        "stats": {
+            "likes": 1,
+            "dislikes": 0
+        }
+    },
+    "message": "Your liked this film 🧡",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="dislike-film">Dislike film</h2>
+        <h4><code>/film/dislike</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can dislike the film by sending a POST
+            request to <code>/film/dislike</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>film_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the film you want to dislike.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {
+        "like": 0,
+        "dislike": 1,
+        "stats": {
+            "likes": 0,
+            "dislikes": 1
+        }
+    },
+    "message": "Your disliked this film 💔",
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="buy-film">Buy film</h2>
+        <h4><code>/buy/film</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can can buy the film by sending a POST
+            request to <code>/buy/film</code>.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>film_id</code></td>
+                    <td><em>string</em></td>
+                    <td>ID the film you want to buy.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong><em>An example response object</em></strong></p>
+        <pre><code>
+{
+    "data": {},
+    "status": "ok"
+}
+        </code></pre>
+
+        <h2 id="download-film">Download film</h2>
+        <h4><code>/film/{"film id"}/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get film file by sending a GET
+            request to <code>/film/{"film id"}/download</code>. A <code>200</code> response will be returned
+            along with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/4.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="download-film-trailer">Download film trailer</h2>
+        <h4><code>/film/{"film id"}/trailer/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get film trailer file by sending a GET
+            request to <code>/film/{"film id"}/trailer/download</code>. A <code>200</code> response will be returned
+            along with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/5.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="download-film-banner">Download film banner</h2>
+        <h4><code>/film/{"film id"}/banner/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get film banner file by sending a GET
+            request to <code>/film/{"film id"}/banner/download</code>. A <code>200</code> response will be returned
+            along with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/6.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="download-film-poster">Download film poster</h2>
+        <h4><code>/film/{"film id"}/poster/download</code></h4>
+        <p>An authenticated user who has been granted access to the REST API can get film poster file by sending a GET
+            request to <code>/film/{"film id"}/poster/download</code>. A <code>200</code> response will be returned
+            along with an array of data
+            as shown below:</p>
+        <pre><img src="{% static 'media/site/api/7.jpg' %}" width="100%" height="auto"></pre>
+
+        <h2 id="sockets">Connecting with sockets</h2>
+        <h3>Connect to socket server</h3>
+        <h4><code>wss://socketserver92875.herokuapp.com/ws/chat/{"video id"}/</code></h4>
+        <p>The user can connect to the socket server and listen or send messages to the chat.</p>
+        <pre><code>let socket = new WebSocket(`wss://socketserver92875.herokuapp.com/ws/chat/{"video id"}/`);</code></pre>
+        <h3>Listening for data</h3>
+        <p>On successful connection, you can be listened by joining the room.</p>
+        <pre><code>socket.onmessage = async function (event) {
+    let response = JSON.parse(event.data);
+    console.log(response);
+};</code></pre>
+        <p>The data will come in <code>JSON</code> format in the following format:</p>
+        <pre><code>{
+    "data": {
+        avatar: "/media/avatars/default/default_avatar.png"
+        message: "..."
+        user_id: "N9hBMThu7rzaDYzu8uTHgYkI"
+        username: "Valery Parkhomenko"
+    },
+    "status": "ok"
+}</code></pre>
+        <h3>Send messages</h3>
+        <p>On successful connection, you can be send messages.</p>
+        <pre><code>let Send = function (data) {
+    if (!socket.readyState) {
+        setTimeout(function () { Send(data); }, 100);
+    } else {
+        socket.send(data);
+    }
+};
+
+Send("Some text...");</code></pre>
+    </div>
+</main>
+{% endblock %}

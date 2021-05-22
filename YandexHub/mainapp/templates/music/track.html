@@ -1,0 +1,84 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main">
+    <div class="block-content">
+        {% if not error %}
+        <div class="px-4 py-5 my-5 text-center">
+            <img class="d-block mx-auto mb-4" src="{{track.track_poster.url}}" alt="..." width="300" height="auto">
+            <div>
+                <h1 class="display-5 fw-bold" style="margin-bottom: 25px;">{{track.title}}</h1>
+                <span class="badge bg-primary" style="font-size: 18px !important;" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Number of track listens">{{track.auditions|brief_likes_format}}
+                    🎧</span>
+            </div>
+            <audio controls style="width: 40%; margin-top: 25px;" autoplay="true">
+                <source src="{{track.track.url}}" type="audio/ogg; codecs=vorbis" controls="controls">
+                <source src="{{track.track.url}}" type="audio/mpeg">
+                The audio tag is not supported by your browser.
+                <a href="{{track.track.url}}">Download</a>.
+            </audio>
+            <div class="col-lg-6 mx-auto" style="margin-top: 25px;">
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    {% if request.user != track.creator %}
+                    <btton type="button" class="btn btn-primary btn-lg px-4 me-sm-2"
+                        onclick="transition_link(`{% url 'user__tracks' track.creator.user_id %}`)">More track by
+                        {{track.creator.username}}</button>
+                        <button class="btn btn-share btn-lg px-4 me-sm-2" style="max-width: 133px; position: relative;"
+                            data-bs-toggle="modal" data-bs-target="#saveModal">Share
+                            ❤️</button>
+                        <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="saveModalLabel">Share</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="padding-top: 2rem;">
+                                        <div class="input-group mb-3">
+                                            <input class="form-control" id="share-input">
+                                            <button class="btn btn-outline-primary" id="share-button"
+                                                data-clipboard-target="#share-input"
+                                                onclick="copy_text('#share-button')">Copy</button>
+                                        </div>
+                                        <script>
+                                            let share = document.getElementById('share-input')
+                                            share.value = `${location.protocol}//${location.hostname + (location.port ? ':' + location.port : '')}/track/${"{{track.track_id}}"}/`
+
+                                            // copy text
+                                            function copy_text(button) {
+                                                new Clipboard(button);
+                                                view_alert('Link copied 😋');
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if request.user == track.creator %}
+                        <button type="button" class="btn btn-primary btn-lg px-4 me-sm-2"
+                            onclick="transition_link(`{% url 'track__stats__page' track.track_id %}`)">Analytics</button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-2"
+                            onclick="transition_link(`{% url 'edit__track__page' track.track_id %}`)">Edit</button>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align: center;">Track not found 📀</h3>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'main__page' %}`)">Home page</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}
