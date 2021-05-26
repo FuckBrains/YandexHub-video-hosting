@@ -1,0 +1,22 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        <div class="px-4  my-5 text-center">
+            <h1 class="fw-bold">How to connect YooMoney Donations 💰?</h1>
+            <h3 style="margin-top: 35px; margin-bottom: 20px;">Register on the <a href="https://yoomoney.ru/"
+                    target="_blank">YooMoney</a> website.</h3>
+            <img src="{% static 'media/site/donations/2.jpg' %}" class="img-fluid" alt="...">
+            <h3 style="margin-top: 55px; margin-bottom: 20px;">On the <a href="https://yoomoney.ru/settings/"
+                    target="_blank">settings</a> page, copy the Wallet ID.</h3>
+            <img src="{% static 'media/site/donations/3.jpg' %}" class="img-fluid" alt="...">
+            <h3 style="margin-top: 35px; margin-bottom: 20px;">Insert the Wallet ID into the Wallet ID field.</h3>
+            <img src="{% static 'media/site/donations/4.jpg' %}" class="img-fluid" alt="...">
+            <h1 style="margin-top: 55px; margin-bottom: 20px;">Connect YooMoney Donations 💰</h1>
+            <a class="btn btn-primary btn-lg px-4 me-sm-2" style="cursor: pointer;"
+                onclick="transition_link(`{% url 'connect__donations__page' %}`)">Connect</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<style>
+    .song {
+        width: 300px;
+        height: 300px;
+        background-color: rgb(255, 255, 255);
+        position: relative;
+        margin-bottom: 40px;
+        overflow: hidden;
+    }
+
+    .song-poster {
+        width: inherit;
+        height: auto;
+    }
+
+    .actions {
+        opacity: 0;
+        position: absolute;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        top: 0;
+        background: rgba(0, 0, 0, .4);
+        transition: opacity .3s;
+        text-align: center;
+    }
+
+    .song:hover .actions {
+        opacity: 1;
+        transition: opacity .3s;
+    }
+
+    .song:hover .song-poster {
+        transform: scale(1.2)
+    }
+
+    .listen {
+        margin-top: 130px;
+        font-size: 20px;
+    }
+</style>
+<main role="main">
+    <div class="block-content">
+        <div class="px-4 py-5 my-5 text-center" style="padding-bottom: 0rem!important;">
+            <img class="d-block mx-auto mb-4" src="{% static 'media/site/icons/headphone.png' %}" alt="" width="100"
+                height="auto">
+            <h1 class="display-5 fw-bold">YandexHub Music</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">YandexHub Music allows users to share their songs with other users and guests of
+                    the site.</p>
+                {% if request.user.is_authenticated %}
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-2"
+                        onclick="transition_link(`{% url 'upload__track__page' %}`)">Upload</button>
+                    <a class="btn btn-outline-secondary btn-lg px-4 me-sm-2" style="cursor: pointer;"
+                        onclick="transition_link(`{% url 'user__tracks' request.user.user_id %}`)">My tracks</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row" style="justify-content: center !important;">
+            {% for track in tracks %}
+            <div class="infinite-item col" style="flex: 0 0 0%;">
+                <div class="song">
+                    <div class="song-poster img"
+                        style="width: 300px; height: 300px; transition: all .5s; background-image: url({{track.track_poster.url}});">
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-primary listen"
+                            onclick="transition_link(`{% url 'track__page' track.track_id %}`)">Listen 🎧</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+    </div>
+</main>
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.row')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

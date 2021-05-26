@@ -1,0 +1,98 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        {% if not error %}
+        {% if comment.creator == request.user or comment.commented_video.creator == request.user %}
+        <section class="py-3 text-center container-fluid">
+            <div class="row" style="padding-bottom: 3rem!important;">
+                <div class="col-lg-12 col-md-8 mx-auto">
+                    <img class="banner-icon" src="{% static 'media/site/icons/speech.png' %}">
+                    <h1 style="margin-bottom: 25px;">Comment replies</h1>
+                    <h2 style="margin-bottom: 15px;">Comment: {{ comment.comment_text }}</h2>
+                </div>
+            </div>
+        </section>
+        {% if comments %}
+        <div class="infinite-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Comment</th>
+                        <th scope="col">Creator</th>
+                        <th scope="col">Date created</th>
+                        <th scope="col">Likes</th>
+                        <th scope="col">Dislikes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in comments %}
+                    <tr class="infinite-item">
+                        <td>{{ i.comment_text }}</td>
+                        <td><a style="cursor: pointer;"
+                                onclick="transition_link(`{% url 'channel__page' i.creator.user_id %}`)">{{i.creator.username}}</a>
+                        </td>
+                        <td>{{i.date_created|date_func}}</td>
+                        <td>{{i.likes}}</td>
+                        <td>{{i.dislikes}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+        {% else %}
+        <h2 style="text-align: center; margin-bottom: 40px;">The comment has no replies yet.</h2>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You are not authorized to view this page 😱</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'main__page' %}`)">Home</a>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align: center;">Comment not found 🍔</h3>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'main__page' %}`)">Home page</a>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.table')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,493 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<main role="main">
+  <div class="block-content">
+    {% if not error %}
+    <div class="row" id="row" style="justify-content: end; align-items: end;">
+      <div class="video-block col-md-10" style="width: 70%">
+
+        <!-- Video -->
+        <video style="width: 100%; height: auto;" controls="controls" preload="auto" id="video" autoplay="true"
+          muted="muted">
+          <source src="{{video.video.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+          The video tag is not supported by your browser.
+        </video>
+        <script>
+          document.getElementById("video").muted = false;
+        </script>
+
+        <div style="position: relative;">
+          <!-- Stats -->
+          <div style="display: inline-block;">
+            <p class="card-text video-title" style="margin-top: 12px; margin-bottom: 10px;">{{video.title}}</p>
+            <div class="card-bottom views-video">{{video.views|integer_format}} views ·
+              {{video.date_created|date_func}}</div>
+          </div>
+          <div style="display: inline-block;">
+            <div>
+              <!-- Likes -->
+              {% if request.user.is_authenticated %}
+              {% if liked|length == 0 %}
+              <button class="btn btn-reaction btn-like" id="like"
+                onclick="like_video('{{video.video_id}}');">{{video.likes|brief_likes_format}}
+                👍</button>
+              {% else %}
+              <button class="btn btn-reaction-active btn-like" id="like"
+                onclick="like_video('{{video.video_id}}');">{{video.likes|brief_likes_format}}
+                👍</button>
+              {% endif %}
+
+              <!-- Dislikes -->
+              {% if disliked|length == 0 %}
+              <button class="btn btn-reaction btn-dislike" id="dislike"
+                onclick="dislike_video('{{video.video_id}}');">{{video.dislikes|brief_likes_format}}
+                👎</button>
+              {% else %}
+              <button class="btn btn-reaction-active btn-dislike" id="dislike"
+                onclick="dislike_video('{{video.video_id}}');">{{video.dislikes|brief_likes_format}} 👎</button>
+              {% endif %}
+
+              {% else %}
+              <button class="btn btn-reaction btn-like" id="like"
+                onclick="transition_link(`{% url 'signin' %}`);">{{video.likes|brief_likes_format}}
+                👍</button>
+              <button class="btn btn-reaction btn-dislike" id="dislike"
+                onclick="transition_link(`{% url 'signin' %}`);">{{video.dislikes|brief_likes_format}}
+                👎</button>
+              {% endif %}
+              <!-- Ratio -->
+              {% if video.likes != 0 or video.dislikes != 0 %}
+              <div
+                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
+              </div>
+              <div id="ratio-dislikes"
+                style="height: 2px; width: {{video.likes|ratio:video.dislikes}}px; position: absolute; background: #DC3545; right: 205px; bottom: -11px; z-index: 100;">
+              </div>
+              {% else %}
+              <div
+                style="height: 2px; width: 140px; position: absolute; background: #198754; right: 205px; bottom: -11px; z-index: 100;">
+              </div>
+              <div id="ratio-dislikes"
+                style="height: 2px; width: 140px; position: absolute; background: #7D7D7D; right: 205px; bottom: -11px; z-index: 100;">
+              </div>
+              {% endif %}
+            </div>
+            {% if request.user.is_authenticated %}
+            {% if saved_video|length == 0 %}
+            <button class="btn btn-save" id="save" onclick="save_video('{{video.video_id}}');">Save 📌</button>
+            {% else %}
+            <button class="btn btn-save-active" id="save" onclick="save_video('{{video.video_id}}');">Save 📌</button>
+            {% endif %}
+            {% else %}
+            <button class="btn btn-save" id="save" onclick="transition_link(`{% url 'signin' %}`);">Save 📌</button>
+            {% endif %}
+            <!-- Share -->
+            <button class="btn btn-share" data-bs-toggle="modal" data-bs-target="#saveModal">Share ❤️</button>
+            <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="saveModalLabel">Share</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" style="padding-top: 2rem;">
+                    <div class="input-group mb-3">
+                      <input class="form-control" id="share-input" maxlength="150">
+                      <button class="btn btn-outline-primary" id="share-button" data-clipboard-target="#share-input"
+                        onclick="copy_text('#share-button')">Copy</button>
+                    </div>
+                    <script>
+                      let share = document.getElementById('share-input')
+                      share.value = `${location.protocol}//${location.hostname + (location.port ? ':' + location.port : '')}/video/${"{{video.video_id}}"}/`
+                      // copy text
+                      function copy_text(button) {
+                        new Clipboard(button);
+                        view_alert('Link copied 😋');
+                      }
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr style="margin-top: 10px; margin-bottom: 20px;">
+        <div class="row g-0" style="align-items: end; width: auto; justify-content: end; position:relative;">
+          <div class="col-md-4" style="width: auto;">
+            <div class="avatar-video-img img"
+              style="background-image: url({{video.creator.avatar.url}}); cursor: pointer;"
+              onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)"></div>
+          </div>
+          <div class="col-md-6 card-video-text-block">
+            <div style="padding-top: 4px; margin-left: 3px; display: inline-block;">
+              <a class="user-data-video" style="cursor: pointer;"
+                onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)">
+                <p style="margin-bottom: -4px; color: #000;">{{video.creator.username}}</p>
+                <small
+                  style="font-size: .8em; color: #656e75;">{{video.creator.all_subscribers|subscribers_format}}</small>
+              </a>
+            </div>
+            {% if request.user.is_authenticated %}
+            {% if request.user.username != video.creator.username %}
+            {% if subscribe|length == 0 %}
+            <button class="btn btn-danger btn-subscribe" id="subscribe"
+              onclick="subscribe('{{video.creator.user_id}}');">Subscribe</button>
+            {% else %}
+            <button class="btn btn-warning btn-subscribe" id="subscribe"
+              onclick="subscribe('{{video.creator.user_id}}');">Subscribed</button>
+            {% endif %}
+            {% else %}
+            <a onclick="transition_link(`{% url 'video__stats__page' video.video_id %}`)"
+              class="btn btn-outline-primary change-btn" style="right: 110px;">Analytics</a>
+            <a onclick="transition_link(`{% url 'edit__video__page' video.video_id %}`)"
+              class="btn btn-primary change-btn">Edit Video</a>
+            {% endif %}
+            {% else %}
+            <a class="btn btn-outline-primary change-btn" style="cursor: painter;"
+              onclick="transition_link(`{% url 'signin' %}`)">Sign in</a>
+            {% endif %}
+          </div>
+          <div style="margin-left: 57px; margin-top: 25px; width: 90%; word-wrap: break-word;" class="description">
+            {{video.description|safe}}
+          </div>
+        </div>
+        <hr style="margin-bottom: 15px;">
+        <!-- Comments -->
+        <div style="margin-left: 20px;" class="comments-main-block">
+          <p class="card-text" id="comments_num" style="font-size: 1.05rem; margin-left: -18px;">
+            {{video.comments|comments_format}}</p>
+          <div style="margin-top: 25px; position: relative; margin-left: -20px; justify-content: end;" class="row">
+            <!-- Add comment -->
+            {% if request.user.is_authenticated %}
+            <div class="avatar-video-img col-md-1 img"
+              style="width: 45px; height: 45px; margin-bottom: 35px; display: inline-block; background-image: url({{ request.user.avatar.url }});">
+            </div>
+            <div class="form col-md-11" style="display: inline-block; margin-bottom: 35px;">
+              <div>
+                <textarea id="id_comment_text"
+                  style="box-shadow: rgb(224 224 224) 0px 2px 0px 0px; width: 102.7%; border:none; background-color: #F9F9F9; border-radius: 0px; padding: 0rem .0rem;"
+                  class="form-control" placeholder="Add a pubic comment" rows="1" maxlength="500"></textarea>
+              </div>
+              <button class="btn btn-primary"
+                onclick="add_comment('{{video.video_id}}', document.getElementById('id_comment_text').value);"
+                style="position: absolute; right: 0; margin-top: 15px; margin-right: 15px; padding: .4rem .80rem; font-weight: 500;">Comment</button>
+            </div>
+            {% endif %}
+            <!-- comments -->
+            <div class="infinite-container" style="width: 85%; margin-left: 1px;" id="comments_block">
+              {% for comment in comments %}
+              <div class="infinite-item" id="comment_{{comment.comment_id}}">
+                <div style="margin-top: 25px;">
+                  <div class="avatar-video-img col-md-1 img"
+                    style="width: 42px; height: 42px; display: inline-block; position: absolute; background-image: url({{ comment.creator.avatar.url }});">
+                  </div>
+                  <div class="form col-md-11" style="display: inline-block;">
+                    <div class=""
+                      style="padding-top: 0; margin-left: 60px; display: inline-block; width: -webkit-fill-available; word-wrap: break-word;">
+                      <a style="cursor: pointer;"
+                        onclick="transition_link(`{% url 'channel__page' comment.creator.user_id %}`)">
+                        {% if comment.creator == video.creator %}
+                        <p style="margin-bottom: 5px; font-weight: 500; color: #0D6EFD">{{comment.creator.username}} <i
+                            class="fa fa-check" style="color: #0D6EFD"></i>
+                          <small class="comment-date-created">{{comment.date_created|time_func}}</small>
+                        </p>
+                        {% elif comment.creator == request.user %}
+                        <p style="margin-bottom: 5px; color: #000; font-weight: 500;">{{comment.creator.username}}
+                          <small
+                            style="font-weight: 400; font-size: .8em; color: #656e75;">{{comment.date_created|time_func}}</small>
+                        </p>
+                        {% else %}
+                        <p style="margin-bottom: 5px; color: #000;">{{comment.creator.username}} <small
+                            style="font-size: .8em; color: #656e75;">{{comment.date_created|time_func}}</small></p>
+                        {% endif %}
+                      </a>
+                      <small style="font-size: 14px; color: #656e75;">{{comment.comment_text}}</small>
+                      <div style="margin-top: 6px">
+                        {% if request.user.is_authenticated %}
+                        {% if comment.comment_id|check_comment_like:request.user.user_id %}
+                        <button class="btn btn-reaction-active" id="like_comment_{{comment.comment_id}}"
+                          onclick="like_comment('{{comment.comment_id}}');">{{comment.likes|brief_likes_format}}
+                          👍</button>
+                        {% else %}
+                        <button class="btn btn-reaction" id="like_comment_{{comment.comment_id}}"
+                          onclick="like_comment('{{comment.comment_id}}');">{{comment.likes|brief_likes_format}}
+                          👍</button>
+                        {% endif %}
+                        {% if comment.comment_id|check_comment_dislike:request.user.user_id %}
+                        <button class="btn btn-reaction-active" id="dislike_comment_{{comment.comment_id}}"
+                          onclick="dislike_comment('{{comment.comment_id}}');">{{comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% else %}
+                        <button class="btn btn-reaction" id="dislike_comment_{{comment.comment_id}}"
+                          onclick="dislike_comment('{{comment.comment_id}}');">{{comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% endif %}
+                        {% else %}
+                        <button class="btn btn-reaction" id="like_comment_{{comment.comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{comment.likes|brief_likes_format}}
+                          👍</button>
+                        <button class="btn btn-reaction" id="dislike_comment_{{comment.comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% endif %}
+                        {% if comment.creator == request.user %}
+                        <button class="btn btn-danger" style="padding: 0.35rem 0.75rem;"
+                          onclick="delete_comment('{{comment.comment_id}}');">Delete 🗑</button>
+                        {% endif %}
+                      </div>
+                      <div style="display: inline-block; margin-top: 20px; width: 450px;">
+                        <textarea id="id_reply_comment_text_{{comment.comment_id}}"
+                          style="box-shadow: rgb(224 224 224) 0px 2px 0px 0px; width: 102.7%; border:none; background-color: #F9F9F9; border-radius: 0px; padding: 0rem .0rem;"
+                          class="form-control" placeholder="Add a pubic reply" rows="1" maxlength="500"></textarea>
+                      </div>
+                      {% if request.user.is_authenticated %}
+                      <button
+                        onclick="add_reply_comment('{{video.video_id}}', '{{comment.comment_id}}', document.getElementById('id_reply_comment_text_{{comment.comment_id}}').value); document.getElementById('id_reply_comment_text_{{comment.comment_id}}').value = ''"
+                        class="btn btn-primary"
+                        style="display: inline-block; margin-left: 15px; margin-bottom: 20px; padding: .3rem .60rem;">Reply</button>
+                      {% else %}
+                      <button onclick="transition_link(`{% url 'signin' %}`);" class="btn btn-primary"
+                        style="display: inline-block; margin-left: 15px; margin-bottom: 20px; padding: .3rem .60rem;">Reply</button>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% for reply_comment in comment.comment_parent.all %}
+                <div style="margin-left: 60px; margin-top: 23px;" id="reply_comment_{{reply_comment.reply_comment_id}}">
+                  <div class="avatar-video-img col-md-1 img"
+                    style="width: 37px; height: 37px; display: inline-block; position: absolute; background-image: url({{reply_comment.creator.avatar.url}});">
+                  </div>
+                  <div class="form col-md-11" style="display: inline-block;">
+                    <div
+                      style="padding-top: 0; margin-left: 53px; display: inline-block; width: -webkit-fill-available; word-wrap: break-word;">
+                      <a style="cursor: pointer;"
+                        onclick="transition_link(`{% url 'channel__page' reply_comment.creator.user_id %}`)">
+                        {% if reply_comment.creator == video.creator %}
+                        <p style="margin-bottom: 5px; font-weight: 500; color: #0059ff;">
+                          {{reply_comment.creator.username}} <i class="fa fa-check" style="color: #0D6EFD"></i>
+                          <small class="comment-date-created">{{comment.date_created|time_func}}</small>
+                        </p>
+                        {% elif reply_comment.creator == request.user %}
+                        <p style="margin-bottom: 5px; color: #000; font-size: 14px; font-weight: 500;">
+                          {{reply_comment.creator.username}} <small
+                            style="font-size: 14px; color: #656e75; font-weight: 400;">{{reply_comment.date_created|time_func}}</small>
+                        </p>
+                        {% else %}
+                        <p style="margin-bottom: 5px; font-size: 14px; color: #000;">{{reply_comment.creator.username}}
+                          <small
+                            style="font-size: 14px; color: #656e75; font-weight: 400;">{{reply_comment.date_created|time_func}}</small>
+                        </p>
+                        {% endif %}
+                      </a>
+                      <small
+                        style="font-size: 14px; color: #656e75; word-break: break-all;">{{reply_comment.comment_text}}</small>
+                      <div style="margin-top: 6px; width: 250px;">
+                        {% if request.user.is_authenticated %}
+                        {% if reply_comment.reply_comment_id|check_reply_comment_like:request.user.user_id %}
+                        <button class="btn btn-reaction-active"
+                          id="like_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="like_reply_comment('{{reply_comment.reply_comment_id}}');">{{reply_comment.likes|brief_likes_format}}
+                          👍</button>
+                        {% else %}
+                        <button class="btn btn-reaction" id="like_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="like_reply_comment('{{reply_comment.reply_comment_id}}');">{{reply_comment.likes|brief_likes_format}}
+                          👍</button>
+                        {% endif %}
+                        {% if reply_comment.reply_comment_id|check_reply_comment_dislike:request.user.user_id %}
+                        <button class="btn btn-reaction-active"
+                          id="dislike_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="dislike_reply_comment('{{reply_comment.reply_comment_id}}');">{{reply_comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% else %}
+                        <button class="btn btn-reaction" id="dislike_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="dislike_reply_comment('{{reply_comment.reply_comment_id}}');">{{reply_comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% endif %}
+                        {% else %}
+                        <button class="btn btn-reaction" id="like_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{reply_comment.likes|brief_likes_format}}
+                          👍</button>
+                        <button class="btn btn-reaction" id="dislike_reply_comment_{{reply_comment.reply_comment_id}}"
+                          onclick="transition_link(`{% url 'signin' %}`);">{{reply_comment.dislikes|brief_likes_format}}
+                          👎</button>
+                        {% endif %}
+
+                        {% if reply_comment.creator == request.user %}
+                        <button class="btn btn-danger" style="padding: 0.35rem 0.75rem;"
+                          onclick="delete_reply_comment('{{reply_comment.reply_comment_id}}');">Delete 🗑</button>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% endfor %}
+            </div>
+            {% if page_obj.has_next %}
+            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- lazyload -->
+      <script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+      <script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+      <script>
+        var infinite = new Waypoint.Infinite({
+          element: $('.infinite-container')[0],
+          handler: function (direction) {
+          },
+          offset: 'bottom-in-view',
+        });
+      </script>
+      <!-- Videos -->
+      <div class="col-md">
+        <div>
+          <div class="chat-block" id="chat-block">
+            <div class="message">
+              <div class="img message-avatar" style="background-image: url({% static 'media/site/horror.png' %});">
+              </div>
+              <div class="message-username">
+                <a class="message-username-text" style="color: #0D6EFD; cursor: pointer;"
+                  onclick="transition_link('/channel/admin/')">YandexHub administration 🤖</a>
+              </div>
+              {% if request.user.is_authenticated %}
+              <div class="message-text" style="margin-right: -80px; margin-left: 50px; margin-top: -7px;">Welcome to the
+                chat, {{ request.user.username }}</div>
+              {% else %}
+              <div class="message-text">Hi friend 👋<br />To log in or create an account follow the <a
+                  style="color: #0D6EFD; cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">link</a> 👾
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div style="margin-top: -100px; position: absolute; margin-left: 20px;">
+            <input type="text" id="message" class="form-control message-input" placeholder="Write something..."
+              autocomplete="off" style="display: inline-block;" maxlength="500">
+            <button style="display: inline-block; margin-top: -5px; padding: .35rem .75rem;" class="btn btn-primary"
+              id="send">Send</button>
+          </div>
+          <script>
+            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+            sleep(500).then(GetSize);
+            function GetSize() {
+              let video = document.getElementById("video")
+              video_height = video.offsetHeight
+              video_width = video.offsetWidth
+              let block_width = document.getElementById("row").offsetWidth
+              let body_width = document.getElementById("body").offsetWidth
+              let chat = document.getElementById("chat-block");
+              let message = document.getElementById("message");
+              if (body_width > 1024) {
+                chat.style.height = video_height + "px";
+                chat.style.width = block_width - video_width - 50 + "px";
+                message.style.width = chat.offsetWidth - 105 + "px";
+              } else if (body_width > 550 && body_width <= 1024) {
+                chat.style.height = video_height + "px";
+                chat.style.width = "100%";
+                message.style.width = chat.offsetWidth - 100 + "px";
+              } else {
+                chat.style.height = "450px";
+                chat.style.width = "100%";
+                message.style.width = chat.offsetWidth - 100 + "px";
+              }
+            }
+          </script>
+        </div>
+        <script>
+          // scroll messages block to bottom
+          function ScrollBottom() {
+            var chat_block = document.getElementById("chat-block");
+            chat_block.scrollTop = chat_block.scrollHeight;
+          }
+          // connect to server
+          let socket = new WebSocket(`wss://127.0.0.1:9000/ws/chat/{{ video.video_id }}/`);
+          // Send message func
+          let Send = function (data) {
+            if (!socket.readyState) {
+              setTimeout(function () { Send(data); }, 100);
+            } else {
+              socket.send(data);
+            }
+          };
+          // get message
+          socket.onmessage = async function (event) {
+            let response = JSON.parse(event.data);
+            console.log(response);
+            // create message block
+            let chat_block = document.getElementById("chat-block");
+            let message = document.createElement('div');
+            message.className = "message";
+            if (response.data.username == "Anonymous") {
+              message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000;">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+            } else if (response.data.user_id == "{{ video.creator.user_id }}") {
+              message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #0D6EFD; cursor: pointer; font-wight: 700;" href="/channel/${response.data.user_id}/">${response.data.username} ✔️</a></div><div class="message-text">${response.data.message}</div>`;
+            } else if (response.data.user_id == "{{ request.user.user_id}}") {
+              message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #828282; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+            } else {
+              message.innerHTML = `<div class="img message-avatar" style="background-image: url(${response.data.avatar});"></div><div class="message-username"><a class="message-username-text2" style="color: #000; cursor: pointer;" href="/channel/${response.data.user_id}/">${response.data.username}</a></div><div class="message-text">${response.data.message}</div>`;
+            };
+            chat_block.append(message)
+            ScrollBottom()
+          };
+          // send message
+          send.onclick = function () {
+            let message = document.getElementById('message').value;
+            if (message != "" && message.length < 501) {
+              if ("{{ request.user.username }}" == "") {
+                Send(JSON.stringify({ "username": "Anonymous", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "", "message": message }));
+              } else {
+                Send(JSON.stringify({ "username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message }));
+              };
+            } else {
+              //view_alert('The max message length is 500 characters 👅');
+            };
+            document.getElementById('message').value = "";
+          };
+          // ENTER button click
+          $(document).keypress(function (e) {
+            if (e.which == 13) {
+              document.getElementById("send").click();
+            }
+          });
+        </script>
+        {% for video in video_recommendations %}
+        <div class="card mb-3" style="max-width: auto; height: 100px;">
+          <div class="row g-0" style="align-items: end; width: auto;">
+            <div class="col-md-8" style="width: auto;">
+              <div onclick="transition_link(`{% url 'video__page' video.video_id %}`)"
+                style="cursor: pointer; height: 108px !important; background-image: url({{video.video_banner.url}});"
+                class="card-video img"></div>
+            </div>
+            <div class="col-md card-video-text-block">
+              <div class="" style="padding-top: 0; margin-left: 10px;">
+                <p onclick="transition_link(`{% url 'video__page' video.video_id %}`)" class="video-card-title"
+                  style="cursor: pointer; color: #000;">{{video.title|truncatechars:56}}</p>
+                <small onclick="transition_link(`{% url 'channel__page' video.creator.user_id %}`)" class="text-muted"
+                  style="cursor: pointer; margin-bottom: 3px;">{{video.creator.username}}</small>
+                <small class="text-muted" style="display: block;">{{video.views|brief_views_format}} ·
+                  {{video.date_created|time_func}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="card shadow-sm warning">
+      <div style="margin-top: 10px;">
+        <h3 style="text-align: center;">Video not found 🐍</h3>
+      </div>
+      <div class="warning-btn">
+        <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'main__page' %}`)">Home
+          page</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

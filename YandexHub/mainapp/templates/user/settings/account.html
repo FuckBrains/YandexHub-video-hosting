@@ -1,0 +1,88 @@
+{% extends "main.html" %}
+{% block content %}
+<main role="main" style="margin-top: 35px;">
+    <div class="block-content">
+        {% if request.user.is_authenticated %}
+        <h1 style="text-align: center; margin-bottom: 40px;">Account settings 🤡</h1>
+        <div class="container py-2" id="featured-3" style="text-align: center;">
+            <div class="row g-5 py-5">
+                <div class="feature col-md-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        🔒
+                    </div>
+                    <h2>Change password</h2>
+                    <p>When you change your account password, you log out of your account and you will be asked to log
+                        in again.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'change__password__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+                <div class="feature col-md-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        ✉️
+                    </div>
+                    <h2>Change email</h2>
+                    <p>When you change the email from your account, you log out of your account and you will be asked to
+                        log in again.</p>
+                    <a class="btn btn-primary" onclick="transition_link(`{% url 'change__email__page' %}`)">
+                        Let's go
+                    </a>
+                </div>
+                <div class="feature col-md-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        🔥
+                    </div>
+                    <h2>Delete channel</h2>
+                    <p>Once you delete a channel, you can no longer restore it. Think well before deleting your feed.
+                    </p>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                        data-bs-target="#DeleteChannelModal">
+                        Let's go
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="DeleteChannelModal" tabindex="-1"
+                        aria-labelledby="DeleteChannelModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="DeleteChannelModalLabel">Are you absolutely sure?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <p>Once you delete a channel, you can no longer restore it. Think well before
+                                            deleting your feed.</p>
+                                        <div class="form-floating mb-3">
+                                            <input type="password" name="password" id="id_password" class="form-control"
+                                                placeholder="Your password" maxlength="150">
+                                            <label for="id_password">Your password</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h4 style="text-align: center;">You must be logged in to view this page 🤪</h4>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;" onclick="transition_link(`{% url 'signin' %}`)">Sign
+                    in</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

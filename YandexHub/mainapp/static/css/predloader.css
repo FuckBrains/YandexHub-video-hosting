@@ -1,0 +1,8 @@
+.animated-show {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.animated-show.animated-show-active {
+    opacity: 1;
+}

@@ -1,0 +1,111 @@
+{% extends "main.html" %}
+{% block content %}
+{% load poll_extras %}
+{% load static %}
+<style>
+    .song {
+        width: 300px;
+        height: 300px;
+        background-color: rgb(255, 255, 255);
+        position: relative;
+        margin-bottom: 40px;
+        overflow: hidden;
+    }
+
+    .song-poster {
+        width: inherit;
+        height: auto;
+    }
+
+    .actions {
+        opacity: 0;
+        position: absolute;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        top: 0;
+        background: rgba(0, 0, 0, .4);
+        transition: opacity .3s;
+        text-align: center;
+    }
+
+    .song:hover .actions {
+        opacity: 1;
+        transition: opacity .3s;
+    }
+
+    .song:hover .song-poster {
+        transform: scale(1.2)
+    }
+
+    .listen {
+        margin-top: 130px;
+        font-size: 20px;
+    }
+</style>
+<main role="main">
+    <div class="block-content">
+        {% if not error %}
+        <div class="px-4 py-5 my-5 text-center" style="padding-bottom: 0rem!important;">
+            <img class="d-block mx-auto mb-4" src="{% static 'media/site/icons/disc.png' %}" alt="" width="100"
+                height="auto">
+            {% if request.user != user %}
+            <h1 class="display-5 fw-bold">Tracks by {{user.username}}</h1>
+            {% else %}
+            <h1 class="display-5 fw-bold">My Tracks</h1>
+            {% endif %}
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">This page contains all the tracks uploaded by {{user.username}}.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    {% if request.user != user %}
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-2"
+                        onclick="transition_link(`{% url 'channel__page' user.user_id %}`)">Channel</button>
+                    {% else %}
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-2"
+                        onclick="transition_link(`{% url 'upload__track__page' %}`)">Upload</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row" style="justify-content: center !important;">
+            {% for track in tracks %}
+            <div class="infinite-item col" style="flex: 0 0 0%;">
+                <div class="song">
+                    <div class="song-poster img"
+                        style="width: 300px; height: 300px; transition: all .5s; background-image: url({{track.track_poster.url}});">
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-primary listen"
+                            onclick="transition_link(`{% url 'track__page' track.track_id %}`)">Listen 🎧</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
+        {% else %}
+        <div class="card shadow-sm warning">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align: center;">Channel not found 🎈</h3>
+            </div>
+            <div class="warning-btn">
+                <a class="btn btn-primary" style="cursor: pointer;"
+                    onclick="transition_link(`{% url 'main__page' %}`)">Home page</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+<!-- lazyload -->
+<script src="{% static 'js/lazyload/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/lazyload/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.row')[0],
+        handler: function (direction) {
+        },
+        offset: 'bottom-in-view',
+    });
+</script>
+{% endblock %}
