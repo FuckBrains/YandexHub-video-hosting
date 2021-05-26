@@ -1,7 +1,9 @@
 # YandexHub video hosting 👻
 
 ## What is it?
-YandexHub is a video hosting service that allows users to upload, view, rate, comment, save, and share videos.
+YandexHub is a video hosting service that provides users with video storage and display services. Users
+can upload, view, rate, comment, add to favorites, and share certain
+videos. The site features videos, movies, and music.
 
 ## What used?
 * Python 3.7+
