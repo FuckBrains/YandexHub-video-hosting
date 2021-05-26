@@ -16,4 +16,11 @@ YandexHub is a video hosting service that allows users to upload, view, rate, co
 
 ## How to run?
 In order to run this project you need:
-* Python 3.7+
+1) Installation `requarements.txt file` with the `pip install-r requarements.txt` command
+2) Run `SocketServe` with the `python manage.py runserver` command
+3) Run `YandexHub` with the `python manage.py runserver` command
+
+
+## Admin account (test account)
+* Email: example@example.com
+* Password: KLaf32!M@42
