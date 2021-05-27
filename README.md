@@ -18,7 +18,7 @@ videos. The site features videos, movies, and music.
 
 ## How to run?
 In order to run this project you need:
-1) Installation `requarements.txt file` with the `pip install-r requarements.txt` command
+1) Installation `requarements.txt` file with the `pip install-r requarements.txt` command
 2) Run `SocketServer` with the `python manage.py runserver 9000` command
 3) Run `YandexHub` with the `python manage.py runserver 8000` command
 
