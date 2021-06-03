@@ -25,7 +25,6 @@ In order to run this project you need:
 2) Run `SocketServer` with the `python manage.py runserver 9000` command
 3) Run `YandexHub` with the `python manage.py runserver 8000` command
 
-
 ## Admin account (test account)
 * Email: example@example.com
 * Password: KLaf32!M@42
