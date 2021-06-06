@@ -27,7 +27,7 @@ In order to run this project you need:
 4) Run `YandexHub` with the `python manage.py runserver 8000` command
 
 ## How to test?
-1) In `http://127.0.0.1:8000/` enter some name and email, then click `Send` button
+* In `http://127.0.0.1:8000/` enter some name and email, then click `Send` button
 
 ## Admin account (test account)
 * Email: example@example.com
