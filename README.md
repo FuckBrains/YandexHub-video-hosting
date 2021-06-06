@@ -22,12 +22,8 @@ https://yandexhub.ru
 ## How to run?
 In order to run this project you need:
 1) Installation `requarements.txt` file with the `pip install -r requarements.txt` command
-2) In `SocketServer/settings.py` enter your `email` and `email password` for `smtp`
 3) Run `SocketServer` with the `python manage.py runserver 9000` command
 4) Run `YandexHub` with the `python manage.py runserver 8000` command
-
-## How to test?
-* In `http://127.0.0.1:8000/` enter some name and email, then click `Send` button
 
 ## Admin account (test account)
 * Email: example@example.com
