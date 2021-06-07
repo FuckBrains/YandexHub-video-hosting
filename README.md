@@ -22,8 +22,20 @@ https://yandexhub.ru
 ## How to run?
 In order to run this project you need:
 1) Installation `requarements.txt` file with the `pip install -r requarements.txt` command
-3) Run `SocketServer` with the `python manage.py runserver 9000` command
-4) Run `YandexHub` with the `python manage.py runserver 8000` command
+2) In `YandexHub/mainapp/bot.py` file enter `bot token` 
+```python
+  bot = telebot.TeleBot('...')
+```
+3) In `YandexHub/YandexHub/settings.py` file enter your `email` and `email password` for `smtp`
+```python
+  EMAIL_USE_TLS = True
+  EMAIL_HOST = 'smtp.gmail.com'
+  EMAIL_PORT = 587
+  EMAIL_HOST_USER = '...'
+  EMAIL_HOST_PASSWORD = '...'
+```
+5) Run `SocketServer` with the `python manage.py runserver 9000` command
+6) Run `YandexHub` with the `python manage.py runserver 8000` command
 
 ## Admin account (test account)
 * Email: example@example.com
