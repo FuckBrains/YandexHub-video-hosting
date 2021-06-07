@@ -13,6 +13,8 @@ https://yandexhub.ru
 * Django 3
 * Django Rest Framework
 * Django Channels
+* Celery
+* Redis
 * JavaScript ES9
 * JS Fetch Api
 * CSS 3
