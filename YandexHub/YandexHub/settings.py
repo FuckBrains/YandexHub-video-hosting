@@ -38,8 +38,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # auth tokens
     'django_summernote',  # custom input
     'djoser', # tokens
-    
-    'channels',
+    'channels', # channels
     
     'mainapp',  # site app
     'api', # api app
@@ -140,8 +139,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yandexhubgo@gmail.com'
-EMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'
+EMAIL_HOST_USER = '...'
+EMAIL_HOST_PASSWORD = '...'
 
 # Summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
