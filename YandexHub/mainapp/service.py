@@ -5,7 +5,7 @@ import traceback
 
 def bot(text, telegram_id):
     try:
-        bot = telebot.TeleBot('1785721677:AAGx0BAnxfsPStpIL2aFtgKvkiKSEx-dReQ')
+        bot = telebot.TeleBot('...')
         bot.send_message(telegram_id, text)
         return 200
 
