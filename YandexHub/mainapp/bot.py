@@ -5,12 +5,7 @@ import traceback
 
 def YandexHubAlert(text, telegram_id):
     try:
-        '''
-        Если бот не будет работать, то...
-        1) Создайте своего telegram бота по инструкции https://core.telegram.org/bots#6-botfather
-        2) Полученный token вставьте вместо старого 
-        '''
-        bot = telebot.TeleBot('1785721677:AAGx0BAnxfsPStpIL2aFtgKvkiKSEx-dReQ')
+        bot = telebot.TeleBot('bot token')
         bot.send_message(telegram_id, text)
         return 200
 
