@@ -36,8 +36,9 @@ In order to run this project you need:
   EMAIL_HOST_USER = '...'
   EMAIL_HOST_PASSWORD = '...'
 ```
-5) Run `SocketServer` with the `python manage.py runserver 9000` command
-6) Run `YandexHub` with the `python manage.py runserver 8000` command
+4) Run `YandexHub` with the `python manage.py runserver` command
+5) Run `Redis` in `Docker` with port `6379`
+6) Run `Celery` with `celery -A YandexHub worker -l info` command
 
 ## Admin account (test account)
 * Email: example@example.com
