@@ -5,9 +5,6 @@ from django.contrib.auth import views as auth_views
 # VIEWS
 from .views import *
 
-# API -> DRF
-from .api import *
-
 urlpatterns = [
     # home
     path('', HomeView.as_view(), name='main__page'),
@@ -50,72 +47,6 @@ urlpatterns = [
     # api
     path('token/', ApiTokenView.as_view(), name="token__page"),
     path('documentation/api/', ApiView.as_view(), name="api_page"),
-
-    # -- site
-    path('api/token/create/', CreateTokenApi.as_view()),
-    path('api/site/', SiteStatsApi.as_view()),
-    path('api/user/', UserInfoApi.as_view()),
-    path('api/trending/', TrendingApi.as_view()),
-
-    # -- video
-    path('api/videos/', VideosApi.as_view()),
-    path('api/videos/liked/', LikedVideosApi.as_view()),
-    path('api/videos/disliked/', DislikedVideosApi.as_view()),
-    path('api/videos/saved/', SavedVideosApi.as_view()),
-    path('api/video/<str:pk>/info/', VideoApi.as_view()),
-    path('api/video/<str:pk>/download/', DownloadVideoFile.as_view()),
-    path('api/video/<str:pk>/banner/download/', DownloadBannerFile.as_view()),
-    path('api/video/upload/', UploadVideoApi.as_view()),
-    path('api/video/like/', LikeVideoApi.as_view()),
-    path('api/video/dislike/', DislikeVideoApi.as_view()),
-    path('api/video/save/', SaveVideoApi.as_view()),
-    path('api/video/delete/', DeleteVideoApi.as_view()),
-    path('api/video/stats/', VideoStatsApi.as_view()),
-
-    # -- track
-    path('api/track/delete/', DeleteTrackApi.as_view()),
-    path('api/track/stats/', TrackStatsApi.as_view()),
-    path('api/tracks/', TracksApi.as_view()),
-
-    # -- comment
-    path('api/comment/add/', AddCommentApi.as_view()),
-    path('api/comment/like/', LikeCommentApi.as_view()),
-    path('api/comment/dislike/', DislikeCommentApi.as_view()),
-    path('api/comment/delete/', DeleteCommentApi.as_view()),
-
-    # -- reply comment
-    path('api/comment/reply/add/', AddReplyCommentApi.as_view()),
-    path('api/comment/reply/like/', LikeReplyCommentApi.as_view()),
-    path('api/comment/reply/dislike/', DislikeReplyCommentApi.as_view()),
-    path('api/comment/reply/delete/', DeleteReplyCommentApi.as_view()),
-
-    # -- film
-    path('api/films/', FilmsApi.as_view()),
-    path('api/film/<str:pk>/info/', FilmApi.as_view()),
-    path('api/films/liked/', LikedFilmsApi.as_view()),
-    path('api/films/disliked/', DislikedFilmsApi.as_view()),
-    path('api/films/purchased/', PurchasedFilmsApi.as_view()),
-    path('api/film/<str:pk>/banner/download/', DownloadFilmBannerFile.as_view()),
-    path('api/film/<str:pk>/poster/download/', DownloadFilmPosterFile.as_view()),
-    path('api/film/<str:pk>/trailer/download/', DownloadFilmTrailerFile.as_view()),
-    path('api/film/<str:pk>/download/', DownloadFilmFile.as_view()),
-    path('api/film/like/', LikeFilmApi.as_view()),
-    path('api/film/dislike/', DislikeFilmApi.as_view()),
-    path('api/buy/film/', BuyFilmApi.as_view()),
-
-    # -- article 
-    path('api/article/<str:pk>/info/', ArticleApi.as_view()),
-    path('api/article/delete/', DeleteArticleApi.as_view()),
-    path('api/article/like/', LikeArticleApi.as_view()),
-    path('api/article/dislike/', DislikeArticleApi.as_view()),
-    path('api/article/stats/', ArticleStatsApi.as_view()),
-    path('api/article/create/', CreateArticleApi.as_view()),
-
-    # -- subscribe
-    path('api/channel/subscribe/', SubscribeApi.as_view()),
-
-    # -- notifications
-    path('api/channel/notifications/', NotificationsApi.as_view()),
 
     # bot
     path('bot/', AlertBotView.as_view(), name='bot__page'),
@@ -162,15 +93,22 @@ urlpatterns = [
     path('results/search_query=<str:pk>/', SearchView.as_view(), name='search_page'),
 
     # reset password
-    path('reset/password/', auth_views.PasswordResetView.as_view(template_name='password/reset_password.html'),
-         name='reset_password'),
+    path('reset/password/', 
+         auth_views.PasswordResetView.as_view(template_name='password/reset_password.html'),
+         name='reset_password'
+     ),
     path('reset/password/sent/',
          auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'),
-         name='password_reset_done'),
-    path('reset/<uidb64>/<token>/',
+         name='password_reset_done'
+     ),
+    path(
+         'reset/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(template_name='password/password_reset_confirm.html'),
-         name='password_reset_confirm'),
-    path('reset/complete/',
+         name='password_reset_confirm'
+     ),
+    path(
+         'reset/complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'),
-         name='password_reset_complete')
+         name='password_reset_complete'
+     )
 ]

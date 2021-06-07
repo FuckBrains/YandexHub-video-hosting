@@ -273,7 +273,7 @@
                         chat_block.scrollTop = chat_block.scrollHeight;
                     }
                     // connect to server
-                    let socket = new WebSocket(`wss://127.0.0.1:9000/ws/chat/{{ film.film_id }}/`);
+                    let socket = new WebSocket(`ws://localhost:8000/ws/chat/{{ film.film_id }}/`);
 
                     // Send message func
                     let Send = function (data) {
@@ -305,9 +305,9 @@
                         let message = document.getElementById('message').value;
                         if (message != "" && message.length < 501) {
                             if ("{{ request.user.username }}" == "") {
-                                Send(JSON.stringify({ "username": "Anonymous", "avatar": "/media/avatars/default/default_avatar.png", "user_id": "", "message": message }));
+                                Send(JSON.stringify({ "user_id": "", "message": message }));
                             } else {
-                                Send(JSON.stringify({ "username": "{{ request.user.username }}", "avatar": "{{ request.user.avatar.url }}", "user_id": "{{ request.user.user_id }}", "message": message }));
+                                Send(JSON.stringify({ "user_id": "{{ request.user.user_id }}", "message": message }));
                             };
                         } else {
                             //view_alert('The max message length is 500 characters 👅');

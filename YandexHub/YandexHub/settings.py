@@ -37,11 +37,16 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF
     'rest_framework.authtoken',  # auth tokens
     'django_summernote',  # custom input
+    'djoser', # tokens
+    
+    'channels',
+    
     'mainapp',  # site app
-    'djoser'
+    'api', # api app
+    'server', # socket server app
 ]
 
-# User
+# User model
 AUTH_USER_MODEL = 'mainapp.CustomUser'
 AUTH_PROFILE_MODULE = 'mainapp.CustomUser'
 LOGIN_URL = 'signin'
@@ -79,6 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'YandexHub.wsgi.application'
+ASGI_APPLICATION = 'YandexHub.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -88,6 +94,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -106,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
@@ -118,12 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# add email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'your email'
-EMAIL_HOST_PASSWORD = 'email password'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -133,6 +135,13 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = BASE_DIR / "media"
+
+# SMTP
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yandexhubgo@gmail.com'
+EMAIL_HOST_PASSWORD = 'KH123f89h1lAFH!@'
 
 # Summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -164,3 +173,28 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+# Channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
+
+# Celery settings
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# REDIS settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+CELERY_ACCEPT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

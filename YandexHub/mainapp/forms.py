@@ -5,12 +5,14 @@ from django.forms import ModelForm
 
 
 class CreateUserForm(UserCreationForm):
+
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
 
 
 class VideoTextArea(ModelForm):
+
     class Meta:
         model = Video
         fields = ['description']
@@ -20,6 +22,7 @@ class VideoTextArea(ModelForm):
 
 
 class ArticleTextArea(ModelForm):
+
     class Meta:
         model = Article
         fields = ['text']
@@ -29,6 +32,7 @@ class ArticleTextArea(ModelForm):
 
 
 class CustomUserTextArea(ModelForm):
+
     class Meta:
         model = CustomUser
         fields = ['description']
