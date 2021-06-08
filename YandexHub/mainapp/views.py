@@ -49,8 +49,7 @@ DOMEN = 'http://127.0.0.1:8000/'
 
 # Limitations
 VIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']
-IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png',
-                    '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']
+IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']
 TRACK_EXTENSIONS = ['.wav', '.aif', '.mp3', '.mid']
 MAX_IMAGE_SIZE = 7864320  # 7.5 MB
 MAX_VIDEO_SIZE = 209715200  # 200 MB
