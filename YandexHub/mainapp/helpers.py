@@ -11,6 +11,8 @@ from urllib.request import urlopen
 # JSON
 import json
 
+# UUID
+import uuid 
 
 # get random list
 def random_list(x):
@@ -20,9 +22,10 @@ def random_list(x):
 
 # generate id for user, video...
 def generate_id(num):
-    symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'
-    key = ''.join(choice(symbols) for i in range(num))
-    return key
+    # symbols = 'aSfzeKGhxAsBPYMECJmUwQgdcuRbXFHDkLvniytjNqpVWrTZ123456789'
+    # key = ''.join(choice(symbols) for i in range(num))
+    # return key
+    return uuid.uuid4().hex[:int(num)].upper()
 
 
 # get user IP
