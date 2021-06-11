@@ -23,7 +23,7 @@ https://yandexhub.ru
 
 ## How to run?
 In order to run this project you need:
-1) Installation `requirements.txt` file with the `pip install -r requarements.txt` command
+1) Installation `requirements.txt` file with the `pip install -r requirements.txt` command
 2) In `YandexHub/mainapp/bot.py` file enter `bot token` 
 ```python
   bot = telebot.TeleBot('...')
