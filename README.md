@@ -25,11 +25,24 @@ https://yandexhub.ru
 ## How to run?
 In order to run this project you need:
 1) Install `requirements.txt` file with the `pip install -r requirements.txt` command
-2) In `YandexHub/mainapp/bot.py` file enter `bot token` 
+2) In `YandexHub/settings.py` connect `PostgreSQL` datebase
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '...', 
+        'USER': 'postgres', 
+        'PASSWORD': '...',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
+    }
+}
+```
+3) In `YandexHub/mainapp/bot.py` file enter `bot token` 
 ```python
   bot = telebot.TeleBot('...')
 ```
-3) In `YandexHub/YandexHub/settings.py` file enter your `email` and `email password` for `smtp`
+4) In `YandexHub/YandexHub/settings.py` file enter your `email` and `email password` for `smtp`
 ```python
   EMAIL_USE_TLS = True
   EMAIL_HOST = 'smtp.gmail.com'
@@ -37,10 +50,6 @@ In order to run this project you need:
   EMAIL_HOST_USER = '...'
   EMAIL_HOST_PASSWORD = '...'
 ```
-4) Run `YandexHub` with the `python manage.py runserver` command
-5) Run `Redis` in `Docker` with port `6379`
-6) Run `Celery` with `celery -A YandexHub worker -l info` command
-
-## Admin account (test account)
-* Email: admin@admin.admin
-* Password: 12344321
+5) Run `YandexHub` with the `python manage.py runserver` command
+6) Run `Redis` in `Docker` with port `6379`
+7) Run `Celery` with `celery -A YandexHub worker -l info` command
