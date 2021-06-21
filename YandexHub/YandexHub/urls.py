@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('mainapp.urls')),
-    path('api/', include('api.urls')),
+    path('', include('site_app.urls')),
+    path('api/', include('api_app.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
@@ -30,5 +30,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'mainapp.views.error_404_view'
-handler500 = 'mainapp.views.error_500_view'
+handler404 = 'site_app.views.error_404_view'
+handler500 = 'site_app.views.error_500_view'

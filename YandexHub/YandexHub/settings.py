@@ -23,8 +23,7 @@ SECRET_KEY = 'ai(u4jwm*p$a7z7-6fbub100c1ul5sl3mew88!3-f#h4skbnph'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -39,15 +38,16 @@ INSTALLED_APPS = [
     'django_summernote',  # custom input
     'djoser', # tokens
     'channels', # channels
+    "corsheaders", # cors headers
     
-    'mainapp',  # site app
-    'api', # api app
-    'server', # socket server app
+    'site_app',  # site app
+    'api_app', # api app
+    'socket_app', # socket socket app
 ]
 
 # User model
-AUTH_USER_MODEL = 'mainapp.CustomUser'
-AUTH_PROFILE_MODULE = 'mainapp.CustomUser'
+AUTH_USER_MODEL = 'site_app.CustomUser'
+AUTH_PROFILE_MODULE = 'site_app.CustomUser'
 LOGIN_URL = 'signin'
 LOGIN_REDIRECT_URL = '/home/'
 
@@ -76,7 +76,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries': {
-                'poll_extras': 'mainapp.templatetags.poll_extras',
+                'poll_extras': 'site_app.templatetags.poll_extras',
             }
         },
     },
@@ -89,8 +89,12 @@ ASGI_APPLICATION = 'YandexHub.routing.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'yandexhub_db', 
+        'USER': 'postgres', 
+        'PASSWORD': '12344321',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
     }
 }
 
@@ -135,12 +139,14 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = BASE_DIR / "media"
 
+
 # SMTP
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = '...'
 EMAIL_HOST_PASSWORD = '...'
+
 
 # Summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -165,6 +171,7 @@ SUMMERNOTE_CONFIG = {
     },
 }
 
+
 # DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -172,6 +179,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
 
 # Channels
 CHANNEL_LAYERS = {
@@ -183,10 +191,12 @@ CHANNEL_LAYERS = {
     },
 }
 
+
 # Celery settings
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
 
 # REDIS settings
 REDIS_HOST = 'localhost'
@@ -197,3 +207,22 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
 CELERY_ACCEPT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+
+# Cors settings (allowed urls)
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000"
+]
+
+
+# site domain, used for telegram bot
+DOMEN = 'http://127.0.0.1:8000/'
+
+
+# Limitations
+VIDEO_EXTENSIONS = ['.mp4', '.avi', '.wmv', '.mov', '.3gp', '.flv', '.webm']
+IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.gif', '.png', '.pict', '.ico', '.tiff', '.ai', '.webp', '.eps', '.cdr']
+TRACK_EXTENSIONS = ['.wav', '.aif', '.mp3', '.mid']
+MAX_IMAGE_SIZE = 7864320  # 7.5 MB
+MAX_VIDEO_SIZE = 209715200  # 200 MB
