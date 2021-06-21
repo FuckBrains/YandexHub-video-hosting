@@ -13,8 +13,9 @@ https://yandexhub.ru
 * Django 3
 * Django Rest Framework
 * Django Channels
-* Celery
-* Redis
+* Celery & Redis
+* PostgreSQL
+* Cors Headers
 * JavaScript ES9
 * JS Fetch Api
 * CSS 3
@@ -41,5 +42,5 @@ In order to run this project you need:
 6) Run `Celery` with `celery -A YandexHub worker -l info` command
 
 ## Admin account (test account)
-* Email: example@example.com
-* Password: KLaf32!M@42
+* Email: admin@admin.admin
+* Password: 12344321
