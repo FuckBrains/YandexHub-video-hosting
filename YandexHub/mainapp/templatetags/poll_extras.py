@@ -43,7 +43,7 @@ def time_func(arg):
             return '1 week ago'
 
         elif time.days < 30:
-            return f'{time.days // 4} weeks ago'
+            return f'{time.days // 7} weeks ago'
 
         elif time.days < 60:
             return '1 month ago'
@@ -231,20 +231,16 @@ def ratio(likes, dislikes):
 @register.filter(name='check_comment_like')
 @stringfilter
 def check_comment_like(comment_id, user_id):
-    return CommentLike.objects.filter(
-        liked_comment=Comment.objects.get(comment_id=comment_id),
-        liked_user=CustomUser.objects.get(user_id=user_id)
-    )
+    return CommentLike.objects.filter(liked_comment=Comment.objects.get(comment_id=comment_id),
+                                      liked_user=CustomUser.objects.get(user_id=user_id))
 
 
 # check comment dislike
 @register.filter(name='check_comment_dislike')
 @stringfilter
 def check_comment_dislike(comment_id, user_id):
-    return CommentDislike.objects.filter(
-        disliked_comment=Comment.objects.get(comment_id=comment_id),
-        disliked_user=CustomUser.objects.get(user_id=user_id)
-    )
+    return CommentDislike.objects.filter(disliked_comment=Comment.objects.get(comment_id=comment_id),
+                                         disliked_user=CustomUser.objects.get(user_id=user_id))
 
 
 # check reply comment like
@@ -252,11 +248,8 @@ def check_comment_dislike(comment_id, user_id):
 @stringfilter
 def check_reply_comment_like(reply_comment_id, user_id):
     return ReplyCommentLike.objects.filter(
-        liked_reply_comment=ReplyComment.objects.get(
-            reply_comment_id=reply_comment_id
-        ),
-        liked_user=CustomUser.objects.get(user_id=user_id)
-    )
+        liked_reply_comment=ReplyComment.objects.get(reply_comment_id=reply_comment_id),
+        liked_user=CustomUser.objects.get(user_id=user_id))
 
 
 # check reply comment dislike
@@ -264,31 +257,24 @@ def check_reply_comment_like(reply_comment_id, user_id):
 @stringfilter
 def check_reply_comment_dislike(reply_comment_id, user_id):
     return ReplyCommentDislike.objects.filter(
-        disliked_reply_comment=ReplyComment.objects.get(
-            reply_comment_id=reply_comment_id
-        ),
-        disliked_user=CustomUser.objects.get(user_id=user_id)
-    )
+        disliked_reply_comment=ReplyComment.objects.get(reply_comment_id=reply_comment_id),
+        disliked_user=CustomUser.objects.get(user_id=user_id))
 
 
 # check article like
 @register.filter(name='check_article_like')
 @stringfilter
 def check_article_like(article_id, user_id):
-    return ArticleLike.objects.filter(
-        liked_article=Article.objects.get(article_id=article_id),
-        liked_user=CustomUser.objects.get(user_id=user_id)
-    )
+    return ArticleLike.objects.filter(liked_article=Article.objects.get(article_id=article_id),
+                                      liked_user=CustomUser.objects.get(user_id=user_id))
 
 
 # check article dislike
 @register.filter(name='check_article_dislike')
 @stringfilter
 def check_article_dislike(article_id, user_id):
-    return ArticleDislike.objects.filter(
-        disliked_article=Article.objects.get(article_id=article_id),
-        disliked_user=CustomUser.objects.get(user_id=user_id)
-    )
+    return ArticleDislike.objects.filter(disliked_article=Article.objects.get(article_id=article_id),
+                                         disliked_user=CustomUser.objects.get(user_id=user_id))
 
 
 @register.filter(name='html_to_text')
