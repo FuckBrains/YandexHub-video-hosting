@@ -90,9 +90,9 @@ ASGI_APPLICATION = 'YandexHub.routing.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'yandexhub_db', 
+        'NAME': '...', 
         'USER': 'postgres', 
-        'PASSWORD': '12344321',
+        'PASSWORD': '...',
         'HOST': '127.0.0.1', 
         'PORT': '5432',
     }
