@@ -1,6 +1,5 @@
 # RANDOM
 import random
-from random import choice
 
 # DATE/TIME
 from datetime import datetime

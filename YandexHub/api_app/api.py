@@ -22,12 +22,9 @@ from datetime import date, datetime, timedelta
 # MESSAGES
 from django.contrib import messages
 
-<<<<<<< HEAD
-=======
 # SETTINGS
 from django.conf import settings
 
->>>>>>> 048342f3bd83069145ada2bf118c266532f936b4
 # SERIALIZERS
 from .serializers import *
 

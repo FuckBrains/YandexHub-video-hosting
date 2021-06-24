@@ -36,7 +36,7 @@ from pathlib import Path
 from .helpers import random_list, generate_id, get_city_and_country_ip
 
 # TASKS
-from .tasks import send_notification
+from .tasks import *
 
 # SETTINGS
 from django.conf import settings
@@ -780,7 +780,7 @@ class CreateVideoView(TemplateView):
 
                     # maximum 5 videos per day (one user)
                     today = date.today()
-                    if Video.objects.filter(creator=request.user, date_created_without_time=today).count() < 5:
+                    if Video.objects.filter(creator=request.user, date_created_without_time=today).count() < settings.VIDEO_UPLOADS_LIMIT:
                         # create video model
                         video = Video.objects.create(
                             creator=request.user,
@@ -794,14 +794,17 @@ class CreateVideoView(TemplateView):
 
                         # send notifications
                         subscribers = Notification.objects.filter(
-                            notification_channel=video.creator)
+                            notification_channel=video.creator
+                        )
                         for i in subscribers:
                             if i.notification_user.telegram:
                                 send_notification.delay(
                                     f'A new video has been released on the {video.creator.username} channel 🥳\n{settings.DOMEN}video/{video.video_id}/',
                                     i.notification_user.telegram
                                 )
-
+                                
+                        processing_video_task.delay(video.id)
+                    
                         messages.success(
                             request, f'You have successfully posted a video: <b>{video.title}</b> 🤩'
                         )
