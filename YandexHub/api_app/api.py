@@ -22,6 +22,12 @@ from datetime import date, datetime, timedelta
 # MESSAGES
 from django.contrib import messages
 
+<<<<<<< HEAD
+=======
+# SETTINGS
+from django.conf import settings
+
+>>>>>>> 048342f3bd83069145ada2bf118c266532f936b4
 # SERIALIZERS
 from .serializers import *
 
@@ -1457,7 +1463,7 @@ class BuyFilmApi(APIView):
                         now = datetime.now()
                         date = now.strftime('%d-%m-%Y %H:%M:%S')
                         send_notification.delay(
-                            f'You purchased the movie: {film.title} 🥳\nDate: {date}\nPrice: USD {film.price}\n\n{DOMEN}film/{film.film_id}/',
+                            f'You purchased the movie: {film.title} 🥳\nDate: {date}\nPrice: USD {film.price}\n\n{settings.DOMEN}film/{film.film_id}/',
                             request.user.telegram
                         )
 

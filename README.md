@@ -26,7 +26,7 @@ https://yandexhub.ru
 In order to run this project you need:
 1) Install `requirements.txt` file with the `pip install -r requirements.txt` command
 2) In `YandexHub/settings.py` connect `PostgreSQL` datebase
-```
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
