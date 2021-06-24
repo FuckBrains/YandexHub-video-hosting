@@ -22,9 +22,6 @@ from datetime import date, datetime, timedelta
 # MESSAGES
 from django.contrib import messages
 
-# VIEWS FUNCS
-from site_app.views import bot, DOMEN, MAX_IMAGE_SIZE, MAX_VIDEO_SIZE
-
 # SERIALIZERS
 from .serializers import *
 
@@ -36,6 +33,9 @@ from site_app.templatetags.poll_extras import brief_likes_format
 
 # TASKS
 from site_app.tasks import send_notification
+
+# SETTINGS
+from django.conf import settings
 
 
 # subscribe to user
@@ -2169,7 +2169,7 @@ class UploadVideoApi(APIView):
     def post(self, request):
         if 'video' in request.data and 'banner' in request.data and 'title' in request.data and 'description' in request.data:
             video = request.data.get('video')
-            if video.size > MAX_VIDEO_SIZE:
+            if video.size > settings.MAX_VIDEO_SIZE:
                 return Response({
                     'data': {},
                     'message': 'The size of the video should not exceed 200 MB.',
@@ -2177,7 +2177,7 @@ class UploadVideoApi(APIView):
                 })
 
             banner = request.data.get('banner')
-            if banner.size > MAX_IMAGE_SIZE:
+            if banner.size > settings.MAX_IMAGE_SIZE:
                 return Response({
                     'data': {},
                     'message': 'The size of the photo should not exceed 7.5 MB.',

@@ -87,7 +87,7 @@ ASGI_APPLICATION = 'YandexHub.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': '...', 
@@ -96,8 +96,18 @@ DATABASES = {
         'HOST': '127.0.0.1', 
         'PORT': '5432',
     }
-}
+}'''
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'yandexhub_db', 
+        'USER': 'postgres', 
+        'PASSWORD': '12344321',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
